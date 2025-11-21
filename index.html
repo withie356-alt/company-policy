@@ -1,0 +1,2572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>위드인천에너지 전결규정 - 검색 가능한 전자문서</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- 헤더 -->
+  <header>
+    <div class="container">
+      <h1>위드인천에너지 전결규정</h1>
+      <p class="subtitle">버전 v2025.12.01 | 검색 가능한 위임전결규정 전자문서</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- 검색 영역 -->
+    <div class="search-section">
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="항목명, 결재권자, 조건 등을 검색하세요..."
+          autocomplete="off"
+        >
+        <button id="searchButton">검색</button>
+      </div>
+
+      <div class="filter-section">
+        <span class="filter-label">결재권자:</span>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter-type="approver" data-filter-value="all">전체</button>
+          <button class="filter-btn" data-filter-type="approver" data-filter-value="ceo">CEO</button>
+          <button class="filter-btn" data-filter-type="approver" data-filter-value="cso">CSO</button>
+          <button class="filter-btn" data-filter-type="approver" data-filter-value="본부장">본부장</button>
+          <button class="filter-btn" data-filter-type="approver" data-filter-value="팀장">팀장</button>
+        </div>
+
+        <span class="filter-label" style="margin-left: 20px;">금액:</span>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter-type="amount" data-filter-value="all">전체</button>
+          <button class="filter-btn" data-filter-type="amount" data-filter-value="억">억원</button>
+          <button class="filter-btn" data-filter-type="amount" data-filter-value="천만">천만원</button>
+          <button class="filter-btn" data-filter-type="amount" data-filter-value="백만">백만원</button>
+        </div>
+
+        <button onclick="resetFilters()" style="margin-left: auto; padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;">
+          초기화
+        </button>
+      </div>
+
+      <div id="searchResults" style="margin-top: 10px; color: #6b7280; font-size: 0.9rem;"></div>
+    </div>
+
+    <!-- 통계 영역 -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-number" id="totalItems">0</div>
+        <div class="stat-label">전체 항목</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="totalSections">11</div>
+        <div class="stat-label">섹션</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="ceoItems">0</div>
+        <div class="stat-label">CEO 전결</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2025.12.01</div>
+        <div class="stat-label">최신 버전</div>
+      </div>
+    </div>
+
+    <!-- 탭 네비게이션 -->
+    <div class="tab-navigation">
+      <button class="tab-btn" data-tab="tab-all">전체</button>
+      <button class="tab-btn" data-tab="tab-management">경영관리</button>
+      <button class="tab-btn" data-tab="tab-budget">예산</button>
+      <button class="tab-btn" data-tab="tab-purchase">구매</button>
+      <button class="tab-btn" data-tab="tab-finance">재무</button>
+      <button class="tab-btn" data-tab="tab-asset">자산관리</button>
+      <button class="tab-btn" data-tab="tab-hr">인사/총무</button>
+      <button class="tab-btn" data-tab="tab-legal">법제/법무</button>
+      <button class="tab-btn" data-tab="tab-business">사업개발</button>
+      <button class="tab-btn" data-tab="tab-safety">환경/안전</button>
+      <button class="tab-btn" data-tab="tab-org">조직도</button>
+      <button class="tab-btn" data-tab="tab-guide">결재가이드</button>
+    </div>
+
+    <!-- 탭 컨텐츠 영역 -->
+
+    <!-- 전체 탭 -->
+    <div id="tab-all" class="tab-content">
+      <h2>전체 전결규정</h2>
+      <p style="color: #6b7280; margin-bottom: 20px;">
+        위 탭을 클릭하여 각 장별 전결규정을 확인하거나, 검색 기능을 사용하여 필요한 항목을 찾으실 수 있습니다.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px;">
+        <div style="padding: 20px; background: #eff6ff; border-left: 4px solid #2563eb; border-radius: 6px;">
+          <h3 style="color: #1e40af; margin-bottom: 10px;">제1장 경영관리</h3>
+          <p style="font-size: 0.9rem; color: #6b7280;">경영정책, 사업계획, 감사, IT 업무 등</p>
+        </div>
+
+        <div style="padding: 20px; background: #f0fdf4; border-left: 4px solid #10b981; border-radius: 6px;">
+          <h3 style="color: #065f46; margin-bottom: 10px;">제2장 예산</h3>
+          <p style="font-size: 0.9rem; color: #6b7280;">투자예산, 비용예산, 예산전용 등</p>
+        </div>
+
+        <div style="padding: 20px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
+          <h3 style="color: #92400e; margin-bottom: 10px;">제3장 구매</h3>
+          <p style="font-size: 0.9rem; color: #6b7280;">물품/공사/용역 계약, 정보자료 구매 등</p>
+        </div>
+
+        <div style="padding: 20px; background: #eff6ff; border-left: 4px solid #2563eb; border-radius: 6px;">
+          <h3 style="color: #1e40af; margin-bottom: 10px;">제4장 재무</h3>
+          <p style="font-size: 0.9rem; color: #6b7280;">금융업무, 회계, 세무신고, 자금지출 등</p>
+        </div>
+
+        <div style="padding: 20px; background: #f0fdf4; border-left: 4px solid #10b981; border-radius: 6px;">
+          <h3 style="color: #065f46; margin-bottom: 10px;">제5장 자산관리</h3>
+          <p style="font-size: 0.9rem; color: #6b7280;">자산 매입/매각, 임대차, 불요자산 처분 등</p>
+        </div>
+
+        <div style="padding: 20px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
+          <h3 style="color: #92400e; margin-bottom: 10px;">제6장 인사/총무</h3>
+          <p style="font-size: 0.9rem; color: #6b7280;">채용, 배치, 승진, 교육훈련, 총무 등</p>
+        </div>
+
+        <div style="padding: 20px; background: #eff6ff; border-left: 4px solid #2563eb; border-radius: 6px;">
+          <h3 style="color: #1e40af; margin-bottom: 10px;">제7장 법제/법무</h3>
+          <p style="font-size: 0.9rem; color: #6b7280;">이사회, 소송, 계약검토, 지적재산권 등</p>
+        </div>
+
+        <div style="padding: 20px; background: #f0fdf4; border-left: 4px solid #10b981; border-radius: 6px;">
+          <h3 style="color: #065f46; margin-bottom: 10px;">제8장 사업개발/생산/홍보</h3>
+          <p style="font-size: 0.9rem; color: #6b7280;">수요개발, 열원개발, 생산, 거래, 홍보 등</p>
+        </div>
+
+        <div style="padding: 20px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
+          <h3 style="color: #92400e; margin-bottom: 10px;">제9장 환경/보건/안전/보안</h3>
+          <p style="font-size: 0.9rem; color: #6b7280;">안전 감사, 보건, 보안, 건설, 환경관리 등</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 제1장 경영관리 -->
+    <div id="tab-management" class="tab-content">
+      <h2>제1장 경영관리</h2>
+
+      <table class="approval-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">항목</th>
+            <th style="width: 30%;">결재권자</th>
+            <th style="width: 30%;">참고사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="3">1. 경영정책 및 운영</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1 경영방침</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.2 전사 중장기 경영전략</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3 사업단위 중장기 경영전략</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.4 회사 경영전략 연계 의사결정(신사업 진출, 타법인출자, 사업제휴 등)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.5 장기 경제성 검토 주요 기준</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">2. 사업계획 및 성과평가</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1 사업계획서(Business Plan)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-board">이사회</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">이사회 승인</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2 사업단위 연간 경영목표 및 실행전략</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.3 사업단위 성과평가 기준</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.4 연간 사업계획 추진실적 관리</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">3. 자회사/투자회사 경영관리</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.1 주주총회 의결권 지시(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.2.1 연간 사업계획 승인, 정관변경, 임원보수 한도 승인, 신주발행, 재무제표 승인, 경영상 주요 사항, 임원(미등기임원 포함) 지명 및 변경(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.2.2 경영상 주요 사항 이외의 기타 사항</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">4. 위원회 설치</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.1 이사회 내 위원회</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-board">이사회</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">이사회 승인</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.2 기타 위원회</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">5. 기업공시 및 Investor Relation</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.1 사업보고서(분/반기보고서) 및 주요공시(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.2 이사회 또는 CEO 기승인사항에 대한 공시 및 기타공시(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.3.1 회사 주요 전략 및 정책 관련 사항</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.3.2 주기적이고 일반적인 사항</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.3.3 신용평가 및 회사채 관련 사항</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">6. 사회공헌활동</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">6.1 연간계획 수립 및 기부처 선정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">6.2 세부계획 수립 및 운영</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">6.3 승인된 기부처 집행</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">7. Corporate Compliance Program</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">7.1 윤리규범 및 실천규정 제/개정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">7.2 자율준수 운영 현황 관리</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">8. 감사</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">8.1 연간 감사 계획</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">8.2 감사 계획에 포함되지 않은 감사 지시</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">단, 제보에 따른 감사는 감사 후 CEO 보고</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">8.3 감사질의서</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">8.4 감사보고서</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">9. 통합업무시스템</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">9.1.1 전결규정(Delegation of Authority)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">9.1.2 규정(Standard) 및 절차서(Procedure)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">단순 문구수정은 본부장전결</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">9.1.3 지침서(Work Instruction)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">9.2.1 전결규정 (유권해석)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">9.2.2 규정/절차서/지침서 (유권해석)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">9.3 규정/절차서 관련 업무 배정 및 조정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">10. IT 업무 관리</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">10.1 IT 3개년 계획</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">매년 승인</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">10.2 IT 시스템 구축을 위한 구매</td>
+            <td class="approver-list">-</td>
+            <td class="notes">"3장 구매" 참조</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">10.3.1 개발된 IT 시스템에 대한 수정 및 보완 요구</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">3장 2.3 참조</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">10.3.2 사용자 지침서/완료 보고서</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">10.4 H/W 및 S/W 도입</td>
+            <td class="approver-list">-</td>
+            <td class="notes">3장 구매 참조</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">10.5 자회사 및 외부에 대한 IT 용역(개발/유지보수) 판매(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">11. 경영평가</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">11.1 평가기준 및 지표설정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">11.2 실적보고서 작성지침</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">11.3 실적보고서 제출</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">11.4 실적 평가결과 및 조치계획 보고</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">12. 제안제도 운영</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">12.1 제안채택 및 포상실시</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-board">제안심의위원회</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">제안심의위원회 승인</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">12.2 제안심의위원회 운영</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">12.3 제안제도 개선 및 시행</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">13. 발전소주변지역 기본지원사업</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">13.1 연간사업계획 수립 및 단위사업계획 변경</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">13.2 주변지역간 지원금 배분 및 산출</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">13.3 지원사업 시행 및 지원금 집행</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">13.4 지원사업비 결산 (이월사업비 반납)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 제2장 예산 -->
+    <div id="tab-budget" class="tab-content">
+      <h2>제2장 예산</h2>
+
+      <table class="approval-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">항목</th>
+            <th style="width: 30%;">결재권자</th>
+            <th style="width: 30%;">참고사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="3">1. 투자예산(*)</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1.1 Expenditure Request (ER) 승인(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">경영기획본부 합의</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1.2 초과지출 및 수정/전용(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.2 투자사업마감보고서</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">경영기획본부 합의</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">2. 비용예산(*)</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1.1 전사 연간 예산(안)(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1.2 전사 안전관련 예산(안)(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1.3 승인한도내에서 연중 조직개편에 의한 예산 수정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2.1 승인한도내 일괄편성예산 전용</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(1) 본부간 전용</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(2) 본부내 전용</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(3) 팀내 전용</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(4) 회사 OH 조직 예산 전용(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2.3 승인한도내 안전관련 예산 전용</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">3. 예비비의 사용</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">3. 예비비의 사용</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">예산의 추가배정</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">4. 예산집행실적 종합분석</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">4. 예산집행실적 종합분석</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 제3장 구매 -->
+    <div id="tab-purchase" class="tab-content">
+      <h2>제3장 구매</h2>
+
+      <table class="approval-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">항목</th>
+            <th style="width: 30%;">결재권자</th>
+            <th style="width: 30%;">참고사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="3">1. 물품 구매 계약</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1.1 구매요청(투자예산)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">구매요청 금액은 추정가격 기준</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1.2 구매요청(비용예산)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1.3 ER이 없거나 구매내용이 일치하지 않는 구매(투자예산, 비용예산)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">3천만원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">3천만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.2.1 계약부서 계약체결</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.2.2 수요부서 자체계약(투자예산, 비용예산)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">1천만원 이하 구매계약</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3.1 수요부서 변경계약(품의)(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3.2 계약부서 변경계약(승인)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3.3 수요부서 자체계약 변경계약(승인)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">1천만원 이하 구매계약</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3.4 계약의 해제, 해지</td>
+            <td class="approver-list">-</td>
+            <td class="notes">1.1 구매요청(수요부서품의) 참조</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.4 검사보고 승인</td>
+            <td class="approver-list">-</td>
+            <td class="notes">1.1 구매요청(수요부서품의) 참조</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.5.1 입찰시행</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.5.2 예정가격 결정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">1.1 구매요청(수요부서품의) 참조</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.6.1 납품지시</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">3천만원 초과</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">3천만원 이하</span>
+            </td>
+            <td class="notes">총액 변경시에는 1.3 참조</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.6.2 납기변경</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">3천만원 초과</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">3천만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.7 계약관련 지출</td>
+            <td class="approver-list">-</td>
+            <td class="notes">자금지출규정 참조</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">2. 정보자료 구매</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1 일반자료(단행본, 사전, CD, 전자보고서, 1회성 정보이용료)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">3백만원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">3백만원 이하</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">50만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2 정기간행물 및 정기정보이용 구매(연간사용료 기준)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1천만원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1천만원 이하</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">1백만원 이하</span>
+            </td>
+            <td class="notes">구독형 S/W 포함</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">3. 공사/용역 계약</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.4.1 기성 검사 및 부분준공 검사 보고</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1천만원 초과</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">1천만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.4.2 준공 검사 보고</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.6 설계변경 사항 승인</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">1.1 구매요청(수요부서품의) 참조</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">4. 전문 용역 계약</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1 컨설팅 및 전문 용역 계약</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2 회계 용역 계약</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.3 세무사에 의한 세무조정 용역</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.4 인사·노무 컨설팅 용역</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.5 정보시스템 관련 기술계약, 유지보수, 임차계약</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">3백만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">5. 각종 업무 대행 및 기타 용역</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">3. 각종 업무 대행 및 기타 용역 계약</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">3백만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 제4장 재무 -->
+    <div id="tab-finance" class="tab-content">
+      <h2>제4장 재무</h2>
+
+      <table class="approval-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">항목</th>
+            <th style="width: 30%;">결재권자</th>
+            <th style="width: 30%;">참고사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="3">1. 재무정책</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">1. 재무정책</td>
+            <td class="approver-list">-</td>
+            <td class="notes">배당/부채에 관한 기본정책: 이사회</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">2. 금융업무</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1.1 계좌 개설(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1.2 계좌 폐쇄(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2.3 인터넷뱅킹 공동인증서별 권한 부여(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.3.1 자금 실행</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.5.1 자금운용방침(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">그룹방침 준수</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(2) 금융상품 가입</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.6.1 단기 차입 - 한도대출/당좌차월/기업어음</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.6.2 장기 차입</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">연간 장기차입계획 승인 범위</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.7.3 파생상품 거래</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">3. 신용장 및 보증</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">4. 지급보증 및 담보설정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">백억원 이하</span>
+            </td>
+            <td class="notes">100억원 초과시: 이사회</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">5. 대여금(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">백억원 이하</span>
+            </td>
+            <td class="notes">100억원 초과시: 이사회</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">6. 보험</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">6.1.1 신규가입 및 보험업자 지정/변경</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-type">임의보험</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-type">강제보험</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">6.2.3 보험사고 처리의 철회</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">7. 회계</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1 결산정책 및 회계제도의 변경</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3 재무제표 확정(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">재무제표 승인: 이사회 및 주주총회</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1 법인세 신고 (정기/수정신고)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">8. 자금지출</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">1. 승인된 계약에 따른 지출</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+              <span class="approver-badge approver-staff">담당</span>
+              <span class="approval-symbol">→</span>
+            </td>
+            <td class="notes">CEO 관리예산 경영기획팀장 승인</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">2. 그 외 지출 (소액구매계약 포함)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">5천만원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">5천만원 이하</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">3백만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.1.1 과태료 및 가산세</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">5백만원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">5백만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.1.1 급여관련 지출</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.1.1 경비정산 (팀원)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">3백만원 초과</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">3백만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.3.1 법인카드 직급/직원별 한도 설정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 제5장 자산관리 -->
+    <div id="tab-asset" class="tab-content">
+      <h2>제5장 자산관리</h2>
+
+      <table class="approval-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">항목</th>
+            <th style="width: 30%;">결재권자</th>
+            <th style="width: 30%;">참고사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="3">1. 자산 매입/취득</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">1. 자산 매입/취득</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">3장 구매 참조</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">2. 자산의 매각</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">2. 자산의 매각(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">3. 자산의 임대차, 위탁</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.1 임대</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.2.1 토지/건물/주택 및 시설/장비 (임차)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">도로점용료 제외</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(1) 사택 - 신규 확보 및 폐지</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(2) 사택 - 재계약</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.3 위탁</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">4. 주식 매입/매각</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">4. 타회사 주식의 매입 또는 매각</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">5. 불요자산의 처분</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.1 불요자산 분류</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.2.1 매각 - 장부가액이 있는 자산</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1천만원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1천만원 이하</span>
+            </td>
+            <td class="notes">장부가액 50억원 초과: 이사회</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.2.2 매각 - 장부가액이 없는 자산</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1천만원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1천만원 이하</span>
+            </td>
+            <td class="notes">매각가액 1백억원 초과: 이사회</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.3.1 폐기 - 장부가액이 있는 자산</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1천만원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">1천만원 이하</span>
+            </td>
+            <td class="notes">장부가액 50억원 초과: 이사회</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.3.2 폐기 - 장부가액이 없는 자산</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">6. 청구권의 포기 및 결손처리</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">6. 청구권의 포기 및 결손처리</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">5백만원 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">5백만원 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 제6장 인사/총무 -->
+    <div id="tab-hr" class="tab-content">
+      <h2>제6장 인사/총무</h2>
+
+      <table class="approval-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">항목</th>
+            <th style="width: 30%;">결재권자</th>
+            <th style="width: 30%;">참고사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="3">1. 인사정책</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1 회사 기구·조직 변경</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.2 인사규정 제정 및 변경</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3 급여항목 및 수준의 변경</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.4 인력규모 확정 (팀별 인원승인)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">2. 채용/배치/복무/퇴직</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1 외부 충원 요청</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2.1 정규직 선발</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2.2 계약직(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-type">신규계약직</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-type">기간연장</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.3 부서 이동(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">이동 전/후 본부장 합의</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.5 명예퇴직</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.6.1 휴가 및 미사용 휴가 보상</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-type">팀장</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-type">팀원</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.6.2 휴직</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.9.1 국내 출장</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-type">본부장</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-type">팀장 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.9.2 해외 출장</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-type">본부장</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-type">팀장 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">3. 승진/상벌</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.1.1 승진 Guideline 결정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.1.2 승진 확정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.2 직책 선임</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.4.1 포상</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(1) 구두 견책</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-type">팀장</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-type">팀원</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(2) 서면 견책</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-3">
+            <td class="item-name">(3) 감급/정직/해고</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">4. 교육훈련</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">1. 인재개발 기본계획 승인/변경</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">인사위원회를 거쳐야 함</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.3.2 국내 단기과정(1년 이내)(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-type">본부장</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-type">팀장 이하</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.3.3 국내 석사 및 박사 학위과정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">5. 총무</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">2. 총무 자재/용역/물품 임차 및 구매(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-amount">1억원 이하</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-amount">5천만원 이하</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="condition-badge condition-amount">1천만원 이하</span>
+            </td>
+            <td class="notes">총무 부서 한정</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.1 차량 구매</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">기존차량 교체 시 본부장 전결</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">6.1 의식 및 행사 - 기본계획 수립</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 제7장 법제/법무 -->
+    <div id="tab-legal" class="tab-content">
+      <h2>제7장 법제/법무</h2>
+
+      <table class="approval-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">항목</th>
+            <th style="width: 30%;">결재권자</th>
+            <th style="width: 30%;">참고사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="3">1. 이사회 및 주주총회</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1 소집통지서 발송</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">이사회 의장 명의로 발송</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.2 주주총회/이사회 안건 부의</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3.1 이사회 의사록 승인</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3.2 주주총회 의사록 승인</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">2. 주식 및 인장 관리</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">3. 주식: 제공고/신주권 발행/주권재발행/명의개서/질권 설정, 말소 등</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.1.2 대표이사인, 사용인, 회사인, 계인(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">경영기획팀 제작신청/일괄 제작 관리</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.3.1 법인 인감 승인(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.3.2 사용인, 회사인, 계인 승인(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">3. 법인인증서 관리</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.1.1 범용/용도제한용 인증서 발급</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.1.3 사용/폐기 신청 및 승인(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">신청: 요청팀장 / 승인: 경영기획팀장</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">4. 법령 및 정관</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">6.1 회사관련 법령/조례 제·개정(안)제출</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">7. 정관변경(안) 결정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">주주총회 승인</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">5. 소송 및 계약</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">1. 소송 제기/응소, 고소/고발, 중재신청, 취하 및 화해 등</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">민사, 형사, 노동/인사/행정/기타 등</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1 계약의 검토</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">필요 시 그룹사 법무팀 검토</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2 재화 및 용역의 교환을 수반하지 않는 Non-binding 계약의 체결(MOU 등)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.1.1 고문변호사 선임</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">6. 지적재산권</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.1.1 신규 출원 및 철회</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">그룹사 법무팀 검토</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.3 제3자에 대한 사용권/실시권 부여</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">7. 등기업무</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.1 부동산 이전,설치,변경 등기</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 제8장 사업개발/생산/홍보 -->
+    <div id="tab-business" class="tab-content">
+      <h2>제8장 사업개발/생산/홍보</h2>
+
+      <table class="approval-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">항목</th>
+            <th style="width: 30%;">결재권자</th>
+            <th style="width: 30%;">참고사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="3">1. 수요개발</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1 수요개발 계획 수립</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.2 영업 및 열수급계약</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.4.1 사업변경허가</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.6.2 연체관리</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="condition-badge condition-type">6개월 초과</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="condition-badge condition-type">6개월 미만</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.7.4 다수인관련 민원 및 청원</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">2. 열원개발</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1 추진전략 및 계획 수립</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.3.1 열거래 계약(변경)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.3.2 중대한 조건 변경 합의(거래량, 단가 등)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">3. 열사용 시설</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.1.1 열사용신청 설계도서 검토 및 점검기준</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.5.1 열계량장치 - 연간구매(설치)계획 수립</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">4. 생산</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.1 생산계획</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.3.1 공급계획 수립 및 실적보고</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.4 중장기관리계획 및 과부족 처리방안</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">5. 거래</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.1.3 전력거래 입찰 및 정산</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">5.2.1 배출권 관리계획 수립 및 시행</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">6. 대정부 및 홍보</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">6. 대정부 문서(*)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">지방자치단체 포함</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">7.1 언론기관 원고제공</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">8.1.1 홍보 - 기본계획 수립</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">8.2 전파매체(TV등) 및 중앙일간지</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">9.1 홍보물 제작 1천만원 초과</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">9.2 홍보물 제작 1천만원 이하</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 제9장 환경/보건/안전/보안 -->
+    <div id="tab-safety" class="tab-content">
+      <h2>제9장 환경/보건/안전/보안</h2>
+
+      <table class="approval-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">항목</th>
+            <th style="width: 30%;">결재권자</th>
+            <th style="width: 30%;">참고사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="3">1. 공통</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.1 주요 환경/보건/안전/보안 제도의 도입</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.2.1 환경/보건 감사</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.3 환경/보건/안전/보안 교육/훈련</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.4.2 법규 위반 등 특이사항</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.5.1 사고 보고 - 환경/안전/보건</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.5.2 사고 보고 - 보안</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">1.6 사업장 무재해기록 무산</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-report">□</span>
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">2. 보건</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.1 임직원 건강검진 계획 수립</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.2.1 의료비 지원 - 지침 제/개정</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.4.1 산재요양 신청 - 발생 1개월 이내</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-agree">○</span>
+            </td>
+            <td class="notes">경영기획팀장 합의</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">2.4.2 산재요양 신청 - 발생 1개월 초과</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+              <span class="approver-badge approver-team-leader">팀장</span>
+              <span class="approval-symbol symbol-agree">○</span>
+            </td>
+            <td class="notes">경영기획팀장 합의</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">3. 보안</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.1 보안지침/실행계획</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.5 문서보안(문서반출 등)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">3.6 정보보안 예외 (사이트 해제, 외부시스템 사용 등)</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">4. 건설</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">4. 건설</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-ceo">CEO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-2">
+            <td class="item-name">4.1 건설 기본계획 수립 및 변경</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+
+          <tr class="section-header">
+            <td colspan="3">5. 환경관리</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">5. 비상계획 수립 및 시행</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-cso">CSO</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">6. 대기오염물질 총량관리</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">7. 화공약품 관리</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">8. 통합환경관리</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">-</td>
+          </tr>
+          <tr class="level-1">
+            <td class="item-name">9. 기타환경관리</td>
+            <td class="approver-list">
+              <span class="approver-badge approver-director">본부장</span>
+              <span class="approval-symbol symbol-approve">◎</span>
+            </td>
+            <td class="notes">환경책임보험, 하수도, 폐기물</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 조직도 탭 -->
+    <div id="tab-org" class="tab-content">
+      <h2>위드인천에너지 조직도</h2>
+      <p style="color: #6b7280; margin-bottom: 20px;">2025년 5월 기준</p>
+
+      <div class="org-chart">
+        <div class="org-section">
+          <h3>대표이사</h3>
+          <div class="org-member">
+            <span class="org-member-name">전태현</span>
+            <span class="org-member-title">대표이사</span>
+            <div class="org-member-contact">전화: 392</div>
+          </div>
+        </div>
+
+        <div class="org-section">
+          <h3>CSO (최고 안전 책임자)</h3>
+          <div class="org-member">
+            <span class="org-member-name">강주하</span>
+            <span class="org-member-title">CSO (기술본부장 겸임)</span>
+            <div class="org-member-contact">전화: 320 | 휴대폰: 010-3251-3703</div>
+          </div>
+        </div>
+
+        <div class="org-section">
+          <h3>경영기획본부</h3>
+          <div class="org-member">
+            <span class="org-member-name">송호철</span>
+            <span class="org-member-title">본부장</span>
+            <div class="org-member-contact">전화: 393 | 휴대폰: 010-3599-0928</div>
+          </div>
+
+          <div style="margin-top: 15px; padding-left: 20px;">
+            <h4 style="color: #2563eb; font-size: 1.1rem; margin-bottom: 10px;">경영기획팀</h4>
+            <div class="org-member">
+              <span class="org-member-name">손민규</span>
+              <span class="org-member-title">팀장</span>
+              <div class="org-member-contact">전화: 380 | 휴대폰: 010-9265-9986</div>
+            </div>
+            <div class="org-member">
+              <span class="org-member-name">김동민</span>
+              <span class="org-member-title">매니저</span>
+              <div class="org-member-contact">전화: 381 | 휴대폰: 010-5041-9178</div>
+            </div>
+            <div class="org-member">
+              <span class="org-member-name">김창근</span>
+              <span class="org-member-title">매니저</span>
+              <div class="org-member-contact">전화: 361 | 휴대폰: 010-5523-8013</div>
+            </div>
+            <div class="org-member">
+              <span class="org-member-name">이성규</span>
+              <span class="org-member-title">매니저</span>
+              <div class="org-member-contact">휴대폰: 010-8723-2116</div>
+            </div>
+            <div class="org-member">
+              <span class="org-member-name">어정호</span>
+              <span class="org-member-title">매니저</span>
+              <div class="org-member-contact">전화: 383 | 휴대폰: 010-6406-4836</div>
+            </div>
+            <div class="org-member">
+              <span class="org-member-name">이한솔</span>
+              <span class="org-member-title">매니저</span>
+              <div class="org-member-contact">전화: 382 | 휴대폰: 010-9618-1248</div>
+            </div>
+            <div class="org-member">
+              <span class="org-member-name">이지민</span>
+              <span class="org-member-title">매니저</span>
+              <div class="org-member-contact">전화: 362 | 휴대폰: 010-8312-1265</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="org-section">
+          <h3>기술본부</h3>
+          <div class="org-member">
+            <span class="org-member-name">강주하</span>
+            <span class="org-member-title">본부장 (CSO 겸임)</span>
+            <div class="org-member-contact">전화: 320 | 휴대폰: 010-3251-3703</div>
+          </div>
+
+          <div style="margin-top: 15px; padding-left: 20px;">
+            <h4 style="color: #2563eb; font-size: 1.1rem; margin-bottom: 10px;">사업개발실</h4>
+            <div class="org-member">
+              <span class="org-member-name">오상철</span>
+              <span class="org-member-title">실장</span>
+              <div class="org-member-contact">전화: 310 | 휴대폰: 010-7424-9589</div>
+            </div>
+
+            <h4 style="color: #2563eb; font-size: 1.1rem; margin-bottom: 10px; margin-top: 15px;">운영팀</h4>
+            <div class="org-member">
+              <span class="org-member-name">유경조</span>
+              <span class="org-member-title">팀장</span>
+              <div class="org-member-contact">전화: 324 | 휴대폰: 010-6218-1209</div>
+            </div>
+
+            <h4 style="color: #2563eb; font-size: 1.1rem; margin-bottom: 10px; margin-top: 15px;">정비기술팀</h4>
+            <div class="org-member">
+              <span class="org-member-name">유진호</span>
+              <span class="org-member-title">팀장</span>
+              <div class="org-member-contact">전화: 330 | 휴대폰: 010-6611-8580</div>
+            </div>
+
+            <h4 style="color: #2563eb; font-size: 1.1rem; margin-bottom: 10px; margin-top: 15px;">프로젝트추진팀</h4>
+            <div class="org-member">
+              <span class="org-member-name">장문엽</span>
+              <span class="org-member-title">팀장</span>
+              <div class="org-member-contact">전화: 319 | 휴대폰: 010-9980-6390</div>
+            </div>
+
+            <h4 style="color: #2563eb; font-size: 1.1rem; margin-bottom: 10px; margin-top: 15px;">안전환경팀</h4>
+            <div class="org-member">
+              <span class="org-member-name">김호연</span>
+              <span class="org-member-title">팀장</span>
+              <div class="org-member-contact">전화: 327 | 휴대폰: 010-6677-2214</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 결재라인 가이드 탭 -->
+    <div id="tab-guide" class="tab-content">
+      <h2>결재라인 가이드</h2>
+      <p style="color: #6b7280; margin-bottom: 30px;">버전 v2019.04.10 - 주요 위임전결규정 가이드 및 결재 프로세스</p>
+
+      <div style="background: #eff6ff; padding: 25px; border-radius: 8px; margin-bottom: 30px;">
+        <h3 style="color: #1e40af; margin-bottom: 15px;">결재 기호 의미</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+          <div>
+            <span class="approval-symbol symbol-approve" style="margin-right: 8px;">◎</span>
+            <strong>결재 (전결권자)</strong>
+            <p style="font-size: 0.85rem; color: #6b7280; margin: 5px 0 0 0;">최종 결재 권한</p>
+          </div>
+          <div>
+            <span class="approval-symbol symbol-agree" style="margin-right: 8px;">○</span>
+            <strong>합의</strong>
+            <p style="font-size: 0.85rem; color: #6b7280; margin: 5px 0 0 0;">의견 조율 필요</p>
+          </div>
+          <div>
+            <span class="approval-symbol symbol-report" style="margin-right: 8px;">□</span>
+            <strong>보고</strong>
+            <p style="font-size: 0.85rem; color: #6b7280; margin: 5px 0 0 0;">상급자에게 보고</p>
+          </div>
+          <div>
+            <span class="approval-symbol symbol-refer" style="margin-right: 8px;">★</span>
+            <strong>참조</strong>
+            <p style="font-size: 0.85rem; color: #6b7280; margin: 5px 0 0 0;">정보 공유</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="color: #1e40af; margin-top: 40px; margin-bottom: 20px;">결재 라인 유형별 프로세스</h3>
+
+      <div style="background: white; border: 2px solid #e5e7eb; border-radius: 8px; padding: 25px; margin-bottom: 20px;">
+        <h4 style="color: #2563eb; margin-bottom: 15px;">1. 팀장 전결</h4>
+        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+          <div style="background: #f3f4f6; padding: 12px 20px; border-radius: 6px;">기안자 (기안)</div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #fef3c7; padding: 12px 20px; border-radius: 6px;">중간관리자 (결재) <span style="font-size: 0.8rem; color: #6b7280;">선택</span></div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #fef3c7; padding: 12px 20px; border-radius: 6px;">유관팀장 (합의) <span style="font-size: 0.8rem; color: #6b7280;">필요시</span></div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #dcfce7; padding: 12px 20px; border-radius: 6px; font-weight: 700;">팀장 (결재 ◎)</div>
+        </div>
+      </div>
+
+      <div style="background: white; border: 2px solid #e5e7eb; border-radius: 8px; padding: 25px; margin-bottom: 20px;">
+        <h4 style="color: #2563eb; margin-bottom: 15px;">2. 본부장 전결</h4>
+        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+          <div style="background: #f3f4f6; padding: 12px 20px; border-radius: 6px;">기안자 (기안)</div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #fef3c7; padding: 12px 20px; border-radius: 6px;">중간관리자 (결재) <span style="font-size: 0.8rem; color: #6b7280;">선택</span></div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #dbeafe; padding: 12px 20px; border-radius: 6px;">팀장 (결재)</div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #fef3c7; padding: 12px 20px; border-radius: 6px;">유관팀장 (합의) <span style="font-size: 0.8rem; color: #6b7280;">필요시</span></div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #dcfce7; padding: 12px 20px; border-radius: 6px; font-weight: 700;">본부장 (결재 ◎)</div>
+        </div>
+      </div>
+
+      <div style="background: white; border: 2px solid #e5e7eb; border-radius: 8px; padding: 25px; margin-bottom: 20px;">
+        <h4 style="color: #2563eb; margin-bottom: 15px;">3. 대표이사 전결</h4>
+        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+          <div style="background: #f3f4f6; padding: 12px 20px; border-radius: 6px;">기안자 (기안)</div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #fef3c7; padding: 12px 20px; border-radius: 6px;">중간관리자 (결재) <span style="font-size: 0.8rem; color: #6b7280;">선택</span></div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #dbeafe; padding: 12px 20px; border-radius: 6px;">팀장 (결재)</div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #fef3c7; padding: 12px 20px; border-radius: 6px;">유관팀장 (합의) <span style="font-size: 0.8rem; color: #6b7280;">필요시</span></div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #dbeafe; padding: 12px 20px; border-radius: 6px;">본부장 (결재)</div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #fef3c7; padding: 12px 20px; border-radius: 6px;">경영기획본부장 (합의) <span style="font-size: 0.8rem; color: #6b7280;">생략가능</span></div>
+          <span style="color: #2563eb; font-size: 1.2rem;">→</span>
+          <div style="background: #dcfce7; padding: 12px 20px; border-radius: 6px; font-weight: 700;">대표이사 (결재 ◎)</div>
+        </div>
+        <p style="margin-top: 15px; font-size: 0.9rem; color: #6b7280;">
+          ※ 경영기획본부장 합의는 결재 경로에 이미 있는 경우 생략 가능
+        </p>
+      </div>
+
+      <div style="background: #fef3c7; padding: 25px; border-radius: 8px; margin-top: 30px;">
+        <h3 style="color: #92400e; margin-bottom: 15px;">결재 라인 구성 원칙</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li style="padding: 8px 0; border-bottom: 1px solid #fbbf24;">
+            <strong>중간관리자 참여:</strong> 조직 구조에 따라 선택적으로 결재 라인에 포함
+          </li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #fbbf24;">
+            <strong>유관팀장 합의:</strong> 다른 팀의 업무와 관련이 있거나 협조가 필요한 경우 합의 필요
+          </li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #fbbf24;">
+            <strong>경영기획본부장 합의:</strong> 대표이사 전결 건은 경영기획본부장 합의 필요 (이미 경로에 있으면 생략)
+          </li>
+          <li style="padding: 8px 0;">
+            <strong>순차적 결재:</strong> 하위 직급에서 상위 직급 순으로 진행
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <footer style="text-align: center; padding: 40px 20px; color: #6b7280; background: #f9fafb; margin-top: 50px;">
+    <p>&copy; 2025 위드인천에너지. All Rights Reserved.</p>
+    <p style="font-size: 0.85rem; margin-top: 10px;">전결규정 버전 v2025.12.01 | HTML 변환일: <span id="conversionDate"></span></p>
+    <script>document.getElementById('conversionDate').textContent = new Date().toLocaleDateString('ko-KR');</script>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

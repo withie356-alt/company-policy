@@ -1,0 +1,300 @@
+'''
+[BEGIN_RULES]
+section: "인사_총무"
+version: "v2025.12.01"
+notes: "제6장 인사/총무 전결규정"
+rules:
+  - item: "[인사]"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "[인사]" }
+  - item: "1. 인사정책(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1. 인사정책(*)" }
+  - item: "1.1 회사 기구·조직 변경"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.1 회사 기구·조직 변경" }
+  - item: "1.2 인사규정 제정 및 변경"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.2 인사규정 제정 및 변경" }
+  - item: "1.3 급여항목 및 수준의 변경"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.3 급여항목 및 수준의 변경" }
+  - item: "1.4 인력규모 확정 (팀별 인원승인)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.4 인력규모 확정 (팀별 인원승인)" }
+  - item: "2. 채용/배치/복무/퇴직"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2. 채용/배치/복무/퇴직" }
+  - item: "2.1 외부 충원 요청"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.1 외부 충원 요청" }
+  - item: "2.2 선발"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.2 선발" }
+  - item: "2.2.1 정규직"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.2.1 정규직" }
+  - item: "2.2.2 계약직(*)"
+    approver_line: ["CEO(신규
+계약직)", "본부장(기간
+연장)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.2.2 계약직(*)" }
+  - item: "2.2.3 기타 비정규직 신규계약 체결 및 기간연장(*)"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.2.3 기타 비정규직 신규계약 체결 및 기간연장(*)" }
+  - item: "2.2.4 자회사/계열회사와 인력 전출/입(*)"
+    approver_line: []
+    notes: "경영기획본부장 합의"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.2.4 자회사/계열회사와 인력 전출/입(*)" }
+  - item: "(1) 최초 전출/입"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "(1) 최초 전출/입" }
+  - item: "(2) 기간 연장, 동일직책의 인력 교체"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "(2) 기간 연장, 동일직책의 인력 교체" }
+  - item: "2.3 부서 이동(*)"
+    approver_line: ["CEO(◎)"]
+    notes: "이동 전/후 본부장 합의"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.3 부서 이동(*)" }
+  - item: "2.4 직종간 이동"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.4 직종간 이동" }
+  - item: "2.5 명예퇴직"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.5 명예퇴직" }
+  - item: "2.6 휴가 및 휴직"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.6 휴가 및 휴직" }
+  - item: "2.6.1 휴가 및 미사용 휴가 보상"
+    approver_line: ["본부장(팀장)", "팀장(팀원)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.6.1 휴가 및 미사용 휴가 보상" }
+  - item: "2.6.2 휴직"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.6.2 휴직" }
+  - item: "2.7 월 근로시간 초과근무"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.7 월 근로시간 초과근무" }
+  - item: "2.8 경조금"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.8 경조금" }
+  - item: "2.9 출장(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.9 출장(*)" }
+  - item: "2.9.1 국내 출장"
+    approver_line: ["CEO(본부장)", "본부장(팀장
+이하)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.9.1 국내 출장" }
+  - item: "2.9.2 해외 출장"
+    approver_line: ["CEO(본부장)", "본부장(팀장
+이하)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.9.2 해외 출장" }
+  - item: "2.10 사원 후생복지"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.10 사원 후생복지" }
+  - item: "2.10.1 휴양소 설치/운영"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.10.1 휴양소 설치/운영" }
+  - item: "2.10.2 동호회 지원"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.10.2 동호회 지원" }
+  - item: "2.10.3 사원식당 운영"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.10.3 사원식당 운영" }
+  - item: "3. 승진급/상벌"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3. 승진급/상벌" }
+  - item: "3.1 승진"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.1 승진" }
+  - item: "3.1.1 Guideline 결정"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.1.1 Guideline 결정" }
+  - item: "3.1.2 승진 확정"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.1.2 승진 확정" }
+  - item: "3.2 직책 선임"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.2 직책 선임" }
+  - item: "3.3 승급"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.3 승급" }
+  - item: "3.3.1 특별승급"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.3.1 특별승급" }
+  - item: "3.3.2 연례승급"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.3.2 연례승급" }
+  - item: "3.3.3 직무가급"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.3.3 직무가급" }
+  - item: "3.4 상벌(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.4 상벌(*)" }
+  - item: "3.4.1 포상"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.4.1 포상" }
+  - item: "3.4.2 징계"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.4.2 징계" }
+  - item: "(1) 구두 견책"
+    approver_line: ["본부장(팀장)", "팀장(팀원)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "(1) 구두 견책" }
+  - item: "(2) 서면 견책"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "(2) 서면 견책" }
+  - item: "(3) 감급/정직/해고"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "(3) 감급/정직/해고" }
+  - item: "3.5 인사위원회 및 징계위원회 운영"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.5 인사위원회 및 징계위원회 운영" }
+  - item: "3.5.1 위원임명 및 결과보고"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.5.1 위원임명 및 결과보고" }
+  - item: "3.5.2 관련 제반 업무"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.5.2 관련 제반 업무" }
+  - item: "4. 단체협약 및 교섭에 관한 사항"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "4. 단체협약 및 교섭에 관한 사항" }
+  - item: "5. 노사협의회 운영"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "5. 노사협의회 운영" }
+  - item: "5.1 개최 및 노사간 합의결과"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "5.1 개최 및 노사간 합의결과" }
+  - item: "5.2 회사측 위원임명 및 부의안건 결정"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "5.2 회사측 위원임명 및 부의안건 결정" }
+  - item: "6. 사내근로복지기금"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "6. 사내근로복지기금" }
+  - item: "6.1 출연금 결정"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "6.1 출연금 결정" }
+  - item: "6.2 기금의 관리운영"
+    approver_line: []
+    notes: "◎ 사내기금 이사회 승인"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "6.2 기금의 관리운영" }
+  - item: "[인재개발]"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "[인재개발]" }
+  - item: "1. 인재개발 기본계획 승인/변경"
+    approver_line: ["CEO(◎)"]
+    notes: "인사위원회를 거쳐야 함"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1. 인재개발 기본계획 승인/변경" }
+  - item: "2. 국내 교육훈련과정"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2. 국내 교육훈련과정" }
+  - item: "2.1 교육훈련부서 주관 교육훈련"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.1 교육훈련부서 주관 교육훈련" }
+  - item: "2.1.1 과정별 계획 수립"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.1.1 과정별 계획 수립" }
+  - item: "2.1.2 과정별 승인계획 시행"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.1.2 과정별 승인계획 시행" }
+  - item: "2.2 기타부서 주관 교육훈련"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.2 기타부서 주관 교육훈련" }
+  - item: "2.2.1 과정별 계획 수립"
+    approver_line: ["본부장(◎)", "팀장(○)"]
+    notes: "경영기획팀장 합의"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.2.1 과정별 계획 수립" }
+  - item: "2.2.2 과정별 승인계획 시행"
+    approver_line: ["팀장(◎)"]
+    notes: "경영기획팀장 승인"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.2.2 과정별 승인계획 시행" }
+  - item: "2.3 외부 파견 교육훈련"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.3 외부 파견 교육훈련" }
+  - item: "2.3.1 국내 일반과정"
+    approver_line: ["CEO(본부장)", "본부장(팀장
+이하)"]
+    notes: "일회성 교육과정"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.3.1 국내 일반과정" }
+  - item: "2.3.2 국내 단기과정(1년 이내)(*)"
+    approver_line: ["CEO(본부장)", "본부장(팀장
+이하)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.3.2 국내 단기과정(1년 이내)(*)" }
+  - item: "2.3.3 국내 석사 및 박사 학위과정"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2.3.3 국내 석사 및 박사 학위과정" }
+  - item: "3. 해외 교육훈련과정"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3. 해외 교육훈련과정" }
+  - item: "3.1 단기과정"
+    approver_line: ["CEO(본부장)", "본부장(팀장
+이하)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.1 단기과정" }
+  - item: "3.2 장기(3개월 이상) 과정"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.2 장기(3개월 이상) 과정" }
+  - item: "[총무]"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "[총무]" }
+  - item: "1. 대외 단체 가입(개인/법인 등)(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1. 대외 단체 가입(개인/법인 등)(*)" }
+  - item: "1.1 개인명의의 단체 가입(학회, 협회 등)"
+    approver_line: ["본부장(3백만
+이하)", "팀장(1백만
+이하)"]
+    notes: "연회비 기준"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.1 개인명의의 단체 가입(학회, 협회 등)" }
+  - item: "1.2 법인명의의 단체 가입(지역단체 등)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.2 법인명의의 단체 가입(지역단체 등)" }
+  - item: "1.3 대외단체의 의결권행사"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.3 대외단체의 의결권행사" }
+  - item: "1.3.1 중요의사결정(*)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.3.1 중요의사결정(*)" }
+  - item: "1.3.2 기타의사결정(*)"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.3.2 기타의사결정(*)" }
+  - item: "1.4 기타"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "1.4 기타" }
+  - item: "2. 총무 자재/용역/물품 임차 및 구매(*)"
+    approver_line: ["CEO(1억원
+이하)", "본부장(5천만
+이하)", "팀장(1천만
+이하)"]
+    notes: "총무 부서 한정"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "2. 총무 자재/용역/물품 임차 및 구매(*)" }
+  - item: "3. 골프장 회원권 운용"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3. 골프장 회원권 운용" }
+  - item: "3.1 회원권 구매"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.1 회원권 구매" }
+  - item: "3.2 기존 회원권 명의 변경"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "3.2 기존 회원권 명의 변경" }
+  - item: "4. 차량관리"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "4. 차량관리" }
+  - item: "4.1 차량 구매"
+    approver_line: ["CEO(◎)"]
+    notes: "기존차량 교체 시 본부장 전결"
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "4.1 차량 구매" }
+  - item: "4.2 차량 운영계획 및 유지관리"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "4.2 차량 운영계획 및 유지관리" }
+  - item: "5. 비품 및 소모품의 관리"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "5. 비품 및 소모품의 관리" }
+  - item: "6. 의식 및 행사"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "6. 의식 및 행사" }
+  - item: "6.1 기본계획 수립"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "6.1 기본계획 수립" }
+  - item: "6.2 세부계획 수립 및 시행"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제6장 인사/총무", item: "6.2 세부계획 수립 및 시행" }
+[END_RULES]
+'''

@@ -1,0 +1,507 @@
+// 전결규정 HTML 변환 - JavaScript 기능 (개선 버전)
+
+// 전역 변수
+let allRules = [];
+let currentTab = 'all';
+let searchResults = [];
+
+// DOM 로드 완료 시 초기화
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM loaded, initializing...');
+  initializeTabs();
+  initializeSearch();
+  initializeScrollToTop();
+  collectAllRules();
+  showAllItems();
+});
+
+// 탭 초기화
+function initializeTabs() {
+  const tabButtons = document.querySelectorAll('.tab-btn');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const tabId = this.getAttribute('data-tab');
+      switchTab(tabId);
+    });
+  });
+
+  // 첫 번째 탭 활성화
+  if (tabButtons.length > 0) {
+    switchTab(tabButtons[0].getAttribute('data-tab'));
+  }
+}
+
+// 탭 전환
+function switchTab(tabId) {
+  currentTab = tabId;
+
+  // 모든 탭 버튼 비활성화
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  // 모든 탭 컨텐츠 숨기기
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.remove('active');
+  });
+
+  // 선택된 탭 활성화
+  const selectedButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+  const selectedContent = document.getElementById(tabId);
+
+  if (selectedButton) selectedButton.classList.add('active');
+  if (selectedContent) selectedContent.classList.add('active');
+
+  // 검색어가 있으면 검색 유지, 없으면 전체 표시
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput && searchInput.value.trim()) {
+    applySearch();
+  } else {
+    showAllItems();
+  }
+}
+
+// 검색 기능 초기화
+function initializeSearch() {
+  const searchInput = document.getElementById('searchInput');
+  const searchButton = document.getElementById('searchButton');
+  const clearButton = document.getElementById('clearButton');
+
+  if (searchInput) {
+    // 입력 중 X 버튼 표시/숨김
+    searchInput.addEventListener('input', function() {
+      if (clearButton) {
+        clearButton.style.display = this.value.trim() ? 'flex' : 'none';
+      }
+    });
+
+    // 엔터키로 검색 실행
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        applySearch();
+      }
+    });
+  }
+
+  if (searchButton) {
+    searchButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      applySearch();
+    });
+  }
+
+  if (clearButton) {
+    clearButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      searchInput.value = '';
+      this.style.display = 'none';
+      showAllItems();
+      hideSearchResults();
+    });
+  }
+}
+
+// 맨 위로 버튼 초기화
+function initializeScrollToTop() {
+  const scrollBtn = document.getElementById('scrollToTop');
+
+  if (scrollBtn) {
+    // 스크롤 이벤트 감지
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        scrollBtn.classList.add('show');
+      } else {
+        scrollBtn.classList.remove('show');
+      }
+    });
+
+    // 클릭 시 맨 위로 이동
+    scrollBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+}
+
+// 모든 규칙 수집
+function collectAllRules() {
+  allRules = [];
+  const tables = document.querySelectorAll('.approval-table tbody');
+
+  tables.forEach(table => {
+    const rows = table.querySelectorAll('tr:not(.section-header)');
+    rows.forEach(row => {
+      const itemCell = row.querySelector('.item-name');
+      const approverCell = row.querySelector('.approver-list');
+      const notesCell = row.querySelector('.notes');
+
+      if (itemCell) {
+        const chapter = row.getAttribute('data-chapter') || '';
+        const section = row.getAttribute('data-section') || '';
+
+        allRules.push({
+          element: row,
+          item: itemCell.textContent.trim(),
+          approvers: approverCell ? approverCell.textContent.trim() : '',
+          notes: notesCell ? notesCell.textContent.trim() : '',
+          chapter: chapter,
+          section: section,
+          table: table
+        });
+      }
+    });
+  });
+
+  console.log(`Collected ${allRules.length} rules`);
+}
+
+// 검색 적용 (개선된 버전)
+function applySearch() {
+  const searchInput = document.getElementById('searchInput');
+  const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+  console.log(`Searching for: "${searchTerm}"`);
+
+  if (!searchTerm) {
+    showAllItems();
+    hideSearchResults();
+    return;
+  }
+
+  let visibleCount = 0;
+  let totalCount = 0;
+  searchResults = [];
+
+  // 현재 활성화된 탭의 테이블만 필터링
+  const activeTab = document.querySelector('.tab-content.active');
+  if (!activeTab) {
+    console.log('No active tab found');
+    return;
+  }
+
+  const tables = activeTab.querySelectorAll('.approval-table tbody');
+
+  tables.forEach(table => {
+    const rows = table.querySelectorAll('tr');
+
+    rows.forEach(row => {
+      // 섹션 헤더는 항상 표시
+      if (row.classList.contains('section-header')) {
+        row.style.display = '';
+        return;
+      }
+
+      totalCount++;
+
+      const itemCell = row.querySelector('.item-name');
+      const approverCell = row.querySelector('.approver-list');
+      const notesCell = row.querySelector('.notes');
+
+      if (!itemCell) {
+        row.style.display = 'none';
+        return;
+      }
+
+      const itemText = itemCell.textContent.toLowerCase();
+      const approverText = approverCell ? approverCell.textContent.toLowerCase() : '';
+      const notesText = notesCell ? notesCell.textContent.toLowerCase() : '';
+      const fullText = itemText + ' ' + approverText + ' ' + notesText;
+
+      // 검색어 매칭
+      const matchesSearch = fullText.includes(searchTerm);
+
+      if (matchesSearch) {
+        row.style.display = '';
+        visibleCount++;
+
+        // 하이라이트 적용
+        highlightText(itemCell, searchTerm);
+        if (approverCell) highlightText(approverCell, searchTerm);
+        if (notesCell) highlightText(notesCell, searchTerm);
+
+        // 검색 결과 저장
+        const chapter = row.getAttribute('data-chapter') || '?';
+        const section = row.getAttribute('data-section') || '알 수 없음';
+
+        searchResults.push({
+          row: row,
+          item: itemCell.textContent.trim(),
+          approvers: approverCell ? approverCell.textContent.trim() : '-',
+          chapter: chapter,
+          section: section
+        });
+      } else {
+        row.style.display = 'none';
+
+        // 하이라이트 제거
+        removeHighlight(itemCell);
+        if (approverCell) removeHighlight(approverCell);
+        if (notesCell) removeHighlight(notesCell);
+      }
+    });
+  });
+
+  console.log(`Visible: ${visibleCount}, Total: ${totalCount}`);
+
+  // 검색 결과 표시
+  showSearchResults(visibleCount, searchTerm);
+}
+
+// 모든 항목 표시
+function showAllItems() {
+  const activeTab = document.querySelector('.tab-content.active');
+  if (!activeTab) return;
+
+  const tables = activeTab.querySelectorAll('.approval-table tbody');
+
+  tables.forEach(table => {
+    const rows = table.querySelectorAll('tr');
+    rows.forEach(row => {
+      row.style.display = '';
+
+      // 하이라이트 제거
+      const itemCell = row.querySelector('.item-name');
+      const approverCell = row.querySelector('.approver-list');
+      const notesCell = row.querySelector('.notes');
+
+      if (itemCell) removeHighlight(itemCell);
+      if (approverCell) removeHighlight(approverCell);
+      if (notesCell) removeHighlight(notesCell);
+    });
+  });
+}
+
+// 검색 결과 표시 (상세 리스트 포함)
+function showSearchResults(count, searchTerm) {
+  const resultsDiv = document.getElementById('searchResults');
+  const countSpan = document.getElementById('resultCount');
+  const summaryDiv = document.getElementById('resultSummary');
+  const listDiv = document.getElementById('resultList');
+
+  if (!resultsDiv || !countSpan || !summaryDiv || !listDiv) return;
+
+  resultsDiv.style.display = 'block';
+  countSpan.textContent = count;
+
+  if (count === 0) {
+    summaryDiv.innerHTML = `<span style="color: #dc2626;">\"${searchTerm}\"에 대한 검색 결과가 없습니다.</span>`;
+    listDiv.innerHTML = '';
+  } else {
+    summaryDiv.innerHTML = `검색어 \"<strong>${searchTerm}</strong>\"를 포함하는 항목입니다. 클릭하여 이동하세요.`;
+
+    // 결과 리스트 생성
+    listDiv.innerHTML = searchResults.map((result, index) => `
+      <div class="result-item" onclick="scrollToResult(${index})">
+        <div class="result-item-title">${escapeHtml(result.item)}</div>
+        <div class="result-item-meta">
+          제${result.chapter}장 ${result.section} • 결재권자: ${escapeHtml(result.approvers)}
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+// 검색 결과로 스크롤 이동
+function scrollToResult(index) {
+  if (index >= 0 && index < searchResults.length) {
+    const result = searchResults[index];
+    result.row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // 잠깐 하이라이트 효과
+    result.row.style.background = '#fef08a';
+    setTimeout(() => {
+      result.row.style.background = '';
+    }, 2000);
+  }
+}
+
+// 검색 결과 숨기기
+function hideSearchResults() {
+  const resultsDiv = document.getElementById('searchResults');
+  if (resultsDiv) {
+    resultsDiv.style.display = 'none';
+  }
+  searchResults = [];
+}
+
+// 텍스트 하이라이트
+function highlightText(element, searchTerm) {
+  if (!element || !searchTerm) return;
+
+  // 원본 텍스트 저장
+  if (!element.dataset.originalHtml) {
+    element.dataset.originalHtml = element.innerHTML;
+  }
+
+  const text = element.dataset.originalHtml;
+  const regex = new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi');
+
+  // 새로운 하이라이트 적용
+  const highlightedText = text.replace(regex, '<mark class="highlight">$1</mark>');
+  element.innerHTML = highlightedText;
+}
+
+// 하이라이트 제거
+function removeHighlight(element) {
+  if (!element) return;
+
+  if (element.dataset.originalHtml) {
+    element.innerHTML = element.dataset.originalHtml;
+  }
+}
+
+// 정규식 특수문자 이스케이프
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// HTML 이스케이프
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// 배지 클릭 시 상세 정보 표시
+function showApprovalDetail(badge) {
+  const role = badge.getAttribute('data-role');
+  const symbol = badge.getAttribute('data-symbol');
+  const condition = badge.getAttribute('data-condition');
+
+  // 부모 행에서 항목 정보 가져오기
+  const row = badge.closest('tr');
+  const item = row.querySelector('.item-name').textContent.trim();
+  const notes = row.querySelector('.notes').textContent.trim();
+  const chapter = row.getAttribute('data-chapter') || '?';
+  const section = row.getAttribute('data-section') || '알 수 없음';
+
+  // 모달 내용 생성
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody = document.getElementById('modalBody');
+
+  modalTitle.textContent = '결재 상세 정보';
+
+  modalBody.innerHTML = `
+    <div class="modal-info-row">
+      <div class="modal-info-label">📋 항목</div>
+      <div class="modal-info-value">${escapeHtml(item)}</div>
+    </div>
+    <div class="modal-info-row">
+      <div class="modal-info-label">👤 결재권자</div>
+      <div class="modal-info-value"><strong>${escapeHtml(role)}</strong></div>
+    </div>
+    ${symbol ? `
+      <div class="modal-info-row">
+        <div class="modal-info-label">✅ 결재 유형</div>
+        <div class="modal-info-value"><strong style="color: #dc2626;">${escapeHtml(symbol)}</strong></div>
+      </div>
+    ` : ''}
+    ${condition ? `
+      <div class="modal-info-row">
+        <div class="modal-info-label">💰 조건</div>
+        <div class="modal-info-value">${escapeHtml(condition)}</div>
+      </div>
+    ` : ''}
+    <div class="modal-info-row">
+      <div class="modal-info-label">📝 참고사항</div>
+      <div class="modal-info-value">${escapeHtml(notes)}</div>
+    </div>
+  `;
+
+  openModal();
+}
+
+// 모달 열기
+function openModal() {
+  const modal = document.getElementById('approvalModal');
+  if (modal) {
+    modal.classList.add('show');
+  }
+}
+
+// 모달 닫기
+function closeModal() {
+  const modal = document.getElementById('approvalModal');
+  if (modal) {
+    modal.classList.remove('show');
+  }
+}
+
+// 모달 외부 클릭 시 닫기
+window.addEventListener('click', function(e) {
+  const modal = document.getElementById('approvalModal');
+  if (e.target === modal) {
+    closeModal();
+  }
+});
+
+// ESC 키로 모달 닫기
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeModal();
+  }
+});
+
+// 전체 초기화 (필요시)
+function resetFilters() {
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.value = '';
+  }
+
+  const clearButton = document.getElementById('clearButton');
+  if (clearButton) {
+    clearButton.style.display = 'none';
+  }
+
+  showAllItems();
+  hideSearchResults();
+}
+
+// 인쇄 기능
+function printPage() {
+  window.print();
+}
+
+// 엑셀 내보내기 (간단한 CSV)
+function exportToCSV() {
+  const activeTab = document.querySelector('.tab-content.active');
+  if (!activeTab) return;
+
+  const tables = activeTab.querySelectorAll('.approval-table');
+  if (tables.length === 0) return;
+
+  let csv = '\uFEFF'; // UTF-8 BOM
+
+  tables.forEach(table => {
+    const rows = table.querySelectorAll('tr');
+
+    rows.forEach(row => {
+      const cells = row.querySelectorAll('th, td');
+      const rowData = Array.from(cells).map(cell => {
+        let text = cell.textContent.trim();
+        text = text.replace(/"/g, '""'); // 따옴표 이스케이프
+        return `"${text}"`;
+      });
+
+      csv += rowData.join(',') + '\n';
+    });
+  });
+
+  // 파일 다운로드
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+
+  link.setAttribute('href', url);
+  link.setAttribute('download', `전결규정_${currentTab}_${new Date().toISOString().split('T')[0]}.csv`);
+  link.style.visibility = 'hidden';
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}

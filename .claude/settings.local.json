@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(approval-rules-to-html)",
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(python:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>위드인천에너지 전결규정 - 검색 가능한 전자문서</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <!-- 헤더 -->
+  <header>
+    <div class="container">
+      <h1>위드인천에너지 전결규정</h1>
+      <p class="subtitle">버전 v2025.12.01 | 검색 가능한 위임전결규정 전자문서 (실시간)</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- 검색 영역 -->
+    <div class="search-section">
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="검색어를 입력하고 엔터를 누르세요..."
+          autocomplete="off"
+        >
+        <button id="clearButton" class="clear-btn" style="display: none;" title="검색어 지우기">×</button>
+        <button id="searchButton">검색</button>
+      </div>
+
+      <div id="searchResults" style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px; display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div style="font-size: 0.9rem; color: #0369a1; font-weight: 600; margin-bottom: 10px;">
+          🔍 검색 결과: <span id="resultCount">0</span>개 항목
+        </div>
+        <div id="resultSummary" style="font-size: 0.85rem; color: #6b7280; margin-bottom: 15px;"></div>
+        <div id="resultList" style="max-height: 400px; overflow-y: auto; background: white; border-radius: 8px; padding: 10px;"></div>
+      </div>
+    </div>
+
+    <!-- 탭 네비게이션 -->
+    <div class="tab-navigation">
+      <button class="tab-btn" data-tab="tab-all">전체</button>
+      {% for section in sections %}
+      <button class="tab-btn" data-tab="{{ section.tab_id }}">{{ section.display_name }}</button>
+      {% endfor %}
+      <button class="tab-btn" data-tab="tab-org">조직도</button>
+      <button class="tab-btn" data-tab="tab-guide">결재가이드</button>
+    </div>
+
+    <!-- 탭 컨텐츠 영역 -->
+
+    <!-- 전체 탭 - 모든 규정 표시 -->
+    <div id="tab-all" class="tab-content">
+      <h2>전체 전결규정</h2>
+      <p style="color: #6b7280; margin-bottom: 20px;">
+        전체 9개 장의 전결규정을 확인하거나, 검색 기능을 사용하여 필요한 항목을 찾으실 수 있습니다.
+      </p>
+
+      <!-- 전체 장 네비게이션 -->
+      <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div style="font-weight: 600; color: #0369a1; margin-bottom: 15px; font-size: 1rem;">📚 장 바로가기</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+          {% for section in sections %}
+          <a href="#chapter-all-{{ loop.index }}"
+             style="padding: 12px 16px; background: white; border: 2px solid #bae6fd; border-radius: 8px;
+                    font-size: 0.85rem; color: #0369a1; text-decoration: none; font-weight: 500; transition: all 0.3s;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);"
+             onmouseover="this.style.background='#0369a1'; this.style.color='white'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(3, 105, 161, 0.3)';"
+             onmouseout="this.style.background='white'; this.style.color='#0369a1'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.1)';">
+            제{{ loop.index }}장 {{ section.display_name }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      {% for section in sections %}
+      <div id="chapter-all-{{ loop.index }}" style="margin-bottom: 40px; padding: 25px; background: #ffffff; border-radius: 12px; border-left: 5px solid {% if loop.index % 3 == 1 %}#2563eb{% elif loop.index % 3 == 2 %}#10b981{% else %}#f59e0b{% endif %}; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+        <h3 style="color: {% if loop.index % 3 == 1 %}#1e40af{% elif loop.index % 3 == 2 %}#065f46{% else %}#92400e{% endif %}; margin-bottom: 20px; font-size: 1.4rem; font-weight: 700;">
+          제{{ loop.index }}장 {{ section.display_name }}
+        </h3>
+
+        <table class="approval-table">
+          <tbody>
+            {% for rule in section.data.rules %}
+              {% if rule.level == 1 %}
+              <tr class="section-header">
+                <td colspan="2">{{ rule.item }}</td>
+              </tr>
+              {% else %}
+              <tr class="level-{{ rule.level }}" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}">
+                <td class="item-name" style="width: 40%;">{{ rule.item }}</td>
+                <td class="approver-list" style="width: 60%;">
+                  {% if rule.approvers %}
+                    {% for approver in rule.approvers %}
+                      {# 이전 approver와 symbol이 같으면 줄바꿈 (OR 케이스) #}
+                      {% if not loop.first and loop.previtem.symbol == approver.symbol %}
+                        <br>
+                      {% endif %}
+                      <span class="approver-badge-unified {{ approver.css_class }}"
+                            data-role="{{ approver.role }}"
+                            data-symbol="{{ approver.symbol_text if approver.symbol_text else '' }}"
+                            data-condition="{{ approver.condition if approver.condition else '' }}"
+                            onclick="showApprovalDetail(this)">
+                        {% if approver.symbol_text %}
+                        <span class="badge-action-type">{{ approver.symbol_text }}</span>
+                        {% endif %}
+                        <span class="badge-role">{{ approver.role }}</span>
+                        {% if approver.condition %}
+                        <span class="badge-condition">{{ approver.condition }}</span>
+                        {% endif %}
+                      </span>
+                    {% endfor %}
+                    {% if rule.notes and rule.notes != '-' %}
+                    <div class="item-notes">{{ rule.notes }}</div>
+                    {% endif %}
+                  {% else %}
+                    <span style="color: #9ca3af;">-</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- 각 장별 탭 -->
+    {% for section in sections %}
+    <div id="{{ section.tab_id }}" class="tab-content">
+      <h2>제{{ loop.index }}장 {{ section.display_name }}</h2>
+
+      <!-- 절 목차 네비게이션 (절 제목만 표시) -->
+      <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div style="font-weight: 600; color: #0369a1; margin-bottom: 15px; font-size: 1rem;">📑 목차 (절 바로가기)</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          {% for rule in section.data.rules %}
+            {% if rule.level == 1 and rule.item.startswith('[') %}
+            <a href="#section-{{ section.tab_id }}-{{ loop.index }}"
+               style="padding: 10px 16px; background: white; border: 2px solid #bae6fd; border-radius: 8px;
+                      font-size: 0.85rem; color: #0369a1; text-decoration: none; font-weight: 500; transition: all 0.3s;
+                      box-shadow: 0 1px 3px rgba(0,0,0,0.1);"
+               onmouseover="this.style.background='#0369a1'; this.style.color='white'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(3, 105, 161, 0.3)';"
+               onmouseout="this.style.background='white'; this.style.color='#0369a1'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.1)';">
+              {{ rule.item }}
+            </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <table class="approval-table">
+        <tbody>
+          {% for rule in section.data.rules %}
+            {% if rule.level == 1 %}
+            <tr class="section-header" id="section-{{ section.tab_id }}-{{ loop.index }}">
+              <td colspan="2">{{ rule.item }}</td>
+            </tr>
+            {% else %}
+            <tr class="level-{{ rule.level }}" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}">
+              <td class="item-name" style="width: 40%;">{{ rule.item }}</td>
+              <td class="approver-list" style="width: 60%;">
+                {% if rule.approvers %}
+                  {% for approver in rule.approvers %}
+                    {# 이전 approver와 symbol이 같으면 줄바꿈 (OR 케이스) #}
+                    {% if not loop.first and loop.previtem.symbol == approver.symbol %}
+                      <br>
+                    {% endif %}
+                    <span class="approver-badge-unified {{ approver.css_class }}"
+                          data-role="{{ approver.role }}"
+                          data-symbol="{{ approver.symbol_text if approver.symbol_text else '' }}"
+                          data-condition="{{ approver.condition if approver.condition else '' }}"
+                          onclick="showApprovalDetail(this)">
+                      {% if approver.symbol_text %}
+                      <span class="badge-action-type">{{ approver.symbol_text }}</span>
+                      {% endif %}
+                      <span class="badge-role">{{ approver.role }}</span>
+                      {% if approver.condition %}
+                      <span class="badge-condition">{{ approver.condition }}</span>
+                      {% endif %}
+                    </span>
+                  {% endfor %}
+                  {% if rule.notes and rule.notes != '-' %}
+                  <div class="item-notes">{{ rule.notes }}</div>
+                  {% endif %}
+                {% else %}
+                  <span style="color: #9ca3af;">-</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endfor %}
+
+    <!-- 조직도 탭 -->
+    <div id="tab-org" class="tab-content">
+      <h2>위드인천에너지 조직도</h2>
+      <p style="color: #6b7280; margin-bottom: 30px;">2025년 5월 기준</p>
+
+      <div class="org-chart">
+        <!-- CEO -->
+        <div class="org-box org-ceo">
+          <div class="org-title">대표이사</div>
+          <div class="org-name">전태현</div>
+          <div class="org-phone">내선: 392</div>
+        </div>
+
+        <!-- CSO -->
+        <div class="org-box org-cso">
+          <div class="org-title">CSO (최고안전책임자)</div>
+          <div class="org-name">강주하</div>
+          <div class="org-phone">내선: 320 | 010-3251-3703</div>
+          <div class="org-note">기술본부장 겸임</div>
+        </div>
+
+        <!-- 본부들 -->
+        <div class="org-row">
+          <!-- 경영기획본부 -->
+          <div class="org-department">
+            <div class="org-box org-head">
+              <div class="org-title">경영기획본부장</div>
+              <div class="org-name">송호철</div>
+              <div class="org-phone">내선: 393 | 010-3599-0928</div>
+            </div>
+            <div class="org-teams">
+              <div class="org-team">
+                <div class="org-team-header">경영기획팀</div>
+                <div class="org-team-lead">팀장: 손민규 (내선: 380)</div>
+                <div class="org-team-members-list">
+                  <div class="member-item">김동민 (내선: 381)</div>
+                  <div class="member-item">김창근 (내선: 361)</div>
+                  <div class="member-item">이성규</div>
+                  <div class="member-item">어정호 (내선: 383)</div>
+                  <div class="member-item">이한솔 (내선: 382)</div>
+                  <div class="member-item">이지민 (내선: 362)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 기술본부 -->
+          <div class="org-department">
+            <div class="org-box org-head">
+              <div class="org-title">기술본부장</div>
+              <div class="org-name">강주하 (CSO 겸임)</div>
+              <div class="org-phone">내선: 320 | 010-3251-3703</div>
+            </div>
+            <div class="org-teams">
+              <div class="org-team">
+                <div class="org-team-header">사업개발실</div>
+                <div class="org-team-lead">실장: 오상철 (내선: 310)</div>
+                <div class="org-team-members-list">
+                  <div class="member-item">정수영 (내선: 314)</div>
+                  <div class="member-item">홍승희 (내선: 315)</div>
+                  <div class="member-item">김소연 (내선: 318)</div>
+                  <div class="member-item">김태완 (내선: 321)</div>
+                  <div class="member-item">이주영 (내선: 311)</div>
+                  <div class="member-item">이지혜 (육아휴직)</div>
+                </div>
+              </div>
+              <div class="org-team">
+                <div class="org-team-header">운영팀</div>
+                <div class="org-team-lead">팀장: 유경조 (내선: 324)</div>
+                <div class="org-team-members-list">
+                  <div class="member-item"><strong>운영관리과:</strong> 신정섭, 강혜영, 안효진, 안은수</div>
+                  <div class="member-item"><strong>1그룹:</strong> 김진명, 배환, 이정철, 권희경</div>
+                  <div class="member-item"><strong>2그룹:</strong> 강병희, 김원섭, 라호진, 김원태</div>
+                  <div class="member-item"><strong>3그룹:</strong> 박민호, 조성준, 김원식, 김민제</div>
+                  <div class="member-item"><strong>4그룹:</strong> 박건호, 임균석, 박정훈, 이윤직</div>
+                </div>
+              </div>
+              <div class="org-team">
+                <div class="org-team-header">정비기술팀</div>
+                <div class="org-team-lead">팀장: 유진호 (내선: 330)</div>
+                <div class="org-team-members-list">
+                  <div class="member-item">권상우 (내선: 339)</div>
+                  <div class="member-item">박정일 (내선: 336)</div>
+                  <div class="member-item">김동욱 (내선: 345)</div>
+                  <div class="member-item">강희국 (내선: 342)</div>
+                </div>
+              </div>
+              <div class="org-team">
+                <div class="org-team-header">프로젝트추진팀</div>
+                <div class="org-team-lead">팀장: 장문엽 (내선: 319)</div>
+                <div class="org-team-members-list">
+                  <div class="member-item">유준영 (내선: 319)</div>
+                  <div class="member-item">남길우 (내선: 328)</div>
+                </div>
+              </div>
+              <div class="org-team">
+                <div class="org-team-header">안전환경팀</div>
+                <div class="org-team-lead">팀장: 김호연 (내선: 327)</div>
+                <div class="org-team-members-list">
+                  <div class="member-item">김락근 (내선: 337)</div>
+                  <div class="member-item">강다혜 (내선: 323)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="org-summary">
+          <div class="org-summary-item">
+            <div class="org-summary-label">총 인원</div>
+            <div class="org-summary-value">약 45명</div>
+          </div>
+          <div class="org-summary-item">
+            <div class="org-summary-label">본부</div>
+            <div class="org-summary-value">2개</div>
+          </div>
+          <div class="org-summary-item">
+            <div class="org-summary-label">팀/실</div>
+            <div class="org-summary-value">6개</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 결재라인 가이드 탭 -->
+    <div id="tab-guide" class="tab-content">
+      <h2>승인 프로세스 가이드</h2>
+      <p style="color: #6b7280; margin-bottom: 30px;">버전 v2019.04.10 - 위임전결규정 승인 프로세스</p>
+
+      <!-- 팀장 전결 프로세스 -->
+      <div class="process-container">
+        <h3 class="process-title">팀장 전결 프로세스</h3>
+        <div class="process-flow">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <div class="step-box step-draft">
+              <div class="step-position">기안자</div>
+              <div class="step-action">기안</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <div class="step-box step-optional">
+              <div class="step-position">중간관리자</div>
+              <div class="step-action">결재</div>
+              <div class="step-note">(선택)</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <div class="step-box step-agree">
+              <div class="step-position">유관팀장</div>
+              <div class="step-action">합의</div>
+              <div class="step-note">(필요시)</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <div class="step-box step-final">
+              <div class="step-position">팀장</div>
+              <div class="step-action">전결</div>
+              <div class="step-badge">최종</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 본부장 전결 프로세스 -->
+      <div class="process-container">
+        <h3 class="process-title">본부장 전결 프로세스</h3>
+        <div class="process-flow">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <div class="step-box step-draft">
+              <div class="step-position">기안자</div>
+              <div class="step-action">기안</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <div class="step-box step-optional">
+              <div class="step-position">중간관리자</div>
+              <div class="step-action">결재</div>
+              <div class="step-note">(선택)</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <div class="step-box step-approve">
+              <div class="step-position">팀장</div>
+              <div class="step-action">결재</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <div class="step-box step-agree">
+              <div class="step-position">유관팀장</div>
+              <div class="step-action">합의</div>
+              <div class="step-note">(필요시)</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">5</div>
+            <div class="step-box step-final">
+              <div class="step-position">본부장</div>
+              <div class="step-action">전결</div>
+              <div class="step-badge">최종</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 대표이사 전결 프로세스 -->
+      <div class="process-container">
+        <h3 class="process-title">대표이사 전결 프로세스</h3>
+        <div class="process-flow">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <div class="step-box step-draft">
+              <div class="step-position">기안자</div>
+              <div class="step-action">기안</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <div class="step-box step-optional">
+              <div class="step-position">중간관리자</div>
+              <div class="step-action">결재</div>
+              <div class="step-note">(선택)</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <div class="step-box step-approve">
+              <div class="step-position">팀장</div>
+              <div class="step-action">결재</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <div class="step-box step-agree">
+              <div class="step-position">유관팀장</div>
+              <div class="step-action">합의</div>
+              <div class="step-note">(필요시)</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">5</div>
+            <div class="step-box step-approve">
+              <div class="step-position">본부장</div>
+              <div class="step-action">결재</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">6</div>
+            <div class="step-box step-agree">
+              <div class="step-position">경영기획본부장</div>
+              <div class="step-action">합의</div>
+              <div class="step-note">(조건부)</div>
+            </div>
+          </div>
+          <div class="process-arrow">→</div>
+          <div class="process-step">
+            <div class="step-number">7</div>
+            <div class="step-box step-final">
+              <div class="step-position">대표이사</div>
+              <div class="step-action">전결</div>
+              <div class="step-badge">최종</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 맨 위로 버튼 -->
+  <button id="scrollToTop" class="scroll-to-top" title="맨 위로">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <!-- 모달 -->
+  <div id="approvalModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal()">&times;</span>
+      <h3 id="modalTitle">결재 상세 정보</h3>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer style="text-align: center; padding: 40px 20px; color: #6b7280; background: #f9fafb; margin-top: 50px;">
+    <p>&copy; 2025 위드인천에너지. All Rights Reserved.</p>
+    <p style="font-size: 0.85rem; margin-top: 10px;">전결규정 버전 v2025.12.01 | 동적 웹 애플리케이션 | 접속시간: <span id="conversionDate"></span></p>
+    <script>document.getElementById('conversionDate').textContent = new Date().toLocaleString('ko-KR');</script>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

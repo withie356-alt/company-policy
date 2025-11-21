@@ -1,0 +1,233 @@
+'''
+[BEGIN_RULES]
+section: "사업개발_생산_홍보"
+version: "v2025.12.01"
+notes: "제8장 사업개발/생산/홍보 전결규정"
+rules:
+  - item: "1. 수요개발"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1. 수요개발" }
+  - item: "1.1 수요개발 계획 수립"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.1 수요개발 계획 수립" }
+  - item: "1.2 영업 및 열수급계약"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.2 영업 및 열수급계약" }
+  - item: "1.3 영업방침 결정"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.3 영업방침 결정" }
+  - item: "1.4 사업허가"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.4 사업허가" }
+  - item: "1.4.1 사업변경허가"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.4.1 사업변경허가" }
+  - item: "1.4.2 사업변경신고"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.4.2 사업변경신고" }
+  - item: "1.4.3 사업타당성 검토"
+    approver_line: ["CEO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.4.3 사업타당성 검토" }
+  - item: "1.5 공사비부담금"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.5 공사비부담금" }
+  - item: "1.6. 열요금"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.6. 열요금" }
+  - item: "1.6.1 요금부과 및 수금관리"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.6.1 요금부과 및 수금관리" }
+  - item: "1.6.2 연체관리"
+    approver_line: ["CEO(6개월
+초과)", "본부장(6개월
+미만)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.6.2 연체관리" }
+  - item: "1.7. 고객관리"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.7. 고객관리" }
+  - item: "1.7.1 사용자 홍보"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.7.1 사용자 홍보" }
+  - item: "1.7.2 열요금 민원"
+    approver_line: ["CEO(□)", "본부장(◎)"]
+    notes: "□ 진정, 이의신청시"
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.7.2 열요금 민원" }
+  - item: "1.7.3 일반 민원"
+    approver_line: ["CEO(□)", "본부장(◎)"]
+    notes: "□ 진정, 이의신청시"
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.7.3 일반 민원" }
+  - item: "1.7.4 다수인관련 민원 및 청원"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.7.4 다수인관련 민원 및 청원" }
+  - item: "1.8. 전기차 충전사업"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.8. 전기차 충전사업" }
+  - item: "1.8.1 계획수립 및 실적보고"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.8.1 계획수립 및 실적보고" }
+  - item: "1.8.2 수요개발 및 계약"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "1.8.2 수요개발 및 계약" }
+  - item: "2. 열원개발"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "2. 열원개발" }
+  - item: "2.1 추진전략 및 계획 수립"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "2.1 추진전략 및 계획 수립" }
+  - item: "2.2 세부계획 수립 및 시행"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "2.2 세부계획 수립 및 시행" }
+  - item: "2.3 열거래사업 계약 및 변경"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "2.3 열거래사업 계약 및 변경" }
+  - item: "2.3.1 열거래 계약(변경)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "2.3.1 열거래 계약(변경)" }
+  - item: "2.3.2 중대한 조건 변경 합의(거래량, 단가 등)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "2.3.2 중대한 조건 변경 합의(거래량, 단가 등)" }
+  - item: "2.3.3 경미한 조건 변경 합의"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "2.3.3 경미한 조건 변경 합의" }
+  - item: "2.4 열원용지 확보"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "2.4 열원용지 확보" }
+  - item: "3. 열사용 시설"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3. 열사용 시설" }
+  - item: "3.1. 관리기준 수립"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.1. 관리기준 수립" }
+  - item: "3.1.1. 열사용신청 설계도서 검토 및 점검기준"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.1.1. 열사용신청 설계도서 검토 및 점검기준" }
+  - item: "3.1.2. 설계도서 검토 및 승인/변경"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.1.2. 설계도서 검토 및 승인/변경" }
+  - item: "3.2. 열사용시설 점검"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.2. 열사용시설 점검" }
+  - item: "3.1.1. 안전점검계획 수립 및 준공/필증 교부"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.1.1. 안전점검계획 수립 및 준공/필증 교부" }
+  - item: "3.1.2. 중간점검"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.1.2. 중간점검" }
+  - item: "3.3. 사용자 기술교육"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.3. 사용자 기술교육" }
+  - item: "3.4. 열사용시설 안전점검 및 교육 시행"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.4. 열사용시설 안전점검 및 교육 시행" }
+  - item: "3.5. 열계량장치"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.5. 열계량장치" }
+  - item: "3.5.1. 연간구매(설치)계획 수립"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.5.1. 연간구매(설치)계획 수립" }
+  - item: "3.5.2. 유지보수 및 검정관리"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.5.2. 유지보수 및 검정관리" }
+  - item: "3.6. 열사용시설 기술지도, 변경설치, 안전점검"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "3.6. 열사용시설 기술지도, 변경설치, 안전점검" }
+  - item: "4. 생산"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "4. 생산" }
+  - item: "4.1 생산계획"
+    approver_line: ["CSO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "4.1 생산계획" }
+  - item: "4.2 효율향상 및 원가절감"
+    approver_line: ["CEO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "4.2 효율향상 및 원가절감" }
+  - item: "4.3. 공급"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "4.3. 공급" }
+  - item: "4.3.1 공급계획 수립 및 실적보고"
+    approver_line: ["CSO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "4.3.1 공급계획 수립 및 실적보고" }
+  - item: "4.3.2 공정사고 처리"
+    approver_line: ["CSO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "4.3.2 공정사고 처리" }
+  - item: "4.3.3 돌발사고 처리"
+    approver_line: ["CSO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "4.3.3 돌발사고 처리" }
+  - item: "4.3.4 노후시설 대책"
+    approver_line: ["CSO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "4.3.4 노후시설 대책" }
+  - item: "4.4 중장기관리계획 및 과부족 처리방안"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "4.4 중장기관리계획 및 과부족 처리방안" }
+  - item: "5. 거래"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "5. 거래" }
+  - item: "5.1. 전력거래"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "5.1. 전력거래" }
+  - item: "5.1.1 전력시장운영규칙 개정 등 제도변경"
+    approver_line: ["CSO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "5.1.1 전력시장운영규칙 개정 등 제도변경" }
+  - item: "5.1.2 시장운영자료 제출"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "5.1.2 시장운영자료 제출" }
+  - item: "5.1.3 전력거래 입찰 및 정산"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "5.1.3 전력거래 입찰 및 정산" }
+  - item: "5.1.4 발전비용평가 성능시험"
+    approver_line: ["CSO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "5.1.4 발전비용평가 성능시험" }
+  - item: "5.2. 온실가스 배출권 거래"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "5.2. 온실가스 배출권 거래" }
+  - item: "5.2.1 배출권 관리계획 수립 및 시행"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "5.2.1 배출권 관리계획 수립 및 시행" }
+  - item: "5.2.2 배출권 거래 시행"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "5.2.2 배출권 거래 시행" }
+  - item: "6. 대정부 문서(*)"
+    approver_line: ["CEO(□)", "본부장(◎)"]
+    notes: "지방자치단체 포함"
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "6. 대정부 문서(*)" }
+  - item: "7. 대외 홍보용 자료 제공"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "7. 대외 홍보용 자료 제공" }
+  - item: "7.1 언론기관 원고제공"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "7.1 언론기관 원고제공" }
+  - item: "7.2 대외 홍보용 자료"
+    approver_line: ["본부장(□)", "담당(★)"]
+    notes: "ESG추진팀 합의"
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "7.2 대외 홍보용 자료" }
+  - item: "8. 홍보"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "8. 홍보" }
+  - item: "8.1 홍보계획"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "8.1 홍보계획" }
+  - item: "8.1.1 기본계획 수립"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "8.1.1 기본계획 수립" }
+  - item: "8.1.2 세부계획 수립 및 시행"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "8.1.2 세부계획 수립 및 시행" }
+  - item: "8.2 전파매체(TV등) 및 중앙일간지"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "8.2 전파매체(TV등) 및 중앙일간지" }
+  - item: "8.3 기타광고 및 협찬"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "8.3 기타광고 및 협찬" }
+  - item: "9. 홍보물 제작 및 집행"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "9. 홍보물 제작 및 집행" }
+  - item: "9.1 홍보물(영상, 브로셔, 인쇄물등)제작 1천만원 초과"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "9.1 홍보물(영상, 브로셔, 인쇄물등)제작 1천만원 초과" }
+  - item: "9.2 홍보물(영상, 브로셔, 인쇄물등)제작 1천만원 이하"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "9.2 홍보물(영상, 브로셔, 인쇄물등)제작 1천만원 이하" }
+  - item: "9.3 홍보물(영상, 브로셔, 인쇄물등)제작 1백만원 이하"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제8장 사업개발/생산/홍보", item: "9.3 홍보물(영상, 브로셔, 인쇄물등)제작 1백만원 이하" }
+[END_RULES]
+'''

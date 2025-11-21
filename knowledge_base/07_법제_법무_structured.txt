@@ -1,0 +1,198 @@
+'''
+[BEGIN_RULES]
+section: "법제_법무"
+version: "v2025.12.01"
+notes: "제7장 법제/법무 전결규정"
+rules:
+  - item: "[법제]"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "[법제]" }
+  - item: "1. 이사회 및 주주총회"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1. 이사회 및 주주총회" }
+  - item: "1.1 소집통지서 발송"
+    approver_line: ["CEO(◎)"]
+    notes: "이사회 의장 명의로 발송"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1.1 소집통지서 발송" }
+  - item: "1.2 주주총회/이사회 안건 부의"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1.2 주주총회/이사회 안건 부의" }
+  - item: "1.3 의사록 승인"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1.3 의사록 승인" }
+  - item: "1.3.1 이사회"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1.3.1 이사회" }
+  - item: "1.3.2 주주총회"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1.3.2 주주총회" }
+  - item: "1.4 결의에 따른 기타 조치"
+    approver_line: ["본부장(◎)"]
+    notes: "유관 본부장 합의"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1.4 결의에 따른 기타 조치" }
+  - item: "1.5 이사회/주주총회 결의에 따른 법원 등기"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1.5 이사회/주주총회 결의에 따른 법원 등기" }
+  - item: "2. 자/투자회사 주주총회 소집절차 생략에 관한 동의"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "2. 자/투자회사 주주총회 소집절차 생략에 관한 동의" }
+  - item: "3. 주식: 제공고/신주권 발행/주권재발행/명의개서/
+질권 설정, 말소 등"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "3. 주식: 제공고/신주권 발행/주권재발행/명의개서/
+질권 설정, 말소 등" }
+  - item: "4. 회사 인장 관리(*)"
+    approver_line: []
+    notes: "경영기획팀 제작신청/일괄 제작 관리"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4. 회사 인장 관리(*)" }
+  - item: "4.1 신규조각"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.1 신규조각" }
+  - item: "4.1.1 이사 및 감사 인장"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.1.1 이사 및 감사 인장" }
+  - item: "4.1.2 대표이사인, 사용인, 회사인, 계인(*)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.1.2 대표이사인, 사용인, 회사인, 계인(*)" }
+  - item: "4.2 반납/폐기"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.2 반납/폐기" }
+  - item: "4.2.1 반납"
+    approver_line: ["팀장(◎)"]
+    notes: "유관 팀장 승인"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.2.1 반납" }
+  - item: "4.2.2 폐기"
+    approver_line: ["팀장(◎)"]
+    notes: "경영기획팀장 승인"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.2.2 폐기" }
+  - item: "4.3 날인"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.3 날인" }
+  - item: "4.3.1 법인 인감 승인(*)"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.3.1 법인 인감 승인(*)" }
+  - item: "4.3.2 사용인, 회사인, 계인 승인(*)"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.3.2 사용인, 회사인, 계인 승인(*)" }
+  - item: "5. 회사 법인인증서 관리(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "5. 회사 법인인증서 관리(*)" }
+  - item: "5.1 범용/용도제한용 인증서 관리"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "5.1 범용/용도제한용 인증서 관리" }
+  - item: "5.1.1 발급"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "5.1.1 발급" }
+  - item: "5.1.2 갱신/재발급"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "5.1.2 갱신/재발급" }
+  - item: "5.1.3 사용/폐기 신청 및 승인(*)"
+    approver_line: ["팀장(◎)"]
+    notes: "신청: 요청팀장 승인 승인: 경영기획팀장 승인"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "5.1.3 사용/폐기 신청 및 승인(*)" }
+  - item: "6. 법령 관련업무"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "6. 법령 관련업무" }
+  - item: "6.1 회사관련 법령/조례 제·개정(안)제출"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "6.1 회사관련 법령/조례 제·개정(안)제출" }
+  - item: "6.2 회사관련 법령의 운영 및 적용에 대한 의견제출"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "6.2 회사관련 법령의 운영 및 적용에 대한 의견제출" }
+  - item: "6.3 법령 제·개정관련 제반업무 추진"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "6.3 법령 제·개정관련 제반업무 추진" }
+  - item: "7. 정관변경(안) 결정"
+    approver_line: ["CEO(◎)"]
+    notes: "주주총회 승인"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "7. 정관변경(안) 결정" }
+  - item: "[법무]"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "[법무]" }
+  - item: "1. 소송 및 중재"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1. 소송 및 중재" }
+  - item: "소송 제기/응소, 고소/고발, 중재신청, 취하 및
+화해 등"
+    approver_line: ["CEO(◎)"]
+    notes: "민사, 형사, 노동/인사/행정/기타 등"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "소송 제기/응소, 고소/고발, 중재신청, 취하 및
+화해 등" }
+  - item: "1.2 채권 회수 위한 법적 조치의 신청 및 취하"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "1.2 채권 회수 위한 법적 조치의 신청 및 취하" }
+  - item: "2. 계약서 검토 및 체결(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "2. 계약서 검토 및 체결(*)" }
+  - item: "2.1 계약의 검토"
+    approver_line: ["팀장(◎)"]
+    notes: "필요 시 그룹사 법무팀 검토"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "2.1 계약의 검토" }
+  - item: "2.2 재화 및 용역의 교환을 수반하지 않는 
+Non-binding 계약의 체결(MOU 등)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "2.2 재화 및 용역의 교환을 수반하지 않는 
+Non-binding 계약의 체결(MOU 등)" }
+  - item: "2.3 표준 계약 서식(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "2.3 표준 계약 서식(*)" }
+  - item: "2.3.1 표준계약서식의 제정/개정"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "2.3.1 표준계약서식의 제정/개정" }
+  - item: "2.3.2 표준계약서식을 사용한 계약의 검토"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "2.3.2 표준계약서식을 사용한 계약의 검토" }
+  - item: "2.3.3 표준계약서식을 수정한 계약의 검토"
+    approver_line: ["본부장(◎)"]
+    notes: "그룹사 법무팀 검토"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "2.3.3 표준계약서식을 수정한 계약의 검토" }
+  - item: "3. 법률관련 용역제공자의 선임"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "3. 법률관련 용역제공자의 선임" }
+  - item: "3.1 변호사/변리사의 선임"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "3.1 변호사/변리사의 선임" }
+  - item: "3.1.1 고문변호사 선임"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "3.1.1 고문변호사 선임" }
+  - item: "3.1.2 일반 변호사 선임(소송,중재 및 기타자문관련)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "3.1.2 일반 변호사 선임(소송,중재 및 기타자문관련)" }
+  - item: "3.1.3 변리사의 선임"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "3.1.3 변리사의 선임" }
+  - item: "3.2 기타 용역제공자의 선임(*)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "3.2 기타 용역제공자의 선임(*)" }
+  - item: "4. 지적재산권"
+    approver_line: []
+    notes: "그룹사 법무팀 검토"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4. 지적재산권" }
+  - item: "4.1 출원/철회"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.1 출원/철회" }
+  - item: "4.1.1 신규 출원 및 철회"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.1.1 신규 출원 및 철회" }
+  - item: "4.1.2 기 등록된 지적 재산권의 유지"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.1.2 기 등록된 지적 재산권의 유지" }
+  - item: "4.2 양도/포기"
+    approver_line: []
+    notes: "5장 자산관리 참조"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.2 양도/포기" }
+  - item: "4.3 제3자에 대한 사용권/실시권 부여"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "4.3 제3자에 대한 사용권/실시권 부여" }
+  - item: "5. 등기업무"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "5. 등기업무" }
+  - item: "5.1 부동산 이전,설치,변경 등기"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "5.1 부동산 이전,설치,변경 등기" }
+  - item: "5.2 기타 등기"
+    approver_line: ["팀장(◎)"]
+    notes: "기 승인사항 집행 경영기획팀장 승인"
+    basis: { doc: "전결규정", section: "제7장 법제/법무", item: "5.2 기타 등기" }
+[END_RULES]
+'''

@@ -1,0 +1,73 @@
+'''
+[BEGIN_RULES]
+section: "예산"
+version: "v2025.12.01"
+notes: "제2장 예산 전결규정"
+rules:
+  - item: "1. 투자예산(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제2장 예산", item: "1. 투자예산(*)" }
+  - item: "1.1 Expenditure Request (ER)"
+    approver_line: []
+    notes: "경영기획본부 합의"
+    basis: { doc: "전결규정", section: "제2장 예산", item: "1.1 Expenditure Request (ER)" }
+  - item: "1.1.1 승인(*)"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "1.1.1 승인(*)" }
+  - item: "1.1.2 초과지출 및 수정/전용(*)"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "1.1.2 초과지출 및 수정/전용(*)" }
+  - item: "1.2 투자사업마감보고서"
+    approver_line: ["본부장(◎)"]
+    notes: "경영기획본부 합의"
+    basis: { doc: "전결규정", section: "제2장 예산", item: "1.2 투자사업마감보고서" }
+  - item: "2. 비용예산(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제2장 예산", item: "2. 비용예산(*)" }
+  - item: "2.1 비용예산(안) 승인/수정"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제2장 예산", item: "2.1 비용예산(안) 승인/수정" }
+  - item: "2.1.1 전사 연간 예산(안)(*)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "2.1.1 전사 연간 예산(안)(*)" }
+  - item: "2.1.2 전사 안전관련 예산(안)(*)"
+    approver_line: ["CSO(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "2.1.2 전사 안전관련 예산(안)(*)" }
+  - item: "2.1.3 승인한도내에서 연중 조직개편에 의한 예산 
+수정"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "2.1.3 승인한도내에서 연중 조직개편에 의한 예산 
+수정" }
+  - item: "2.2 비용예산 전용(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제2장 예산", item: "2.2 비용예산 전용(*)" }
+  - item: "2.2.1 승인한도내 일괄편성예산 전용"
+    approver_line: ["CEO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "2.2.1 승인한도내 일괄편성예산 전용" }
+  - item: "2.2.2 승인한도내 현업편성예산 전용"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제2장 예산", item: "2.2.2 승인한도내 현업편성예산 전용" }
+  - item: "(1) 본부간 전용"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "(1) 본부간 전용" }
+  - item: "(2) 본부내 전용"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "(2) 본부내 전용" }
+  - item: "(3) 팀내 전용"
+    approver_line: ["팀장(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "(3) 팀내 전용" }
+  - item: "(4) 회사 OH 조직 예산 전용(*)"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "(4) 회사 OH 조직 예산 전용(*)" }
+  - item: "2.2.3 승인한도내 안전관련 예산 전용"
+    approver_line: ["CSO(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "2.2.3 승인한도내 안전관련 예산 전용" }
+  - item: "3. 예비비의 사용"
+    approver_line: ["CEO(◎)"]
+    notes: "예산의 추가배정"
+    basis: { doc: "전결규정", section: "제2장 예산", item: "3. 예비비의 사용" }
+  - item: "4. 예산집행실적 종합분석"
+    approver_line: ["CEO(□)", "본부장(◎)"]
+    basis: { doc: "전결규정", section: "제2장 예산", item: "4. 예산집행실적 종합분석" }
+[END_RULES]
+'''

@@ -1,0 +1,757 @@
+/* 전결규정 HTML - iPhone 스타일 모바일 최적화 디자인 */
+
+:root {
+  /* iOS 스타일 색상 */
+  --primary: #007AFF;
+  --primary-dark: #0051D5;
+  --secondary: #34C759;
+  --warning: #FF9500;
+  --danger: #FF3B30;
+
+  /* 결재권자별 색상 */
+  --ceo-color: #5856D6;
+  --cso-color: #AF52DE;
+  --director-color: #007AFF;
+  --team-leader-color: #5AC8FA;
+  --staff-color: #8E8E93;
+  --board-color: #AF52DE;
+
+  /* 배경 및 텍스트 */
+  --bg-primary: #F2F2F7;
+  --bg-secondary: #FFFFFF;
+  --border-color: #D1D1D6;
+  --text-primary: #000000;
+  --text-secondary: #3C3C43;
+  --text-tertiary: #8E8E93;
+
+  /* 그림자 */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Malgun Gothic', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+/* 헤더 - 간결하고 모던하게 */
+header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  padding: 16px 12px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+header h1 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+
+header .subtitle {
+  font-size: 0.75rem;
+  opacity: 0.85;
+  font-weight: 400;
+}
+
+/* 검색 영역 - 아이폰 스타일 */
+.search-section {
+  background: var(--bg-secondary);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 12px;
+}
+
+.search-box {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: var(--bg-primary);
+  transition: all 0.2s;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--bg-secondary);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.search-box button {
+  padding: 10px 16px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.search-box button:active {
+  transform: scale(0.95);
+  background: var(--primary-dark);
+}
+
+/* 필터 영역 - 더 컴팩트하게 */
+.filter-section {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  color: var(--text-secondary);
+}
+
+.filter-btn:active {
+  transform: scale(0.95);
+}
+
+.filter-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+#searchResults {
+  margin-top: 8px;
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+}
+
+/* 통계 영역 - 더 작고 간결하게 */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat-card {
+  background: var(--bg-secondary);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.stat-card .stat-number {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 2px;
+}
+
+.stat-card .stat-label {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+/* 탭 네비게이션 - 아이폰 스타일 */
+.tab-navigation {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  background: var(--bg-secondary);
+  padding: 6px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tab-navigation::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: 8px;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tab-btn:active {
+  transform: scale(0.95);
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 탭 컨텐츠 */
+.tab-content {
+  display: none;
+  background: var(--bg-secondary);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-content h2 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  font-weight: 700;
+}
+
+.tab-content p {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* 테이블 스타일 - 모바일 최적화 */
+.approval-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 0.75rem;
+}
+
+.approval-table thead {
+  background: var(--bg-primary);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.approval-table th {
+  padding: 10px 6px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.7rem;
+}
+
+.approval-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.15s;
+}
+
+.approval-table tbody tr:active {
+  background: var(--bg-primary);
+}
+
+.approval-table td {
+  padding: 8px 6px;
+  vertical-align: top;
+  font-size: 0.75rem;
+}
+
+/* 섹션 헤더 */
+.section-header {
+  background: linear-gradient(135deg, #E5F1FF, #D0E7FF) !important;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.section-header td {
+  padding: 10px 8px;
+  font-size: 0.8rem;
+}
+
+/* 계층 구조 */
+.level-1 .item-name {
+  padding-left: 0;
+  font-weight: 600;
+}
+
+.level-2 .item-name {
+  padding-left: 12px;
+}
+
+.level-3 .item-name {
+  padding-left: 24px;
+}
+
+.level-4 .item-name {
+  padding-left: 36px;
+}
+
+.item-name {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+/* 결재권자 배지 - 더 작고 간결하게 */
+.approver-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  margin: 2px 2px;
+  white-space: nowrap;
+}
+
+.approver-ceo {
+  background: rgba(88, 86, 214, 0.1);
+  color: var(--ceo-color);
+  border: 1px solid rgba(88, 86, 214, 0.3);
+}
+
+.approver-cso {
+  background: rgba(175, 82, 222, 0.1);
+  color: var(--cso-color);
+  border: 1px solid rgba(175, 82, 222, 0.3);
+}
+
+.approver-director {
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--director-color);
+  border: 1px solid rgba(0, 122, 255, 0.3);
+}
+
+.approver-team-leader {
+  background: rgba(90, 200, 250, 0.1);
+  color: var(--team-leader-color);
+  border: 1px solid rgba(90, 200, 250, 0.3);
+}
+
+.approver-staff {
+  background: rgba(142, 142, 147, 0.1);
+  color: var(--staff-color);
+  border: 1px solid rgba(142, 142, 147, 0.3);
+}
+
+.approver-board {
+  background: rgba(175, 82, 222, 0.1);
+  color: var(--board-color);
+  border: 1px solid rgba(175, 82, 222, 0.3);
+}
+
+/* 결재 기호 - 더 작게 */
+.approval-symbol {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 50%;
+  font-weight: 700;
+  margin-left: 3px;
+  font-size: 0.65rem;
+}
+
+.symbol-approve {
+  background: rgba(52, 199, 89, 0.15);
+  color: var(--secondary);
+}
+
+.symbol-agree {
+  background: rgba(255, 149, 0, 0.15);
+  color: var(--warning);
+}
+
+.symbol-report {
+  background: rgba(0, 122, 255, 0.15);
+  color: var(--primary);
+}
+
+.symbol-refer {
+  background: rgba(142, 142, 147, 0.15);
+  color: var(--staff-color);
+}
+
+/* 조건 배지 - 더 작게 */
+.condition-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  margin: 2px;
+}
+
+.condition-amount {
+  background: rgba(52, 199, 89, 0.15);
+  color: #1B8E3B;
+}
+
+.condition-type {
+  background: rgba(255, 149, 0, 0.15);
+  color: #C66900;
+}
+
+.condition-special {
+  background: rgba(255, 59, 48, 0.15);
+  color: #D70015;
+}
+
+/* 참고사항 */
+.notes {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* 검색 하이라이트 */
+.highlight,
+mark.highlight {
+  background: rgba(255, 204, 0, 0.4);
+  padding: 1px 2px;
+  border-radius: 2px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 빈 상태 */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-tertiary);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.3;
+}
+
+.empty-state-message {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* 조직도 스타일 */
+.org-chart {
+  margin-top: 12px;
+}
+
+.org-section {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--bg-primary);
+  border-radius: 10px;
+}
+
+.org-section h3 {
+  font-size: 0.95rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.org-member {
+  padding: 8px;
+  margin: 4px 0;
+  background: var(--bg-secondary);
+  border-left: 3px solid var(--primary);
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+.org-member-name {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.org-member-title {
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  margin-left: 8px;
+}
+
+.org-member-contact {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+}
+
+/* 태블릿 및 데스크톱 */
+@media (min-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+
+  .container {
+    max-width: 1200px;
+    padding: 20px;
+  }
+
+  header {
+    padding: 24px 20px 28px;
+    margin-bottom: 24px;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  header .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .search-section {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .search-box input {
+    font-size: 1rem;
+    padding: 12px 16px;
+  }
+
+  .search-box button {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
+  .filter-label {
+    font-size: 0.85rem;
+  }
+
+  .filter-btn {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+  }
+
+  .stats-section {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    padding: 20px;
+  }
+
+  .stat-card .stat-number {
+    font-size: 2rem;
+  }
+
+  .stat-card .stat-label {
+    font-size: 0.85rem;
+  }
+
+  .tab-navigation {
+    padding: 8px;
+    margin-bottom: 20px;
+  }
+
+  .tab-btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+
+  .tab-content {
+    padding: 28px;
+  }
+
+  .tab-content h2 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+
+  .approval-table {
+    font-size: 0.9rem;
+  }
+
+  .approval-table th {
+    padding: 14px 12px;
+    font-size: 0.85rem;
+  }
+
+  .approval-table td {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .item-name {
+    font-size: 0.9rem;
+  }
+
+  .approver-badge {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  .approval-symbol {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 0.75rem;
+  }
+
+  .notes {
+    font-size: 0.85rem;
+  }
+
+  .org-section h3 {
+    font-size: 1.2rem;
+  }
+
+  .org-member {
+    font-size: 0.9rem;
+  }
+}
+
+/* 인쇄 스타일 */
+@media print {
+  .search-section,
+  .filter-section,
+  .tab-navigation,
+  .stats-section {
+    display: none;
+  }
+
+  .tab-content {
+    display: block !important;
+    box-shadow: none;
+  }
+
+  .approval-table {
+    page-break-inside: avoid;
+  }
+
+  .section-header {
+    page-break-after: avoid;
+  }
+}
+
+/* iOS 스타일 스크롤바 (Webkit) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-content.active {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* 터치 개선 */
+@media (hover: none) {
+  .filter-btn:hover,
+  .tab-btn:hover,
+  .search-box button:hover {
+    background: inherit;
+  }
+}
+
+/* 다크모드 대응 (선택사항) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #000000;
+    --bg-secondary: #1C1C1E;
+    --border-color: #38383A;
+    --text-primary: #FFFFFF;
+    --text-secondary: #EBEBF5;
+    --text-tertiary: #8E8E93;
+  }
+
+  .search-box input {
+    background: #1C1C1E;
+    color: var(--text-primary);
+  }
+
+  .search-box input:focus {
+    background: #2C2C2E;
+  }
+
+  .approval-table tbody tr:active {
+    background: #2C2C2E;
+  }
+}

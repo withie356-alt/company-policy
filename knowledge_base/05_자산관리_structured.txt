@@ -1,0 +1,83 @@
+'''
+[BEGIN_RULES]
+section: "자산관리"
+version: "v2025.12.01"
+notes: "제5장 자산관리 전결규정"
+rules:
+  - item: "1. 자산 매입/취득"
+    approver_line: ["본부장(◎)"]
+    notes: "3장 구매 참조"
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "1. 자산 매입/취득" }
+  - item: "2. 자산의 매각(*)"
+    approver_line: ["CEO(1억원
+초과)", "본부장(1억원
+이하)"]
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "2. 자산의 매각(*)" }
+  - item: "3. 자산의 임대차, 위탁"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "3. 자산의 임대차, 위탁" }
+  - item: "3.1 임대"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "3.1 임대" }
+  - item: "3.2 임차"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "3.2 임차" }
+  - item: "3.2.1 토지/건물/주택 및 시설/장비"
+    approver_line: ["CEO(◎)"]
+    notes: "도로점용료 제외"
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "3.2.1 토지/건물/주택 및 시설/장비" }
+  - item: "3.2.2 사택"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "3.2.2 사택" }
+  - item: "(1) 신규 확보 및 폐지"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "(1) 신규 확보 및 폐지" }
+  - item: "(2) 재계약"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "(2) 재계약" }
+  - item: "3.3 위탁"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "3.3 위탁" }
+  - item: "4. 타회사 주식의 매입 또는 매각"
+    approver_line: ["CEO(◎)"]
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "4. 타회사 주식의 매입 또는 매각" }
+  - item: "5. 불요자산의 처분(매각/폐기)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "5. 불요자산의 처분(매각/폐기)" }
+  - item: "5.1 불요자산 분류"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "5.1 불요자산 분류" }
+  - item: "5.2 매각(*)"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "5.2 매각(*)" }
+  - item: "5.2.1 장부가액이 있는 자산"
+    approver_line: ["CEO(1천만원
+초과)", "본부장(1천만원
+이하)"]
+    notes: "장부가액 50억원 초과 : 이사회"
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "5.2.1 장부가액이 있는 자산" }
+  - item: "5.2.2 장부가액이 없는 자산"
+    approver_line: ["CEO(1천만원
+초과)", "본부장(1천만원
+이하)"]
+    notes: "매각가액 1백억원 초과 : 이사회"
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "5.2.2 장부가액이 없는 자산" }
+  - item: "5.3 폐기"
+    approver_line: []
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "5.3 폐기" }
+  - item: "5.3.1 장부가액이 있는 자산"
+    approver_line: ["CEO(1천만원
+초과)", "본부장(1천만원
+이하)"]
+    notes: "장부가액 50억원 초과 : 이사회"
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "5.3.1 장부가액이 있는 자산" }
+  - item: "5.3.2 장부가액이 없는 자산"
+    approver_line: ["본부장(◎)"]
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "5.3.2 장부가액이 없는 자산" }
+  - item: "6. 청구권의 포기 및 결손처리"
+    approver_line: ["CEO(5백만원
+초과)", "본부장(5백만원
+이하)"]
+    basis: { doc: "전결규정", section: "제5장 자산관리", item: "6. 청구권의 포기 및 결손처리" }
+[END_RULES]
+'''
