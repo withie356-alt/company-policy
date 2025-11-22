@@ -5,12 +5,20 @@ let allRules = [];
 let currentTab = 'all';
 let searchResults = [];
 
+// 페이지 로드 시 스크롤 위치 초기화
+if (history.scrollRestoration) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 // DOM 로드 완료 시 초기화
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM loaded, initializing...');
+  window.scrollTo(0, 0); // 맨 위로 스크롤
   initializeTabs();
   initializeSearch();
   initializeScrollToTop();
+  initializeChapterAccordion();
   collectAllRules();
   showAllItems();
 });
@@ -53,12 +61,12 @@ function switchTab(tabId) {
   if (selectedButton) selectedButton.classList.add('active');
   if (selectedContent) selectedContent.classList.add('active');
 
-  // 검색어가 있으면 검색 유지, 없으면 전체 표시
+  // 검색어가 있으면 검색 재실행
   const searchInput = document.getElementById('searchInput');
   if (searchInput && searchInput.value.trim()) {
     applySearch();
   } else {
-    showAllItems();
+    hideSearchResults();
   }
 }
 
@@ -92,13 +100,16 @@ function initializeSearch() {
     });
   }
 
-  if (clearButton) {
+  if (clearButton && searchInput) {
     clearButton.addEventListener('click', function(e) {
       e.preventDefault();
+      e.stopPropagation();
+      console.log('Clear button clicked');
       searchInput.value = '';
-      this.style.display = 'none';
+      clearButton.style.display = 'none';
       showAllItems();
       hideSearchResults();
+      searchInput.focus();
     });
   }
 }
@@ -124,6 +135,59 @@ function initializeScrollToTop() {
         behavior: 'smooth'
       });
     });
+  }
+}
+
+// 장 아코디언 초기화
+function initializeChapterAccordion() {
+  const chapterSections = document.querySelectorAll('.chapter-section');
+
+  chapterSections.forEach(section => {
+    const header = section.querySelector('.chapter-header');
+    const content = section.querySelector('.chapter-content');
+
+    // 초기 상태: 모든 장 접기
+    if (header && content) {
+      header.classList.add('collapsed');
+      content.classList.add('collapsed');
+    }
+
+    // 박스 전체 클릭 이벤트
+    section.addEventListener('click', function(e) {
+      // 테이블 내부 클릭은 무시
+      if (e.target.closest('.approval-table')) {
+        return;
+      }
+
+      if (header && content) {
+        // 토글
+        header.classList.toggle('collapsed');
+        content.classList.toggle('collapsed');
+      }
+    });
+  });
+}
+
+// 특정 장 열기
+function openChapter(chapterElement) {
+  const chapterSection = chapterElement.closest('.chapter-section');
+  if (chapterSection) {
+    const header = chapterSection.querySelector('.chapter-header');
+    const content = chapterSection.querySelector('.chapter-content');
+
+    if (header && content) {
+      // 다른 모든 장 닫기
+      document.querySelectorAll('.chapter-header').forEach(h => {
+        h.classList.add('collapsed');
+      });
+      document.querySelectorAll('.chapter-content').forEach(c => {
+        c.classList.add('collapsed');
+      });
+
+      // 해당 장만 열기
+      header.classList.remove('collapsed');
+      content.classList.remove('collapsed');
+    }
   }
 }
 
@@ -159,7 +223,7 @@ function collectAllRules() {
   console.log(`Collected ${allRules.length} rules`);
 }
 
-// 검색 적용 (개선된 버전)
+// 검색 적용 (개선된 버전 - 항목 필터링 없이 검색 결과만 표시)
 function applySearch() {
   const searchInput = document.getElementById('searchInput');
   const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
@@ -172,11 +236,10 @@ function applySearch() {
     return;
   }
 
-  let visibleCount = 0;
-  let totalCount = 0;
+  let matchCount = 0;
   searchResults = [];
 
-  // 현재 활성화된 탭의 테이블만 필터링
+  // 현재 활성화된 탭의 테이블에서 검색
   const activeTab = document.querySelector('.tab-content.active');
   if (!activeTab) {
     console.log('No active tab found');
@@ -189,20 +252,16 @@ function applySearch() {
     const rows = table.querySelectorAll('tr');
 
     rows.forEach(row => {
-      // 섹션 헤더는 항상 표시
+      // 섹션 헤더는 건너뛰기
       if (row.classList.contains('section-header')) {
-        row.style.display = '';
         return;
       }
-
-      totalCount++;
 
       const itemCell = row.querySelector('.item-name');
       const approverCell = row.querySelector('.approver-list');
       const notesCell = row.querySelector('.notes');
 
       if (!itemCell) {
-        row.style.display = 'none';
         return;
       }
 
@@ -215,15 +274,9 @@ function applySearch() {
       const matchesSearch = fullText.includes(searchTerm);
 
       if (matchesSearch) {
-        row.style.display = '';
-        visibleCount++;
+        matchCount++;
 
-        // 하이라이트 적용
-        highlightText(itemCell, searchTerm);
-        if (approverCell) highlightText(approverCell, searchTerm);
-        if (notesCell) highlightText(notesCell, searchTerm);
-
-        // 검색 결과 저장
+        // 검색 결과 저장 (하단 항목은 모두 보이게 유지)
         const chapter = row.getAttribute('data-chapter') || '?';
         const section = row.getAttribute('data-section') || '알 수 없음';
 
@@ -234,21 +287,14 @@ function applySearch() {
           chapter: chapter,
           section: section
         });
-      } else {
-        row.style.display = 'none';
-
-        // 하이라이트 제거
-        removeHighlight(itemCell);
-        if (approverCell) removeHighlight(approverCell);
-        if (notesCell) removeHighlight(notesCell);
       }
     });
   });
 
-  console.log(`Visible: ${visibleCount}, Total: ${totalCount}`);
+  console.log(`Found ${matchCount} matches`);
 
-  // 검색 결과 표시
-  showSearchResults(visibleCount, searchTerm);
+  // 검색 결과 표시 (하단 항목은 필터링하지 않음)
+  showSearchResults(matchCount, searchTerm);
 }
 
 // 모든 항목 표시
@@ -309,13 +355,20 @@ function showSearchResults(count, searchTerm) {
 function scrollToResult(index) {
   if (index >= 0 && index < searchResults.length) {
     const result = searchResults[index];
-    result.row.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-    // 잠깐 하이라이트 효과
-    result.row.style.background = '#fef08a';
+    // 해당 장 열기
+    openChapter(result.row);
+
+    // 스크롤 이동
     setTimeout(() => {
-      result.row.style.background = '';
-    }, 2000);
+      result.row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // 잠깐 하이라이트 효과
+      result.row.style.background = '#fef08a';
+      setTimeout(() => {
+        result.row.style.background = '';
+      }, 2000);
+    }, 100);
   }
 }
 

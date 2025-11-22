@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>위드인천에너지 전결규정 - 검색 가능한 전자문서</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=1763778700">
 </head>
 <body>
   <!-- 헤더 -->
   <header>
     <div class="container">
-      <h1>위드인천에너지 전결규정</h1>
-      <p class="subtitle">버전 v2025.12.01 | 검색 가능한 위임전결규정 전자문서 (실시간)</p>
+      <h1>위드인천에너지 전결규정 <span class="header-divider">|</span> <span class="header-version">버전 v2025.12.01</span></h1>
     </div>
   </header>
 
@@ -52,50 +51,68 @@
 
     <!-- 전체 탭 - 모든 규정 표시 -->
     <div id="tab-all" class="tab-content">
-      <h2>전체 전결규정</h2>
-      <p style="color: #6b7280; margin-bottom: 20px;">
-        전체 9개 장의 전결규정을 확인하거나, 검색 기능을 사용하여 필요한 항목을 찾으실 수 있습니다.
-      </p>
-
-      <!-- 전체 장 네비게이션 -->
-      <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-        <div style="font-weight: 600; color: #0369a1; margin-bottom: 15px; font-size: 1rem;">📚 장 바로가기</div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-          {% for section in sections %}
-          <a href="#chapter-all-{{ loop.index }}"
-             style="padding: 12px 16px; background: white; border: 2px solid #bae6fd; border-radius: 8px;
-                    font-size: 0.85rem; color: #0369a1; text-decoration: none; font-weight: 500; transition: all 0.3s;
-                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);"
-             onmouseover="this.style.background='#0369a1'; this.style.color='white'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(3, 105, 161, 0.3)';"
-             onmouseout="this.style.background='white'; this.style.color='#0369a1'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.1)';">
-            제{{ loop.index }}장 {{ section.display_name }}
-          </a>
-          {% endfor %}
-        </div>
-      </div>
-
       {% for section in sections %}
-      <div id="chapter-all-{{ loop.index }}" style="margin-bottom: 40px; padding: 25px; background: #ffffff; border-radius: 12px; border-left: 5px solid {% if loop.index % 3 == 1 %}#2563eb{% elif loop.index % 3 == 2 %}#10b981{% else %}#f59e0b{% endif %}; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-        <h3 style="color: {% if loop.index % 3 == 1 %}#1e40af{% elif loop.index % 3 == 2 %}#065f46{% else %}#92400e{% endif %}; margin-bottom: 20px; font-size: 1.4rem; font-weight: 700;">
-          제{{ loop.index }}장 {{ section.display_name }}
+      <div id="chapter-all-{{ loop.index }}" class="chapter-section" style="margin-bottom: 20px; padding: 15px; background: #ffffff; border-radius: 12px; border-left: 5px solid {% if loop.index % 3 == 1 %}#2563eb{% elif loop.index % 3 == 2 %}#10b981{% else %}#f59e0b{% endif %}; box-shadow: 0 2px 8px rgba(0,0,0,0.08); cursor: pointer;">
+        <h3 class="chapter-header" style="color: {% if loop.index % 3 == 1 %}#1e40af{% elif loop.index % 3 == 2 %}#065f46{% else %}#92400e{% endif %}; margin-bottom: 15px; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; justify-content: space-between; pointer-events: none;">
+          <span>제{{ loop.index }}장 {{ section.display_name }}</span>
+          <span class="toggle-icon">▼</span>
         </h3>
 
+        <div class="chapter-content">
         <table class="approval-table">
           <tbody>
             {% for rule in section.data.rules %}
-              {% if rule.level == 1 %}
-              <tr class="section-header">
-                <td colspan="2">{{ rule.item }}</td>
+              {% if rule.is_section_title %}
+              {# 절 제목 행 #}
+              <tr class="section-title-row" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}">
+                <td colspan="2" class="section-title-cell">
+                  <div class="section-title-text">{{ rule.item }}</div>
+                </td>
               </tr>
+              {# 공통 주석 행 (절 제목 바로 다음에 표시) #}
+              {% if section.data.common_annotations %}
+                {% for common_ann in section.data.common_annotations %}
+                  {# 절 제목과 공통 주석 키워드 매칭 #}
+                  {% set keyword_map = {'금융': '자금', '지출': '지출', '공통': ''} %}
+                  {% set mapped_keyword = keyword_map.get(common_ann.keyword, common_ann.keyword) %}
+                  {% if mapped_keyword in rule.item or common_ann.keyword == '공통' %}
+              <tr class="common-annotation-row">
+                <td class="common-annotation-label">공통</td>
+                <td class="common-annotation-text">
+                  <div>{{ common_ann.text }}</div>
+                </td>
+              </tr>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
               {% else %}
+              {# 일반 항목 행 #}
               <tr class="level-{{ rule.level }}" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}">
                 <td class="item-name" style="width: 40%;">{{ rule.item }}</td>
                 <td class="approver-list" style="width: 60%;">
                   {% if rule.approvers %}
                     {% for approver in rule.approvers %}
-                      {# 이전 approver와 symbol이 같으면 줄바꿈 (OR 케이스) #}
-                      {% if not loop.first and loop.previtem.symbol == approver.symbol %}
-                        <br>
+                      {# 줄바꿈 조건: 조건 있는 전결끼리는 줄바꿈, 전결+접수는 같은 줄 #}
+                      {% if loop.index0 > 0 %}
+                        {% set prev = rule.approvers[loop.index0 - 1] %}
+                        {% set same_symbol = (prev.symbol == approver.symbol) %}
+                        {% set both_have_cond = (prev.condition is defined and prev.condition) and (approver.condition is defined and approver.condition) %}
+                        {% set prev_is_report_curr_is_cond = (prev.symbol == '→') and (approver.condition is defined and approver.condition) %}
+                        {% if same_symbol or both_have_cond or prev_is_report_curr_is_cond %}
+                          </div><div class="approver-line">
+                        {% else %}
+                          {% if approver.symbol == '□' %}
+                          <span class="approval-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </span>
+                          {% else %}
+                          <span class="approval-plus">+</span>
+                          {% endif %}
+                        {% endif %}
+                      {% else %}
+                        <div class="approver-line">
                       {% endif %}
                       <span class="approver-badge-unified {{ approver.css_class }}"
                             data-role="{{ approver.role }}"
@@ -110,12 +127,20 @@
                         <span class="badge-condition">{{ approver.condition }}</span>
                         {% endif %}
                       </span>
+                      {% if loop.last %}</div>{% endif %}
                     {% endfor %}
-                    {% if rule.notes and rule.notes != '-' %}
-                    <div class="item-notes">{{ rule.notes }}</div>
-                    {% endif %}
-                  {% else %}
-                    <span style="color: #9ca3af;">-</span>
+                  {% endif %}
+                  {% if rule.notes and rule.notes != '-' %}
+                  <div class="item-notes">{{ rule.notes }}</div>
+                  {% endif %}
+                  {% if rule.annotation %}
+                  <div class="item-annotation">
+                    <svg class="annotation-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <span class="annotation-text">{{ rule.annotation }}</span>
+                  </div>
                   {% endif %}
                 </td>
               </tr>
@@ -123,6 +148,7 @@
             {% endfor %}
           </tbody>
         </table>
+        </div>
       </div>
       {% endfor %}
     </div>
@@ -132,41 +158,136 @@
     <div id="{{ section.tab_id }}" class="tab-content">
       <h2>제{{ loop.index }}장 {{ section.display_name }}</h2>
 
-      <!-- 절 목차 네비게이션 (절 제목만 표시) -->
+      <!-- 절 목차 네비게이션 -->
       <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-        <div style="font-weight: 600; color: #0369a1; margin-bottom: 15px; font-size: 1rem;">📑 목차 (절 바로가기)</div>
-        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <div style="font-weight: 600; color: #0369a1; margin-bottom: 15px; font-size: 1rem;">📑 목차</div>
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          {# 먼저 이 장에 절 제목이 있는지 확인 #}
+          {% set has_section_titles = namespace(value=False) %}
           {% for rule in section.data.rules %}
-            {% if rule.level == 1 and rule.item.startswith('[') %}
-            <a href="#section-{{ section.tab_id }}-{{ loop.index }}"
-               style="padding: 10px 16px; background: white; border: 2px solid #bae6fd; border-radius: 8px;
-                      font-size: 0.85rem; color: #0369a1; text-decoration: none; font-weight: 500; transition: all 0.3s;
-                      box-shadow: 0 1px 3px rgba(0,0,0,0.1);"
-               onmouseover="this.style.background='#0369a1'; this.style.color='white'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(3, 105, 161, 0.3)';"
-               onmouseout="this.style.background='white'; this.style.color='#0369a1'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.1)';">
-              {{ rule.item }}
-            </a>
+            {% if rule.is_section_title %}
+              {% set has_section_titles.value = True %}
             {% endif %}
           {% endfor %}
+
+          {% if has_section_titles.value %}
+            {# 절 제목이 있는 경우: 절별로 그룹화하여 표시 #}
+            {% set current_section = namespace(title='', items=[], section_index=0) %}
+            {% for rule in section.data.rules %}
+              {% if rule.is_section_title %}
+                {# 이전 절 내용 출력 #}
+                {% if current_section.title %}
+                  <div style="background: white; border: 2px solid #bae6fd; border-radius: 8px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <a href="#item-{{ section.tab_id }}-{{ current_section.section_index }}" style="font-weight: 600; color: #0369a1; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px;">{{ current_section.title }}</a>
+                    {% if current_section.items %}
+                      <div style="padding-left: 15px; display: flex; flex-direction: column; gap: 4px;">
+                        {% for item_data in current_section.items %}
+                          <a href="#item-{{ section.tab_id }}-{{ item_data.index }}" style="font-size: 0.8rem; color: #64748b; text-decoration: none; display: block; transition: color 0.2s;">• {{ item_data.text }}</a>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endif %}
+                {# 새 절 시작 #}
+                {% set current_section.title = rule.item %}
+                {% set current_section.items = [] %}
+                {% set current_section.section_index = loop.index %}
+              {% elif current_section.title and rule.level in [2, 3] and not rule.is_section_title %}
+                {# 절에 속한 하위 항목 수집 (레벨 2, 3만) #}
+                {% set _ = current_section.items.append({'text': rule.item, 'index': loop.index}) %}
+              {% endif %}
+            {% endfor %}
+            {# 마지막 절 출력 #}
+            {% if current_section.title %}
+              <div style="background: white; border: 2px solid #bae6fd; border-radius: 8px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <a href="#item-{{ section.tab_id }}-{{ current_section.section_index }}" style="font-weight: 600; color: #0369a1; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px;">{{ current_section.title }}</a>
+                {% if current_section.items %}
+                  <div style="padding-left: 15px; display: flex; flex-direction: column; gap: 4px;">
+                    {% for item_data in current_section.items %}
+                      <a href="#item-{{ section.tab_id }}-{{ item_data.index }}" style="font-size: 0.8rem; color: #64748b; text-decoration: none; display: block; transition: color 0.2s;">• {{ item_data.text }}</a>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% else %}
+            {# 절 제목이 없는 경우: 레벨 1, 2 항목을 직접 TOC로 표시 #}
+            <div style="background: white; border: 2px solid #bae6fd; border-radius: 8px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                {% for rule in section.data.rules %}
+                  {% if not rule.is_section_title and rule.level in [1, 2] %}
+                    <a href="#item-{{ section.tab_id }}-{{ loop.index }}"
+                       style="font-size: {% if rule.level == 1 %}0.9rem{% else %}0.8rem{% endif %};
+                              color: {% if rule.level == 1 %}#0369a1{% else %}#64748b{% endif %};
+                              font-weight: {% if rule.level == 1 %}600{% else %}normal{% endif %};
+                              text-decoration: none;
+                              display: block;
+                              padding-left: {% if rule.level == 2 %}15px{% else %}0px{% endif %};
+                              transition: color 0.2s;">
+                      {% if rule.level == 2 %}• {% endif %}{{ rule.item }}
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
         </div>
       </div>
 
       <table class="approval-table">
         <tbody>
           {% for rule in section.data.rules %}
-            {% if rule.level == 1 %}
-            <tr class="section-header" id="section-{{ section.tab_id }}-{{ loop.index }}">
-              <td colspan="2">{{ rule.item }}</td>
+            {% if rule.is_section_title %}
+            {# 절 제목 행 #}
+            <tr class="section-title-row" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}" id="item-{{ section.tab_id }}-{{ loop.index }}">
+              <td colspan="2" class="section-title-cell">
+                <div class="section-title-text">{{ rule.item }}</div>
+              </td>
             </tr>
+            {# 공통 주석 행 (절 제목 바로 다음에 표시) #}
+            {% if section.data.common_annotations %}
+              {% for common_ann in section.data.common_annotations %}
+                {# 절 제목과 공통 주석 키워드 매칭 #}
+                {% set keyword_map = {'금융': '자금', '지출': '지출', '공통': ''} %}
+                {% set mapped_keyword = keyword_map.get(common_ann.keyword, common_ann.keyword) %}
+                {% if mapped_keyword in rule.item or common_ann.keyword == '공통' %}
+            <tr class="common-annotation-row">
+              <td class="common-annotation-label">공통</td>
+              <td class="common-annotation-text">
+                <div>{{ common_ann.text }}</div>
+              </td>
+            </tr>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
             {% else %}
-            <tr class="level-{{ rule.level }}" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}">
+            {# 일반 항목 행 #}
+            <tr class="level-{{ rule.level }}" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}" id="item-{{ section.tab_id }}-{{ loop.index }}">
               <td class="item-name" style="width: 40%;">{{ rule.item }}</td>
               <td class="approver-list" style="width: 60%;">
                 {% if rule.approvers %}
                   {% for approver in rule.approvers %}
-                    {# 이전 approver와 symbol이 같으면 줄바꿈 (OR 케이스) #}
-                    {% if not loop.first and loop.previtem.symbol == approver.symbol %}
-                      <br>
+                    {# 줄바꿈 조건: 조건 있는 전결끼리는 줄바꿈, 전결+접수는 같은 줄 #}
+                    {% if loop.index0 > 0 %}
+                      {% set prev = rule.approvers[loop.index0 - 1] %}
+                      {% set same_symbol = (prev.symbol == approver.symbol) %}
+                      {% set both_have_cond = (prev.condition is defined and prev.condition) and (approver.condition is defined and approver.condition) %}
+                      {% set prev_is_report_curr_is_cond = (prev.symbol == '→') and (approver.condition is defined and approver.condition) %}
+                      {% if same_symbol or both_have_cond or prev_is_report_curr_is_cond %}
+                        </div><div class="approver-line">
+                      {% else %}
+                        {% if approver.symbol == '□' %}
+                        <span class="approval-arrow">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </span>
+                        {% else %}
+                        <span class="approval-plus">+</span>
+                        {% endif %}
+                      {% endif %}
+                    {% else %}
+                      <div class="approver-line">
                     {% endif %}
                     <span class="approver-badge-unified {{ approver.css_class }}"
                           data-role="{{ approver.role }}"
@@ -181,12 +302,20 @@
                       <span class="badge-condition">{{ approver.condition }}</span>
                       {% endif %}
                     </span>
+                    {% if loop.last %}</div>{% endif %}
                   {% endfor %}
-                  {% if rule.notes and rule.notes != '-' %}
-                  <div class="item-notes">{{ rule.notes }}</div>
-                  {% endif %}
-                {% else %}
-                  <span style="color: #9ca3af;">-</span>
+                {% endif %}
+                {% if rule.notes and rule.notes != '-' %}
+                <div class="item-notes">{{ rule.notes }}</div>
+                {% endif %}
+                {% if rule.annotation %}
+                <div class="item-annotation">
+                  <svg class="annotation-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  <span class="annotation-text">{{ rule.annotation }}</span>
+                </div>
                 {% endif %}
               </td>
             </tr>
@@ -202,120 +331,143 @@
       <h2>위드인천에너지 조직도</h2>
       <p style="color: #6b7280; margin-bottom: 30px;">2025년 5월 기준</p>
 
-      <div class="org-chart">
-        <!-- CEO -->
-        <div class="org-box org-ceo">
-          <div class="org-title">대표이사</div>
-          <div class="org-name">전태현</div>
-          <div class="org-phone">내선: 392</div>
-        </div>
-
-        <!-- CSO -->
-        <div class="org-box org-cso">
-          <div class="org-title">CSO (최고안전책임자)</div>
-          <div class="org-name">강주하</div>
-          <div class="org-phone">내선: 320 | 010-3251-3703</div>
-          <div class="org-note">기술본부장 겸임</div>
-        </div>
-
-        <!-- 본부들 -->
-        <div class="org-row">
-          <!-- 경영기획본부 -->
-          <div class="org-department">
-            <div class="org-box org-head">
-              <div class="org-title">경영기획본부장</div>
-              <div class="org-name">송호철</div>
-              <div class="org-phone">내선: 393 | 010-3599-0928</div>
-            </div>
-            <div class="org-teams">
-              <div class="org-team">
-                <div class="org-team-header">경영기획팀</div>
-                <div class="org-team-lead">팀장: 손민규 (내선: 380)</div>
-                <div class="org-team-members-list">
-                  <div class="member-item">김동민 (내선: 381)</div>
-                  <div class="member-item">김창근 (내선: 361)</div>
-                  <div class="member-item">이성규</div>
-                  <div class="member-item">어정호 (내선: 383)</div>
-                  <div class="member-item">이한솔 (내선: 382)</div>
-                  <div class="member-item">이지민 (내선: 362)</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 기술본부 -->
-          <div class="org-department">
-            <div class="org-box org-head">
-              <div class="org-title">기술본부장</div>
-              <div class="org-name">강주하 (CSO 겸임)</div>
-              <div class="org-phone">내선: 320 | 010-3251-3703</div>
-            </div>
-            <div class="org-teams">
-              <div class="org-team">
-                <div class="org-team-header">사업개발실</div>
-                <div class="org-team-lead">실장: 오상철 (내선: 310)</div>
-                <div class="org-team-members-list">
-                  <div class="member-item">정수영 (내선: 314)</div>
-                  <div class="member-item">홍승희 (내선: 315)</div>
-                  <div class="member-item">김소연 (내선: 318)</div>
-                  <div class="member-item">김태완 (내선: 321)</div>
-                  <div class="member-item">이주영 (내선: 311)</div>
-                  <div class="member-item">이지혜 (육아휴직)</div>
-                </div>
-              </div>
-              <div class="org-team">
-                <div class="org-team-header">운영팀</div>
-                <div class="org-team-lead">팀장: 유경조 (내선: 324)</div>
-                <div class="org-team-members-list">
-                  <div class="member-item"><strong>운영관리과:</strong> 신정섭, 강혜영, 안효진, 안은수</div>
-                  <div class="member-item"><strong>1그룹:</strong> 김진명, 배환, 이정철, 권희경</div>
-                  <div class="member-item"><strong>2그룹:</strong> 강병희, 김원섭, 라호진, 김원태</div>
-                  <div class="member-item"><strong>3그룹:</strong> 박민호, 조성준, 김원식, 김민제</div>
-                  <div class="member-item"><strong>4그룹:</strong> 박건호, 임균석, 박정훈, 이윤직</div>
-                </div>
-              </div>
-              <div class="org-team">
-                <div class="org-team-header">정비기술팀</div>
-                <div class="org-team-lead">팀장: 유진호 (내선: 330)</div>
-                <div class="org-team-members-list">
-                  <div class="member-item">권상우 (내선: 339)</div>
-                  <div class="member-item">박정일 (내선: 336)</div>
-                  <div class="member-item">김동욱 (내선: 345)</div>
-                  <div class="member-item">강희국 (내선: 342)</div>
-                </div>
-              </div>
-              <div class="org-team">
-                <div class="org-team-header">프로젝트추진팀</div>
-                <div class="org-team-lead">팀장: 장문엽 (내선: 319)</div>
-                <div class="org-team-members-list">
-                  <div class="member-item">유준영 (내선: 319)</div>
-                  <div class="member-item">남길우 (내선: 328)</div>
-                </div>
-              </div>
-              <div class="org-team">
-                <div class="org-team-header">안전환경팀</div>
-                <div class="org-team-lead">팀장: 김호연 (내선: 327)</div>
-                <div class="org-team-members-list">
-                  <div class="member-item">김락근 (내선: 337)</div>
-                  <div class="member-item">강다혜 (내선: 323)</div>
-                </div>
-              </div>
-            </div>
+      <div class="org-chart-new">
+        <!-- CEO 레벨 -->
+        <div class="org-level-ceo">
+          <div class="org-card org-card-ceo">
+            <div class="org-card-title">대표이사</div>
+            <div class="org-card-name">전태현</div>
+            <div class="org-card-contact">내선: 392</div>
           </div>
         </div>
 
-        <div class="org-summary">
-          <div class="org-summary-item">
-            <div class="org-summary-label">총 인원</div>
-            <div class="org-summary-value">약 45명</div>
+        <!-- 본부 레벨 -->
+        <div class="org-level-directors">
+          <div class="org-card org-card-director">
+            <div class="org-card-dept">경영기획본부</div>
+            <div class="org-card-name">송호철</div>
           </div>
-          <div class="org-summary-item">
-            <div class="org-summary-label">본부</div>
-            <div class="org-summary-value">2개</div>
+
+          <div class="org-card org-card-director org-card-director-technical">
+            <div class="org-card-dept">기술본부</div>
+            <div class="org-card-name">강주하 (兼CSO)</div>
           </div>
-          <div class="org-summary-item">
-            <div class="org-summary-label">팀/실</div>
-            <div class="org-summary-value">6개</div>
+
+          <div class="org-card org-card-cso-main">
+            <div class="org-card-title">CSO</div>
+            <div class="org-card-name">강주하 (兼)</div>
+          </div>
+        </div>
+
+        <!-- 팀 레벨 -->
+        <div class="org-level-teams-grid">
+          <!-- 경영기획팀 -->
+          <div class="org-team-card org-team-management">
+            <div class="org-team-badge">경영기획본부</div>
+            <div class="org-team-card-header">경영기획팀</div>
+            <div class="org-team-card-lead">팀장: 손민규</div>
+            <div class="org-team-card-members">
+              <div class="team-member">김동민</div>
+              <div class="team-member">김창근</div>
+              <div class="team-member">이성규</div>
+              <div class="team-member">어정호</div>
+              <div class="team-member">이한솔</div>
+              <div class="team-member">이지민</div>
+            </div>
+          </div>
+
+          <!-- 사업개발실 -->
+          <div class="org-team-card org-team-management">
+            <div class="org-team-badge">경영기획본부</div>
+            <div class="org-team-card-header">사업개발실</div>
+            <div class="org-team-card-lead">실장: 오상철</div>
+            <div class="org-team-card-members">
+              <div class="team-member">정수영</div>
+              <div class="team-member">홍승희</div>
+              <div class="team-member">김소연</div>
+              <div class="team-member">김태완</div>
+              <div class="team-member">이주영</div>
+              <div class="team-member">이지혜 (육아휴직)</div>
+            </div>
+          </div>
+
+          <!-- 운영팀 -->
+          <div class="org-team-card org-team-wide org-team-technical">
+            <div class="org-team-badge org-team-badge-technical">기술본부</div>
+            <div class="org-team-card-header">운영팀</div>
+            <div class="org-team-card-lead">팀장: 유경조</div>
+            <div class="org-operation-groups-custom">
+              <div class="operation-group op-full-width">
+                <div class="op-group-name">운영관리과</div>
+                <div class="team-member">신정섭</div>
+                <div class="team-member">강혜영</div>
+                <div class="team-member">안효진</div>
+                <div class="team-member">안은수</div>
+              </div>
+              <div class="operation-group">
+                <div class="op-group-name">1그룹</div>
+                <div class="team-member">김진명</div>
+                <div class="team-member">배환</div>
+                <div class="team-member">이정철</div>
+                <div class="team-member">권희경</div>
+              </div>
+              <div class="operation-group">
+                <div class="op-group-name">2그룹</div>
+                <div class="team-member">강병희</div>
+                <div class="team-member">김원섭</div>
+                <div class="team-member">라호진</div>
+                <div class="team-member">김원태</div>
+              </div>
+              <div class="operation-group">
+                <div class="op-group-name">3그룹</div>
+                <div class="team-member">박민호</div>
+                <div class="team-member">조성준</div>
+                <div class="team-member">김원식</div>
+                <div class="team-member">김민제</div>
+              </div>
+              <div class="operation-group">
+                <div class="op-group-name">4그룹</div>
+                <div class="team-member">박건호</div>
+                <div class="team-member">임균석</div>
+                <div class="team-member">박정훈</div>
+                <div class="team-member">이윤직</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 정비기술팀 -->
+          <div class="org-team-card org-team-technical">
+            <div class="org-team-badge org-team-badge-technical">기술본부</div>
+            <div class="org-team-card-header">정비기술팀</div>
+            <div class="org-team-card-lead">팀장: 유진호</div>
+            <div class="org-team-card-members">
+              <div class="team-member">권상우</div>
+              <div class="team-member">박정일</div>
+              <div class="team-member">김동욱</div>
+              <div class="team-member">강희국</div>
+            </div>
+          </div>
+
+          <!-- 프로젝트추진팀 -->
+          <div class="org-team-card org-team-technical">
+            <div class="org-team-badge org-team-badge-technical">기술본부</div>
+            <div class="org-team-card-header">프로젝트추진팀</div>
+            <div class="org-team-card-lead">팀장: 장문엽</div>
+            <div class="org-team-card-members">
+              <div class="team-member">유준영</div>
+              <div class="team-member">남길우</div>
+            </div>
+          </div>
+
+          <!-- 안전환경팀 -->
+          <div class="org-team-card org-team-safety">
+            <div class="org-team-badge org-team-badge-safety">CSO</div>
+            <div class="org-team-card-header">안전환경팀</div>
+            <div class="org-team-card-lead">팀장: 김호연</div>
+            <div class="org-team-card-members">
+              <div class="team-member">김락근</div>
+              <div class="team-member">강다혜</div>
+            </div>
           </div>
         </div>
       </div>
@@ -507,6 +659,6 @@
     <script>document.getElementById('conversionDate').textContent = new Date().toLocaleString('ko-KR');</script>
   </footer>
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='script.js') }}?v=1763777600"></script>
 </body>
 </html>

@@ -35,6 +35,30 @@ def parse_structured_file(file_path):
     version = version_match.group(1) if version_match else ""
     notes = notes_match.group(1) if notes_match else ""
 
+    # annotations 파싱
+    annotations = {}
+    common_annotations = []  # 공통 주석 (ref가 "공통"으로 시작하는 것들)
+    annotations_pattern = r'annotations:\s*((?:\s*-\s+ref:.*?(?=\s*-\s+ref:|\[END_RULES\]|\Z))+)'
+    annotations_match = re.search(annotations_pattern, rules_text, re.DOTALL)
+
+    if annotations_match:
+        annotations_text = annotations_match.group(1)
+        # 각 annotation 항목 파싱
+        annotation_item_pattern = r'-\s+ref:\s*"([^"]+)"\s+text:\s*"([^"]+(?:\n(?!\s*-\s+ref:)[^"]+)*)"'
+        for ann_match in re.finditer(annotation_item_pattern, annotations_text, re.DOTALL):
+            ref = ann_match.group(1).strip()
+            text = ann_match.group(2).strip()
+            # \n을 실제 줄바꿈으로 변환
+            text = text.replace('\\n', '\n')
+
+            # ref가 "공통"으로 시작하거나 숫자로 시작하지 않으면 공통 주석
+            if ref.startswith('공통') or not re.match(r'^\d', ref):
+                # ref에서 키워드 추출 (예: "공통-금융" -> "금융", "공통-지출" -> "지출")
+                keyword = ref.split('-')[-1] if '-' in ref else ref
+                common_annotations.append({'ref': ref, 'keyword': keyword, 'text': text})
+            else:
+                annotations[ref] = text
+
     # 규칙들 파싱
     rules = []
     rule_pattern = r'-\s+item:\s*"([^"]+(?:\n[^"]+)*)"\s+approver_line:\s*\[(.*?)\](?:\s+notes:\s*"([^"]+(?:\n[^"]+)*)")?'
@@ -50,6 +74,9 @@ def parse_structured_file(file_path):
         if approver_line_str.strip():
             approver_matches = re.findall(r'"([^"]+)"', approver_line_str)
             for approver in approver_matches:
+                # 줄바꿈 문자를 공백으로 정규화
+                approver = approver.replace('\n', ' ').strip()
+
                 # 결재권자와 기호 분리 (예: "CEO(◎)" -> {"role": "CEO", "symbol": "◎"})
                 role_match = re.match(r'(.+?)\(([◎○□★→])\)', approver)
                 if role_match:
@@ -61,24 +88,37 @@ def parse_structured_file(file_path):
                     condition_match = re.match(r'(.+?)\((.+)\)', approver)
                     if condition_match:
                         role = condition_match.group(1).strip()
-                        condition = condition_match.group(2).strip()
+                        condition = condition_match.group(2).replace('\n', ' ').strip()
                         # 조건만 있는 경우 기본 심볼을 '◎'(전결)로 설정
                         approvers.append({"role": role, "condition": condition, "symbol": "◎"})
                     else:
                         # 심볼과 조건이 없는 경우에도 기본 심볼을 '◎'(전결)로 설정
                         approvers.append({"role": approver.strip(), "symbol": "◎"})
 
+        # 항목 번호 추출 (예: "3.1 주주총회 의결권 지시(*)" -> "3.1")
+        item_num_match = re.match(r'(\d+(?:\.\d+)*)', item)
+        item_num = item_num_match.group(1) if item_num_match else None
+
+        # 해당 항목의 annotation 찾기
+        annotation_text = annotations.get(item_num, None) if item_num else None
+
+        # 절 제목 판별: "[4-1 자금]" 같은 형태
+        is_section_title = bool(re.match(r'^\[\d+-\d+\s+.+\]$', item))
+
         rules.append({
             "item": item,
             "approvers": approvers,
-            "notes": notes_text
+            "notes": notes_text,
+            "annotation": annotation_text,
+            "is_section_title": is_section_title
         })
 
     return {
         "section": section,
         "version": version,
         "notes": notes,
-        "rules": rules
+        "rules": rules,
+        "common_annotations": common_annotations
     }
 
 
@@ -118,9 +158,21 @@ def get_symbol_text(symbol):
         '○': '합의',
         '□': '보고',
         '★': '참조',
-        '→': '실행'
+        '→': '접수'
     }
     return symbol_text_map.get(symbol, '')
+
+
+def get_symbol_priority(symbol):
+    """결재 기호의 우선순위 반환 (낮을수록 먼저 표시)"""
+    priority_map = {
+        '◎': 1,  # 전결 - 가장 먼저
+        '○': 2,  # 합의
+        '□': 3,  # 보고
+        '★': 4,  # 참조
+        '→': 5   # 접수
+    }
+    return priority_map.get(symbol, 99)
 
 
 def determine_level(item_text):
@@ -169,7 +221,8 @@ def index():
                 # 레벨 정보 추가
                 for rule in data['rules']:
                     rule['level'] = determine_level(rule['item'])
-                    # approver에 CSS 클래스 추가
+
+                    # approver에 CSS 클래스 추가 (정렬하지 않고 입력 순서 유지)
                     for approver in rule['approvers']:
                         approver['css_class'] = get_approver_class(approver['role'])
                         if 'symbol' in approver:
@@ -223,6 +276,10 @@ def search():
 
 
 if __name__ == '__main__':
+    # 템플릿 자동 리로드 활성화
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.jinja_env.auto_reload = True
+
     print("=" * 60)
     print("위드인천에너지 전결규정 시스템 시작")
     print("=" * 60)
