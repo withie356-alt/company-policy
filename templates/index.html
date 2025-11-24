@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>위드인천에너지 전결규정 - 검색 가능한 전자문서</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=1763778700">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=1763785200">
 </head>
 <body>
   <!-- 헤더 -->
   <header>
     <div class="container">
-      <h1>위드인천에너지 전결규정 <span class="header-divider">|</span> <span class="header-version">버전 v2025.12.01</span></h1>
+      <h1>
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="위드인천에너지 로고" class="header-logo">
+        위드인천에너지 전결규정 <span class="header-divider">|</span> <span class="header-version">버전 v2025.12.01</span>
+      </h1>
     </div>
   </header>
 
@@ -668,12 +671,62 @@
     </div>
   </div>
 
+  <!-- AI 챗봇 플로팅 버튼 -->
+  <button id="chatbotButton" class="chatbot-button" title="AI 챗봇으로 전결규정 물어보기">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      <circle cx="9" cy="10" r="1" fill="currentColor"/>
+      <circle cx="15" cy="10" r="1" fill="currentColor"/>
+      <path d="M9 14c0 1.5 1.34 2 3 2s3-.5 3-2"/>
+    </svg>
+  </button>
+
+  <!-- AI 챗봇 창 -->
+  <div id="chatbotWindow" class="chatbot-window" style="display: none;">
+    <div class="chatbot-header">
+      <div class="chatbot-title">
+        <img src="{{ url_for('static', filename='miso-logo.png') }}" alt="Miso AI" class="chatbot-logo">
+        <span>전결규정 AI 도우미</span>
+      </div>
+      <button id="closeChatbot" class="chatbot-close" title="닫기">&times;</button>
+    </div>
+
+    <div id="chatMessages" class="chat-messages">
+      <div class="chat-message bot-message">
+        <div class="message-content">
+          <div class="message-text">
+            <strong>💡 무엇이든 물어보세요!</strong><br><br>
+            안녕하세요! 위드인천에너지 전결규정 안내 챗봇입니다.<br>
+            궁금하신 규정을 편하게 문의해주세요.<br>
+            팀명과 직급을 함께 입력하면 더욱 자세한 답변을 받으실 수 있습니다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-container">
+      <input
+        type="text"
+        id="chatInput"
+        class="chat-input"
+        placeholder="전결규정에 대해 물어보세요..."
+        autocomplete="off"
+      />
+      <button id="sendMessage" class="chat-send-button" title="전송">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
   <footer style="text-align: center; padding: 40px 20px; color: #6b7280; background: #f9fafb; margin-top: 50px;">
     <p>&copy; 2025 위드인천에너지. All Rights Reserved.</p>
     <p style="font-size: 0.85rem; margin-top: 10px;">전결규정 버전 v2025.12.01 | 동적 웹 애플리케이션 | 접속시간: <span id="conversionDate"></span></p>
     <script>document.getElementById('conversionDate').textContent = new Date().toLocaleString('ko-KR');</script>
   </footer>
 
-  <script src="{{ url_for('static', filename='script.js') }}?v=1763777600"></script>
+  <script src="{{ url_for('static', filename='script.js') }}?v=1763783400"></script>
 </body>
 </html>

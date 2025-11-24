@@ -3,10 +3,16 @@
 knowledge_base 폴더의 파일들을 동적으로 읽어서 표시
 """
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import os
 import re
 from pathlib import Path
+from dotenv import load_dotenv
+import requests
+import time
+
+# 환경 변수 로드
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -275,6 +281,72 @@ def search():
     return jsonify({"status": "ok"})
 
 
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    """Miso AI 챗봇 API"""
+    try:
+        data = request.get_json()
+        user_message = data.get('message', '')
+        conversation_id = data.get('conversation_id', '')
+
+        if not user_message:
+            return jsonify({"error": "메시지를 입력해주세요."}), 400
+
+        # 환경 변수에서 API 설정 가져오기
+        api_url = os.getenv('MISO_API_URL')
+        api_key = os.getenv('MISO_API_KEY')
+
+        if not api_url or not api_key:
+            return jsonify({"error": "Miso API 설정이 필요합니다."}), 500
+
+        # Miso API 요청 페이로드
+        payload = {
+            "inputs": {},
+            "query": user_message,
+            "mode": "blocking",
+            "conversation_id": conversation_id,
+            "user": f"user_{int(time.time())}"
+        }
+
+        # Miso API 호출
+        response = requests.post(
+            f"{api_url}/chat",
+            headers={
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {api_key}',
+            },
+            json=payload,
+            timeout=30
+        )
+
+        if not response.ok:
+            error_text = response.text
+            return jsonify({
+                "error": f"Miso API 오류: {response.status_code}",
+                "details": error_text
+            }), response.status_code
+
+        result = response.json()
+
+        # 응답에서 메시지와 conversation_id 추출
+        assistant_message = result.get('answer', '응답을 받을 수 없습니다.')
+        new_conversation_id = result.get('conversation_id', '')
+
+        return jsonify({
+            "success": True,
+            "message": assistant_message,
+            "conversation_id": new_conversation_id,
+            "sources": result.get('metadata', {}).get('sources', [])
+        })
+
+    except requests.exceptions.Timeout:
+        return jsonify({"error": "요청 시간이 초과되었습니다. 다시 시도해주세요."}), 504
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": f"네트워크 오류: {str(e)}"}), 500
+    except Exception as e:
+        return jsonify({"error": f"AI 응답 생성 중 오류가 발생했습니다: {str(e)}"}), 500
+
+
 if __name__ == '__main__':
     # 템플릿 자동 리로드 활성화
     app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -283,6 +355,10 @@ if __name__ == '__main__':
     print("=" * 60)
     print("위드인천에너지 전결규정 시스템 시작")
     print("=" * 60)
+    print("\n[등록된 라우트]")
+    for rule in app.url_map.iter_rules():
+        methods = ','.join(sorted(rule.methods - {'HEAD', 'OPTIONS'}))
+        print(f"  {rule.rule:30s} [{methods}]")
     print("\n웹 브라우저에서 http://localhost:5000 접속\n")
     print("종료하려면 Ctrl+C 누르세요\n")
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -25,5 +25,9 @@ nul
 .DS_Store
 Thumbs.db
 
+# Environment variables
+.env
+.env.local
+
 # Local settings
 .claude/settings.local.json

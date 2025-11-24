@@ -558,3 +558,146 @@ function exportToCSV() {
   link.click();
   document.body.removeChild(link);
 }
+
+// ==================== AI 챗봇 기능 ====================
+
+let conversationId = ''; // 대화 세션 ID
+
+// DOM 요소
+const chatbotButton = document.getElementById('chatbotButton');
+const chatbotWindow = document.getElementById('chatbotWindow');
+const closeChatbot = document.getElementById('closeChatbot');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendMessage = document.getElementById('sendMessage');
+
+// 챗봇 창 열기/닫기
+chatbotButton.addEventListener('click', () => {
+  chatbotWindow.style.display = 'flex';
+  chatbotButton.style.display = 'none';
+  chatInput.focus();
+});
+
+closeChatbot.addEventListener('click', () => {
+  chatbotWindow.style.display = 'none';
+  chatbotButton.style.display = 'flex';
+});
+
+// 메시지 추가 함수
+function addMessage(text, isUser = false) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `chat-message ${isUser ? 'user-message' : 'bot-message'}`;
+
+  const now = new Date();
+  const timeString = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+
+  messageDiv.innerHTML = `
+    <div class="message-content">
+      <div class="message-text">${text}</div>
+      <div class="message-time">${timeString}</div>
+    </div>
+  `;
+
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// 타이핑 인디케이터 추가
+function showTypingIndicator() {
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'chat-message bot-message';
+  typingDiv.id = 'typingIndicator';
+
+  typingDiv.innerHTML = `
+    <div class="message-content">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+  `;
+
+  chatMessages.appendChild(typingDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// 타이핑 인디케이터 제거
+function hideTypingIndicator() {
+  const typingIndicator = document.getElementById('typingIndicator');
+  if (typingIndicator) {
+    typingIndicator.remove();
+  }
+}
+
+// 메시지 전송 함수
+async function sendChatMessage() {
+  const message = chatInput.value.trim();
+
+  if (!message) {
+    return;
+  }
+
+  // 사용자 메시지 추가
+  addMessage(message, true);
+  chatInput.value = '';
+
+  // 전송 버튼 비활성화
+  sendMessage.disabled = true;
+  chatInput.disabled = true;
+
+  // 타이핑 인디케이터 표시
+  showTypingIndicator();
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: message,
+        conversation_id: conversationId
+      }),
+    });
+
+    const data = await response.json();
+
+    // 타이핑 인디케이터 제거
+    hideTypingIndicator();
+
+    if (response.ok && data.success) {
+      // AI 응답 추가
+      addMessage(data.message, false);
+
+      // conversation_id 업데이트
+      if (data.conversation_id) {
+        conversationId = data.conversation_id;
+      }
+    } else {
+      // 오류 메시지 표시
+      const errorMessage = data.error || '응답을 받을 수 없습니다.';
+      addMessage(`❌ ${errorMessage}`, false);
+    }
+  } catch (error) {
+    hideTypingIndicator();
+    addMessage('❌ 네트워크 오류가 발생했습니다. 다시 시도해주세요.', false);
+    console.error('Chat error:', error);
+  } finally {
+    // 전송 버튼 활성화
+    sendMessage.disabled = false;
+    chatInput.disabled = false;
+    chatInput.focus();
+  }
+}
+
+// 전송 버튼 클릭
+sendMessage.addEventListener('click', sendChatMessage);
+
+// 엔터 키로 전송
+chatInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+});
