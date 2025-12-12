@@ -26,7 +26,16 @@
       "Bash(more:*)",
       "Bash(netstat:*)",
       "Bash(cmd //c \"taskkill /F /IM python.exe 2>nul & echo Killed\")",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(cmd //c \"taskkill /F /IM python.exe 2>nul || echo No processes\")",
+      "Bash(copy \"c:\\Users\\이성규\\AppProduct\\approval-rules-to-html(251121)\\public\\logo.png\" \"c:\\Users\\이성규\\AppProduct\\approval-rules-to-html(251121)\\static\\logo.png\")",
+      "Bash(cmd //c \"copy c:\\Users\\이성규\\AppProduct\\approval-rules-to-html(251121)\\public\\logo.png c:\\Users\\이성규\\AppProduct\\approval-rules-to-html(251121)\\static\\logo.png\")",
+      "Bash(cmd //c \"copy \"\"c:\\Users\\이성규\\AppProduct\\approval-rules-to-html(251121)\\public\\미소logo-removebg-preview.png\"\" \"\"c:\\Users\\이성규\\AppProduct\\approval-rules-to-html(251121)\\static\\miso-logo.png\"\"\")",
+      "Bash(vercel:*)",
+      "Bash(find:*)",
+      "Bash(dir \"c:\\Users\\이성규\\AppProduct\\approval-rules-to-html(251121)\" /s /b)",
+      "Bash(curl:*)",
+      "Bash(copy:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,11 +1,12 @@
 """
 위드인천에너지 전결규정 웹 애플리케이션
-knowledge_base 폴더의 파일들을 동적으로 읽어서 표시
+knowledge_base 폴더의 CSV 파일들을 동적으로 읽어서 표시
 """
 
 from flask import Flask, render_template, jsonify, request
 import os
 import re
+import csv
 from pathlib import Path
 from dotenv import load_dotenv
 import requests
@@ -20,111 +21,89 @@ app = Flask(__name__)
 KNOWLEDGE_BASE_DIR = Path(__file__).parent / 'knowledge_base'
 
 
-def parse_structured_file(file_path):
-    """structured.txt 파일 파싱"""
-    with open(file_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-
-    # [BEGIN_RULES]와 [END_RULES] 사이의 내용 추출
-    match = re.search(r'\[BEGIN_RULES\](.*?)\[END_RULES\]', content, re.DOTALL)
-    if not match:
-        return None
-
-    rules_text = match.group(1)
-
-    # 메타데이터 추출
-    section_match = re.search(r'section:\s*"([^"]+)"', rules_text)
-    version_match = re.search(r'version:\s*"([^"]+)"', rules_text)
-    notes_match = re.search(r'notes:\s*"([^"]+)"', rules_text)
-
-    section = section_match.group(1) if section_match else ""
-    version = version_match.group(1) if version_match else ""
-    notes = notes_match.group(1) if notes_match else ""
-
-    # annotations 파싱
-    annotations = {}
-    common_annotations = []  # 공통 주석 (ref가 "공통"으로 시작하는 것들)
-    annotations_pattern = r'annotations:\s*((?:\s*-\s+ref:.*?(?=\s*-\s+ref:|\[END_RULES\]|\Z))+)'
-    annotations_match = re.search(annotations_pattern, rules_text, re.DOTALL)
-
-    if annotations_match:
-        annotations_text = annotations_match.group(1)
-        # 각 annotation 항목 파싱
-        annotation_item_pattern = r'-\s+ref:\s*"([^"]+)"\s+text:\s*"([^"]+(?:\n(?!\s*-\s+ref:)[^"]+)*)"'
-        for ann_match in re.finditer(annotation_item_pattern, annotations_text, re.DOTALL):
-            ref = ann_match.group(1).strip()
-            text = ann_match.group(2).strip()
-            # \n을 실제 줄바꿈으로 변환
-            text = text.replace('\\n', '\n')
-
-            # ref가 "공통"으로 시작하거나 숫자로 시작하지 않으면 공통 주석
-            if ref.startswith('공통') or not re.match(r'^\d', ref):
-                # ref에서 키워드 추출 (예: "공통-금융" -> "금융", "공통-지출" -> "지출")
-                keyword = ref.split('-')[-1] if '-' in ref else ref
-                common_annotations.append({'ref': ref, 'keyword': keyword, 'text': text})
-            else:
-                annotations[ref] = text
-
-    # 규칙들 파싱
+def parse_csv_file(file_path):
+    """CSV 파일 파싱"""
     rules = []
-    rule_pattern = r'-\s+item:\s*"([^"]+(?:\n[^"]+)*)"\s+approver_line:\s*\[(.*?)\](?:\s+notes:\s*"([^"]+(?:\n[^"]+)*)")?'
+    section = ""
 
-    for match in re.finditer(rule_pattern, rules_text, re.DOTALL):
-        item = match.group(1).replace('\n', ' ').strip()
-        approver_line_str = match.group(2)
-        notes_text = match.group(3) if match.group(3) else ""
-        notes_text = notes_text.replace('\n', ' ').strip() if notes_text else "-"
+    with open(file_path, 'r', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f)
 
-        # approver_line 파싱
-        approvers = []
-        if approver_line_str.strip():
-            approver_matches = re.findall(r'"([^"]+)"', approver_line_str)
-            for approver in approver_matches:
-                # 줄바꿈 문자를 공백으로 정규화
-                approver = approver.replace('\n', ' ').strip()
+        for row in reader:
+            # 첫 번째 유효한 행에서 섹션 정보 추출
+            if not section and row.get('근거조항'):
+                # "제1장 경영관리 1조" -> "경영관리"
+                match = re.search(r'제\d+장\s+(.+?)\s+\d+조', row['근거조항'])
+                if match:
+                    section = match.group(1)
 
-                # 결재권자와 기호 분리 (예: "CEO(◎)" -> {"role": "CEO", "symbol": "◎"})
-                role_match = re.match(r'(.+?)\(([◎○□★→])\)', approver)
-                if role_match:
-                    role = role_match.group(1).strip()
-                    symbol = role_match.group(2)
-                    approvers.append({"role": role, "symbol": symbol})
-                else:
-                    # 조건부 결재 (예: "CEO(1억원 초과)")
-                    condition_match = re.match(r'(.+?)\((.+)\)', approver)
-                    if condition_match:
-                        role = condition_match.group(1).strip()
-                        condition = condition_match.group(2).replace('\n', ' ').strip()
-                        # 조건만 있는 경우 기본 심볼을 '◎'(전결)로 설정
-                        approvers.append({"role": role, "condition": condition, "symbol": "◎"})
-                    else:
-                        # 심볼과 조건이 없는 경우에도 기본 심볼을 '◎'(전결)로 설정
-                        approvers.append({"role": approver.strip(), "symbol": "◎"})
+            item = row.get('항목', '').strip()
+            if not item:
+                continue
 
-        # 항목 번호 추출 (예: "3.1 주주총회 의결권 지시(*)" -> "3.1")
-        item_num_match = re.match(r'(\d+(?:\.\d+)*)', item)
-        item_num = item_num_match.group(1) if item_num_match else None
+            # 결재권자 정보 파싱
+            approvers = []
 
-        # 해당 항목의 annotation 찾기
-        annotation_text = annotations.get(item_num, None) if item_num else None
+            # 전결권자
+            if row.get('전결권자'):
+                approvers.append({
+                    "role": row['전결권자'].strip(),
+                    "symbol": "◎"
+                })
 
-        # 절 제목 판별: "[4-1 자금]" 같은 형태
-        is_section_title = bool(re.match(r'^\[\d+-\d+\s+.+\]$', item))
+            # 합의
+            if row.get('합의'):
+                approvers.append({
+                    "role": row['합의'].strip(),
+                    "symbol": "○"
+                })
 
-        rules.append({
-            "item": item,
-            "approvers": approvers,
-            "notes": notes_text,
-            "annotation": annotation_text,
-            "is_section_title": is_section_title
-        })
+            # 참조
+            if row.get('참조'):
+                approvers.append({
+                    "role": row['참조'].strip(),
+                    "symbol": "★"
+                })
+
+            # 보고
+            if row.get('보고'):
+                approvers.append({
+                    "role": row['보고'].strip(),
+                    "symbol": "□"
+                })
+
+            # 접수
+            if row.get('접수'):
+                approvers.append({
+                    "role": row['접수'].strip(),
+                    "symbol": "→"
+                })
+
+            # 비고를 notes로 사용
+            notes = row.get('비고', '').strip() or "-"
+
+            # 근거조항
+            basis = row.get('근거조항', '').strip()
+
+            # 절 번호로 계층 판별 (절이 0이면 대분류)
+            is_section_title = row.get('절', '') == '0' and not row.get('전결권자')
+
+            rules.append({
+                "item": item,
+                "approvers": approvers,
+                "notes": notes,
+                "annotation": None,
+                "is_section_title": is_section_title,
+                "basis": basis,
+                "code": row.get('Code', '')
+            })
 
     return {
         "section": section,
-        "version": version,
-        "notes": notes,
+        "version": "v2025.12.01",
+        "notes": f"제{file_path.stem.split('_')[0]}장 {section}",
         "rules": rules,
-        "common_annotations": common_annotations
+        "common_annotations": []
     }
 
 
@@ -202,17 +181,17 @@ def index():
     # knowledge_base 폴더의 모든 파일 읽기
     all_data = {}
 
-    # 파일 순서 정의
+    # 파일 순서 정의 (CSV 파일)
     file_order = [
-        ('01_경영관리_structured.txt', '경영관리', 'tab-management'),
-        ('02_예산_structured.txt', '예산', 'tab-budget'),
-        ('03_구매_structured.txt', '구매', 'tab-purchase'),
-        ('04_재무_structured.txt', '재무', 'tab-finance'),
-        ('05_자산관리_structured.txt', '자산관리', 'tab-asset'),
-        ('06_인사_총무_structured.txt', '인사/총무', 'tab-hr'),
-        ('07_법제_법무_structured.txt', '법제/법무', 'tab-legal'),
-        ('08_사업개발_생산_홍보_structured.txt', '사업개발', 'tab-business'),
-        ('09_환경_보건_안전_보안_structured.txt', '환경/안전', 'tab-safety'),
+        ('01_경영관리.csv', '경영관리', 'tab-management'),
+        ('02_예산.csv', '예산', 'tab-budget'),
+        ('03_구매.csv', '구매', 'tab-purchase'),
+        ('04_재무.csv', '재무', 'tab-finance'),
+        ('05_자산관리.csv', '자산관리', 'tab-asset'),
+        ('06_인사_총무.csv', '인사/총무', 'tab-hr'),
+        ('07_법제_법무.csv', '법제/법무', 'tab-legal'),
+        ('08_사업개발_생산_홍보.csv', '사업개발', 'tab-business'),
+        ('09_환경_보건_안전_보안.csv', '환경/안전', 'tab-safety'),
     ]
 
     sections = []
@@ -222,7 +201,7 @@ def index():
     for filename, display_name, tab_id in file_order:
         file_path = KNOWLEDGE_BASE_DIR / filename
         if file_path.exists():
-            data = parse_structured_file(file_path)
+            data = parse_csv_file(file_path)
             if data:
                 # 레벨 정보 추가
                 for rule in data['rules']:
@@ -316,7 +295,7 @@ def chat():
                 'Authorization': f'Bearer {api_key}',
             },
             json=payload,
-            timeout=30
+            timeout=60
         )
 
         if not response.ok:
