@@ -657,7 +657,7 @@ async function sendChatMessage() {
       },
       body: JSON.stringify({
         message: message,
-        conversation_id: ''  // 매번 새 대화로 (연속 대화 비활성화)
+        conversation_id: conversationId
       }),
     });
 

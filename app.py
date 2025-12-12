@@ -283,7 +283,7 @@ def chat():
             "inputs": {},
             "query": user_message,
             "response_mode": "blocking",
-            "user": f"user_{int(time.time())}"
+            "user": "web_user"  # 고정 사용자 ID
         }
 
         # conversation_id가 있을 때만 추가
