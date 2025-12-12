@@ -282,10 +282,13 @@ def chat():
         payload = {
             "inputs": {},
             "query": user_message,
-            "mode": "blocking",
-            "conversation_id": conversation_id,
+            "response_mode": "blocking",
             "user": f"user_{int(time.time())}"
         }
+
+        # conversation_id가 있을 때만 추가
+        if conversation_id:
+            payload["conversation_id"] = conversation_id
 
         # Miso API 호출
         response = requests.post(
