@@ -85,11 +85,12 @@ def parse_csv_file(file_path):
             # 근거조항
             basis = row.get('근거조항', '').strip()
 
-            # 근거조항에서 번호 추출 (예: "제1장 경영관리 1조 1항" -> "1.1", "제3장 구매 1절 1조 1항 1호" -> "1.1.1")
+            # 근거조항에서 번호 추출
+            # 예: "제1장 경영관리 1조 1항" -> "1.1"
+            # 예: "제3장 구매 1절 1조 1항 1호" -> "1.1.1"
+            # 예: "제3장 구매 1절 1조 6항 1호 2목" -> "1.6.1(2)" (목은 괄호로 표시)
             item_number = ""
             if basis:
-                # 절이 있는 경우 (3장 등): "1절 1조 1항 1호 1목" -> "1.1.1.1"
-                section_match = re.search(r'(\d+)절', basis)
                 article_match = re.search(r'(\d+)조', basis)
                 paragraph_match = re.search(r'(\d+)항', basis)
                 subpara_match = re.search(r'(\d+)호', basis)
@@ -102,11 +103,12 @@ def parse_csv_file(file_path):
                     numbers.append(paragraph_match.group(1))
                 if subpara_match:
                     numbers.append(subpara_match.group(1))
-                if item_match:
-                    numbers.append(item_match.group(1))
 
                 if numbers:
                     item_number = ".".join(numbers)
+                    # 목이 있으면 괄호로 추가
+                    if item_match:
+                        item_number += f"({item_match.group(1)})"
 
             # 절 정보
             section_num = row.get('절', '0')
