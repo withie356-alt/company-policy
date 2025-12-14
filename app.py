@@ -85,17 +85,49 @@ def parse_csv_file(file_path):
             # 근거조항
             basis = row.get('근거조항', '').strip()
 
-            # 절 번호로 계층 판별 (절이 0이면 대분류)
-            is_section_title = row.get('절', '') == '0' and not row.get('전결권자')
+            # 근거조항에서 번호 추출 (예: "제1장 경영관리 1조 1항" -> "1.1", "제3장 구매 1절 1조 1항 1호" -> "1.1.1")
+            item_number = ""
+            if basis:
+                # 절이 있는 경우 (3장 등): "1절 1조 1항 1호 1목" -> "1.1.1.1"
+                section_match = re.search(r'(\d+)절', basis)
+                article_match = re.search(r'(\d+)조', basis)
+                paragraph_match = re.search(r'(\d+)항', basis)
+                subpara_match = re.search(r'(\d+)호', basis)
+                item_match = re.search(r'(\d+)목', basis)
+
+                numbers = []
+                if article_match:
+                    numbers.append(article_match.group(1))
+                if paragraph_match:
+                    numbers.append(paragraph_match.group(1))
+                if subpara_match:
+                    numbers.append(subpara_match.group(1))
+                if item_match:
+                    numbers.append(item_match.group(1))
+
+                if numbers:
+                    item_number = ".".join(numbers)
+
+            # 절 정보
+            section_num = row.get('절', '0')
+
+            # 섹션 타이틀 판별: 근거조항이 "X조"로 끝나고 "항"이 없는 경우
+            is_section_title = bool(basis and re.search(r'\d+조$', basis) and '항' not in basis)
+
+            # 표시용 항목명 생성
+            display_item = f"{item_number} {item}" if item_number else item
 
             rules.append({
                 "item": item,
+                "display_item": display_item,
+                "item_number": item_number,
                 "approvers": approvers,
                 "notes": notes,
                 "annotation": None,
                 "is_section_title": is_section_title,
                 "basis": basis,
-                "code": row.get('Code', '')
+                "code": row.get('Code', ''),
+                "section_num": section_num
             })
 
     return {

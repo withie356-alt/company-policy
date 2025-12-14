@@ -67,9 +67,9 @@
             {% for rule in section.data.rules %}
               {% if rule.is_section_title %}
               {# 절 제목 행 #}
-              <tr class="section-title-row" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}">
+              <tr class="section-title-row" data-item="{{ rule.display_item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}">
                 <td colspan="2" class="section-title-cell">
-                  <div class="section-title-text">{{ rule.item }}</div>
+                  <div class="section-title-text">{{ rule.display_item }}</div>
                 </td>
               </tr>
               {# 공통 주석 행 (절 제목 바로 다음에 표시) #}
@@ -90,8 +90,8 @@
               {% endif %}
               {% else %}
               {# 일반 항목 행 #}
-              <tr class="level-{{ rule.level }}" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}">
-                <td class="item-name" style="width: 40%;">{{ rule.item }}</td>
+              <tr class="level-{{ rule.level }}" data-item="{{ rule.display_item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}">
+                <td class="item-name" style="width: 40%;">{{ rule.display_item }}</td>
                 <td class="approver-list" style="width: 60%;">
                   {% if rule.approvers %}
                     {% for approver in rule.approvers %}
@@ -192,12 +192,12 @@
                   </div>
                 {% endif %}
                 {# 새 절 시작 #}
-                {% set current_section.title = rule.item %}
+                {% set current_section.title = rule.display_item %}
                 {% set current_section.items = [] %}
                 {% set current_section.section_index = loop.index %}
               {% elif current_section.title and rule.level in [2, 3] and not rule.is_section_title %}
                 {# 절에 속한 하위 항목 수집 (레벨 2, 3만) #}
-                {% set _ = current_section.items.append({'text': rule.item, 'index': loop.index}) %}
+                {% set _ = current_section.items.append({'text': rule.display_item, 'index': loop.index}) %}
               {% endif %}
             {% endfor %}
             {# 마지막 절 출력 #}
@@ -227,7 +227,7 @@
                               display: block;
                               padding-left: {% if rule.level == 2 %}15px{% else %}0px{% endif %};
                               transition: color 0.2s;">
-                      {% if rule.level == 2 %}• {% endif %}{{ rule.item }}
+                      {% if rule.level == 2 %}• {% endif %}{{ rule.display_item }}
                     </a>
                   {% endif %}
                 {% endfor %}
@@ -242,9 +242,9 @@
           {% for rule in section.data.rules %}
             {% if rule.is_section_title %}
             {# 절 제목 행 #}
-            <tr class="section-title-row" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}" id="item-{{ section.tab_id }}-{{ loop.index }}">
+            <tr class="section-title-row" data-item="{{ rule.display_item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}" id="item-{{ section.tab_id }}-{{ loop.index }}">
               <td colspan="2" class="section-title-cell">
-                <div class="section-title-text">{{ rule.item }}</div>
+                <div class="section-title-text">{{ rule.display_item }}</div>
               </td>
             </tr>
             {# 공통 주석 행 (절 제목 바로 다음에 표시) #}
@@ -253,7 +253,7 @@
                 {# 절 제목과 공통 주석 키워드 매칭 #}
                 {% set keyword_map = {'금융': '자금', '지출': '지출', '공통': ''} %}
                 {% set mapped_keyword = keyword_map.get(common_ann.keyword, common_ann.keyword) %}
-                {% if mapped_keyword in rule.item or common_ann.keyword == '공통' %}
+                {% if mapped_keyword in rule.display_item or common_ann.keyword == '공통' %}
             <tr class="common-annotation-row">
               <td class="common-annotation-label">공통</td>
               <td class="common-annotation-text">
@@ -265,8 +265,8 @@
             {% endif %}
             {% else %}
             {# 일반 항목 행 #}
-            <tr class="level-{{ rule.level }}" data-item="{{ rule.item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}" id="item-{{ section.tab_id }}-{{ loop.index }}">
-              <td class="item-name" style="width: 40%;">{{ rule.item }}</td>
+            <tr class="level-{{ rule.level }}" data-item="{{ rule.display_item }}" data-chapter="{{ loop.index }}" data-section="{{ section.display_name }}" id="item-{{ section.tab_id }}-{{ loop.index }}">
+              <td class="item-name" style="width: 40%;">{{ rule.display_item }}</td>
               <td class="approver-list" style="width: 60%;">
                 {% if rule.approvers %}
                   {% for approver in rule.approvers %}
