@@ -104,15 +104,7 @@
                         {% if same_symbol or both_have_cond or prev_is_report_curr_is_cond %}
                           </div><div class="approver-line">
                         {% else %}
-                          {% if approver.symbol == '□' %}
-                          <span class="approval-arrow">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                          </span>
-                          {% else %}
-                          <span class="approval-plus">+</span>
-                          {% endif %}
+                          </div><div class="approver-line">
                         {% endif %}
                       {% else %}
                         <div class="approver-line">
@@ -279,15 +271,7 @@
                       {% if same_symbol or both_have_cond or prev_is_report_curr_is_cond %}
                         </div><div class="approver-line">
                       {% else %}
-                        {% if approver.symbol == '□' %}
-                        <span class="approval-arrow">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
-                        </span>
-                        {% else %}
-                        <span class="approval-plus">+</span>
-                        {% endif %}
+                        </div><div class="approver-line">
                       {% endif %}
                     {% else %}
                       <div class="approver-line">

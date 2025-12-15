@@ -1583,62 +1583,6 @@ mark {
   min-height: 46px;
 }
 
-/* 순차 승인 화살표 */
-.approval-arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(145deg, #fb923c, #f97316);
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(249, 115, 22, 0.25);
-  line-height: 1;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
-  vertical-align: middle;
-  position: relative;
-  top: -1px;
-}
-
-.approval-arrow:hover {
-  transform: scale(1.08);
-  box-shadow: 0 4px 8px rgba(249, 115, 22, 0.35);
-}
-
-.approval-arrow svg {
-  width: 16px;
-  height: 16px;
-}
-
-/* 합의 + 기호 */
-.approval-plus {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(145deg, #34d399, #10b981);
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
-  line-height: 1;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
-  vertical-align: middle;
-  position: relative;
-  top: -1px;
-  color: white;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.approval-plus:hover {
-  transform: scale(1.08);
-  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.35);
-}
-
 /* 승인 프로세스 가이드 레이아웃 */
 .process-grid {
   display: grid;
