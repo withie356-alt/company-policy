@@ -883,59 +883,47 @@ mark {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 30px;
-  margin-bottom: 40px;
+  gap: 40px;
+  margin-bottom: 50px;
   position: relative;
 }
 
-.org-level::after {
-  content: '';
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 20px;
-  background: #cbd5e1;
-}
-
-.org-level:last-child::after {
-  display: none;
-}
-
-/* 레벨 1: CEO */
+/* 레벨 1: CEO - 중앙 */
 .org-level-1 {
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
-/* 레벨 2: CSO, 경영기획본부, PD */
+/* 레벨 2: 경영기획본부(왼쪽) - CSO(오른쪽) */
 .org-level-2 {
-  gap: 40px;
+  justify-content: space-between;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 200px;
 }
 
-/* 레벨 3: 사업개발실, 기술운영실 */
+/* 레벨 3: 사업개발실, 기술운영실, PD */
 .org-level-3 {
-  gap: 40px;
-  padding: 0 20px;
+  gap: 80px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* 부서 박스 */
-.org-division-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* 레벨 4: 팀들 */
+.org-level-4 {
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 팀 박스 */
+.org-team-box {
   flex: 1;
-  min-width: 280px;
-  max-width: 500px;
-}
-
-/* 팀 컨테이너 */
-.org-teams-container {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
+  min-width: 200px;
+  max-width: 280px;
 }
 
 /* 본부별 섹션 - 가로 배치 */
@@ -1081,6 +1069,13 @@ mark {
   background: #6366f1;
   color: white;
   border: 2px solid #4f46e5;
+}
+
+/* 부서 카드 (사업개발실, 기술운영실) */
+.org-card-dept {
+  background: #a78bfa;
+  color: white;
+  border: 2px solid #8b5cf6;
 }
 
 .org-card-title {
