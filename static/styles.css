@@ -873,19 +873,69 @@ mark {
 /* 새로운 조직도 스타일 */
 .org-chart-new {
   position: relative;
-  padding: 30px 20px;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 40px 20px;
+  background: #f9fafb;
   border-radius: 16px;
-  display: grid;
-  grid-template-columns: 2fr 4.5fr 1.5fr;
-  gap: 20px;
 }
 
-.org-level-ceo {
-  grid-column: 1 / -1;
+/* 레벨별 컨테이너 */
+.org-level {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.org-level::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background: #cbd5e1;
+}
+
+.org-level:last-child::after {
+  display: none;
+}
+
+/* 레벨 1: CEO */
+.org-level-1 {
+  margin-bottom: 50px;
+}
+
+/* 레벨 2: CSO, 경영기획본부, PD */
+.org-level-2 {
+  gap: 40px;
+}
+
+/* 레벨 3: 사업개발실, 기술운영실 */
+.org-level-3 {
+  gap: 40px;
+  padding: 0 20px;
+}
+
+/* 부서 박스 */
+.org-division-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 280px;
+  max-width: 500px;
+}
+
+/* 팀 컨테이너 */
+.org-teams-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
 /* 본부별 섹션 - 가로 배치 */
@@ -985,61 +1035,71 @@ mark {
 .org-card {
   background: white;
   border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: all 0.3s ease;
-}
-
-.org-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.org-card-ceo {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-  color: white;
   min-width: 200px;
 }
 
+.org-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* CEO 카드 */
+.org-card-ceo {
+  background: #7c3aed;
+  color: white;
+  border: 3px solid #6d28d9;
+  min-width: 220px;
+}
+
+/* CSO 카드 */
+.org-card-cso {
+  background: #10b981;
+  color: white;
+  border: 3px solid #059669;
+}
+
+/* 본부장 카드 */
 .org-card-director {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: #3b82f6;
   color: white;
-  min-width: 180px;
+  border: 3px solid #2563eb;
 }
 
-.org-card-director-technical {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+/* PD 카드 */
+.org-card-pd {
+  background: #ec4899;
+  color: white;
+  border: 3px solid #db2777;
 }
 
-.org-card-cso-main {
-  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+/* 실/팀 카드 */
+.org-card-team {
+  background: #6366f1;
   color: white;
-  min-width: 180px;
+  border: 2px solid #4f46e5;
 }
 
 .org-card-title {
-  font-size: 0.85rem;
-  opacity: 0.9;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.org-card-dept {
   font-size: 0.9rem;
-  opacity: 0.9;
-  margin-bottom: 8px;
-  font-weight: 600;
+  opacity: 0.95;
+  margin-bottom: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
 }
 
 .org-card-name {
-  font-size: 1.2rem;
-  font-weight: 800;
-  margin-bottom: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
 }
 
 .org-card-contact {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   opacity: 0.85;
 }
 

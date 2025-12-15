@@ -35,7 +35,8 @@
       "Bash(find:*)",
       "Bash(dir \"c:\\Users\\이성규\\AppProduct\\approval-rules-to-html(251121)\" /s /b)",
       "Bash(curl:*)",
-      "Bash(copy:*)"
+      "Bash(copy:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []
