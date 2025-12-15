@@ -94,21 +94,8 @@
                 <td class="item-name" style="width: 40%;">{{ rule.display_item }}</td>
                 <td class="approver-list" style="width: 60%;">
                   {% if rule.approvers %}
+                    <div class="approver-line">
                     {% for approver in rule.approvers %}
-                      {# 줄바꿈 조건: 조건 있는 전결끼리는 줄바꿈, 전결+접수는 같은 줄 #}
-                      {% if loop.index0 > 0 %}
-                        {% set prev = rule.approvers[loop.index0 - 1] %}
-                        {% set same_symbol = (prev.symbol == approver.symbol) %}
-                        {% set both_have_cond = (prev.condition is defined and prev.condition) and (approver.condition is defined and approver.condition) %}
-                        {% set prev_is_report_curr_is_cond = (prev.symbol == '→') and (approver.condition is defined and approver.condition) %}
-                        {% if same_symbol or both_have_cond or prev_is_report_curr_is_cond %}
-                          </div><div class="approver-line">
-                        {% else %}
-                          </div><div class="approver-line">
-                        {% endif %}
-                      {% else %}
-                        <div class="approver-line">
-                      {% endif %}
                       <span class="approver-badge-unified {{ approver.css_class }}"
                             data-role="{{ approver.role }}"
                             data-symbol="{{ approver.symbol_text if approver.symbol_text else '' }}"
@@ -122,8 +109,8 @@
                         <span class="badge-condition">{{ approver.condition }}</span>
                         {% endif %}
                       </span>
-                      {% if loop.last %}</div>{% endif %}
                     {% endfor %}
+                    </div>
                   {% endif %}
                   {% if rule.notes and rule.notes != '-' %}
                   <div class="item-notes">{{ rule.notes }}</div>
@@ -261,21 +248,8 @@
               <td class="item-name" style="width: 40%;">{{ rule.display_item }}</td>
               <td class="approver-list" style="width: 60%;">
                 {% if rule.approvers %}
+                  <div class="approver-line">
                   {% for approver in rule.approvers %}
-                    {# 줄바꿈 조건: 조건 있는 전결끼리는 줄바꿈, 전결+접수는 같은 줄 #}
-                    {% if loop.index0 > 0 %}
-                      {% set prev = rule.approvers[loop.index0 - 1] %}
-                      {% set same_symbol = (prev.symbol == approver.symbol) %}
-                      {% set both_have_cond = (prev.condition is defined and prev.condition) and (approver.condition is defined and approver.condition) %}
-                      {% set prev_is_report_curr_is_cond = (prev.symbol == '→') and (approver.condition is defined and approver.condition) %}
-                      {% if same_symbol or both_have_cond or prev_is_report_curr_is_cond %}
-                        </div><div class="approver-line">
-                      {% else %}
-                        </div><div class="approver-line">
-                      {% endif %}
-                    {% else %}
-                      <div class="approver-line">
-                    {% endif %}
                     <span class="approver-badge-unified {{ approver.css_class }}"
                           data-role="{{ approver.role }}"
                           data-symbol="{{ approver.symbol_text if approver.symbol_text else '' }}"
@@ -289,8 +263,8 @@
                       <span class="badge-condition">{{ approver.condition }}</span>
                       {% endif %}
                     </span>
-                    {% if loop.last %}</div>{% endif %}
                   {% endfor %}
+                  </div>
                 {% endif %}
                 {% if rule.notes and rule.notes != '-' %}
                 <div class="item-notes">{{ rule.notes }}</div>
