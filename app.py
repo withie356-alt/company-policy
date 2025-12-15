@@ -25,112 +25,152 @@ def parse_csv_file(file_path):
     """CSV 파일 파싱"""
     rules = []
     section = ""
+    current_section_num = None  # 현재 절 번호 추적
+    section_names = {}  # 절 번호별 이름 저장
 
     with open(file_path, 'r', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
+        rows = list(reader)
 
-        for row in reader:
-            # 첫 번째 유효한 행에서 섹션 정보 추출
-            if not section and row.get('근거조항'):
-                # "제1장 경영관리 1조" -> "경영관리"
-                match = re.search(r'제\d+장\s+(.+?)\s+\d+조', row['근거조항'])
-                if match:
-                    section = match.group(1)
+    # 먼저 각 절의 이름 파악 (첫 번째 조 항목에서 추출)
+    for row in rows:
+        basis = row.get('근거조항', '').strip()
+        sec_num = row.get('절', '0')
+        if sec_num and sec_num != '0' and sec_num not in section_names:
+            # "제3장 구매 1절 1조" -> 절 이름 추출
+            section_match = re.search(r'(\d+)절\s+(\d+)조', basis)
+            if section_match:
+                # 첫 번째 조의 항목명을 절 이름으로 사용
+                item = row.get('항목', '').strip()
+                if item and re.search(r'\d+조$', basis) and '항' not in basis:
+                    section_names[sec_num] = item
 
-            item = row.get('항목', '').strip()
-            if not item:
-                continue
+    for row in rows:
+        # 첫 번째 유효한 행에서 섹션 정보 추출
+        if not section and row.get('근거조항'):
+            # "제1장 경영관리 1조" -> "경영관리"
+            match = re.search(r'제\d+장\s+(.+?)\s+\d+조', row['근거조항'])
+            if match:
+                section = match.group(1)
 
-            # 결재권자 정보 파싱
-            approvers = []
+        item = row.get('항목', '').strip()
+        if not item:
+            continue
 
-            # 전결권자
-            if row.get('전결권자'):
-                approvers.append({
-                    "role": row['전결권자'].strip(),
-                    "symbol": "◎"
+        # 절 정보
+        section_num = row.get('절', '0')
+        basis = row.get('근거조항', '').strip()
+
+        # 절이 바뀌면 절 제목 행 추가 (절이 있는 장에서만)
+        if section_num and section_num != '0' and section_num != current_section_num:
+            current_section_num = section_num
+            # 절 제목 추출
+            section_title_match = re.search(r'(\d+)절', basis)
+            if section_title_match:
+                sec_num_str = section_title_match.group(1)
+                # 절 이름이 있으면 사용, 없으면 기본 형식
+                sec_name = section_names.get(section_num, '')
+                section_title = f"제{sec_num_str}절 {sec_name}" if sec_name else f"제{sec_num_str}절"
+
+                rules.append({
+                    "item": section_title,
+                    "display_item": section_title,
+                    "item_number": "",
+                    "approvers": [],
+                    "notes": "-",
+                    "annotation": None,
+                    "is_section_title": True,
+                    "is_sub_section": True,  # 절 제목임을 표시
+                    "basis": "",
+                    "code": "",
+                    "section_num": section_num
                 })
 
-            # 합의
-            if row.get('합의'):
-                approvers.append({
-                    "role": row['합의'].strip(),
-                    "symbol": "○"
-                })
+        # 결재권자 정보 파싱
+        approvers = []
 
-            # 참조
-            if row.get('참조'):
-                approvers.append({
-                    "role": row['참조'].strip(),
-                    "symbol": "★"
-                })
-
-            # 보고
-            if row.get('보고'):
-                approvers.append({
-                    "role": row['보고'].strip(),
-                    "symbol": "□"
-                })
-
-            # 접수
-            if row.get('접수'):
-                approvers.append({
-                    "role": row['접수'].strip(),
-                    "symbol": "→"
-                })
-
-            # 비고를 notes로 사용
-            notes = row.get('비고', '').strip() or "-"
-
-            # 근거조항
-            basis = row.get('근거조항', '').strip()
-
-            # 근거조항에서 번호 추출
-            # 예: "제1장 경영관리 1조 1항" -> "1.1"
-            # 예: "제3장 구매 1절 1조 1항 1호" -> "1.1.1"
-            # 예: "제3장 구매 1절 1조 6항 1호 2목" -> "1.6.1(2)" (목은 괄호로 표시)
-            item_number = ""
-            if basis:
-                article_match = re.search(r'(\d+)조', basis)
-                paragraph_match = re.search(r'(\d+)항', basis)
-                subpara_match = re.search(r'(\d+)호', basis)
-                item_match = re.search(r'(\d+)목', basis)
-
-                numbers = []
-                if article_match:
-                    numbers.append(article_match.group(1))
-                if paragraph_match:
-                    numbers.append(paragraph_match.group(1))
-                if subpara_match:
-                    numbers.append(subpara_match.group(1))
-
-                if numbers:
-                    item_number = ".".join(numbers)
-                    # 목이 있으면 괄호로 추가
-                    if item_match:
-                        item_number += f"({item_match.group(1)})"
-
-            # 절 정보
-            section_num = row.get('절', '0')
-
-            # 섹션 타이틀 판별: 근거조항이 "X조"로 끝나고 "항"이 없는 경우
-            is_section_title = bool(basis and re.search(r'\d+조$', basis) and '항' not in basis)
-
-            # 표시용 항목명 생성
-            display_item = f"{item_number} {item}" if item_number else item
-
-            rules.append({
-                "item": item,
-                "display_item": display_item,
-                "item_number": item_number,
-                "approvers": approvers,
-                "notes": notes,
-                "annotation": None,
-                "is_section_title": is_section_title,
-                "basis": basis,
-                "code": row.get('Code', ''),
-                "section_num": section_num
+        # 전결권자
+        if row.get('전결권자'):
+            approvers.append({
+                "role": row['전결권자'].strip(),
+                "symbol": "◎"
             })
+
+        # 합의
+        if row.get('합의'):
+            approvers.append({
+                "role": row['합의'].strip(),
+                "symbol": "○"
+            })
+
+        # 참조
+        if row.get('참조'):
+            approvers.append({
+                "role": row['참조'].strip(),
+                "symbol": "★"
+            })
+
+        # 보고
+        if row.get('보고'):
+            approvers.append({
+                "role": row['보고'].strip(),
+                "symbol": "□"
+            })
+
+        # 접수
+        if row.get('접수'):
+            approvers.append({
+                "role": row['접수'].strip(),
+                "symbol": "→"
+            })
+
+        # 비고를 notes로 사용
+        notes = row.get('비고', '').strip() or "-"
+
+        # 근거조항에서 번호 추출
+        # 예: "제1장 경영관리 1조 1항" -> "1.1"
+        # 예: "제3장 구매 1절 1조 1항 1호" -> "1.1.1"
+        # 예: "제3장 구매 1절 1조 6항 1호 2목" -> "1.6.1(2)" (목은 괄호로 표시)
+        item_number = ""
+        if basis:
+            article_match = re.search(r'(\d+)조', basis)
+            paragraph_match = re.search(r'(\d+)항', basis)
+            subpara_match = re.search(r'(\d+)호', basis)
+            item_match = re.search(r'(\d+)목', basis)
+
+            numbers = []
+            if article_match:
+                numbers.append(article_match.group(1))
+            if paragraph_match:
+                numbers.append(paragraph_match.group(1))
+            if subpara_match:
+                numbers.append(subpara_match.group(1))
+
+            if numbers:
+                item_number = ".".join(numbers)
+                # 목이 있으면 괄호로 추가
+                if item_match:
+                    item_number += f"({item_match.group(1)})"
+
+        # 섹션 타이틀 판별: 근거조항이 "X조"로 끝나고 "항"이 없는 경우
+        is_section_title = bool(basis and re.search(r'\d+조$', basis) and '항' not in basis)
+
+        # 표시용 항목명 생성
+        display_item = f"{item_number} {item}" if item_number else item
+
+        rules.append({
+            "item": item,
+            "display_item": display_item,
+            "item_number": item_number,
+            "approvers": approvers,
+            "notes": notes,
+            "annotation": None,
+            "is_section_title": is_section_title,
+            "is_sub_section": False,
+            "basis": basis,
+            "code": row.get('Code', ''),
+            "section_num": section_num
+        })
 
     return {
         "section": section,
