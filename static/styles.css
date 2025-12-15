@@ -433,15 +433,15 @@ header .container {
   border-bottom: none;
 }
 
-/* 절 제목 행 */
-.section-title-row {
+/* 절 제목 행 (제X절) */
+.sub-section-title-row {
   background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
   border-top: none;
   height: auto !important;
   position: relative;
 }
 
-.section-title-row::before {
+.sub-section-title-row::before {
   content: '';
   position: absolute;
   left: 0;
@@ -451,35 +451,52 @@ header .container {
   background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
 }
 
-.section-title-row:hover {
+.sub-section-title-row:hover {
   background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
 }
 
-.section-title-cell {
-  padding: 18px 24px 18px 28px !important;
+.sub-section-title-cell {
+  padding: 14px 24px 14px 20px !important;
   border-right: none !important;
 }
 
-.section-title-text {
-  font-size: 1.05rem;
+.sub-section-title-text {
+  font-size: 1rem;
   font-weight: 700;
   color: #1e40af;
   margin-bottom: 0;
-  letter-spacing: -0.3px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  letter-spacing: -0.2px;
 }
 
-.section-title-text::before {
-  content: '§';
-  font-size: 1.2rem;
-  color: #3b82f6;
-  font-weight: 400;
-}
-
-.section-title-row .item-notes {
+.sub-section-title-row .item-notes {
   margin-top: 10px;
+}
+
+/* 조 제목 행 (X조) */
+.article-title-row {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  height: auto !important;
+}
+
+.article-title-row:hover {
+  background: #f1f5f9;
+}
+
+.article-title-cell {
+  padding: 10px 16px !important;
+  border-right: none !important;
+}
+
+.article-title-text {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0;
+}
+
+.article-title-row .item-notes {
+  margin-top: 8px;
 }
 
 /* 공통 주석 행 */
