@@ -21,6 +21,48 @@ app = Flask(__name__)
 KNOWLEDGE_BASE_DIR = Path(__file__).parent / 'knowledge_base'
 
 
+def parse_preface_csv(file_path):
+    """서문 CSV 파일 파싱 (특별 처리)"""
+    rules = []
+
+    with open(file_path, 'r', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+
+    for row in rows:
+        item = row.get('항목', '').strip()
+        if not item:
+            continue
+
+        basis = row.get('근거조항', '').strip()
+        notes = row.get('비고', '').strip()
+
+        # 서문의 경우 비고가 실제 내용
+        content = notes if notes else "-"
+
+        rules.append({
+            "item": item,
+            "display_item": item,
+            "item_number": "",
+            "approvers": [],
+            "notes": content,
+            "annotation": None,
+            "is_section_title": False,
+            "is_sub_section": False,
+            "basis": basis,
+            "code": row.get('Code', ''),
+            "section_num": "0"
+        })
+
+    return {
+        "section": "서문",
+        "version": "v2025.10.01",
+        "notes": "전결규정 서문",
+        "rules": rules,
+        "common_annotations": []
+    }
+
+
 def parse_csv_file(file_path):
     """CSV 파일 파싱"""
     rules = []
@@ -257,25 +299,31 @@ def index():
 
     # 파일 순서 정의 (CSV 파일)
     file_order = [
-        ('01_경영관리.csv', '경영관리', 'tab-management'),
-        ('02_예산.csv', '예산', 'tab-budget'),
-        ('03_구매.csv', '구매', 'tab-purchase'),
-        ('04_재무.csv', '재무', 'tab-finance'),
-        ('05_자산관리.csv', '자산관리', 'tab-asset'),
-        ('06_인사_총무.csv', '인사/총무', 'tab-hr'),
-        ('07_법제_법무.csv', '법제/법무', 'tab-legal'),
-        ('08_사업개발_생산_홍보.csv', '사업개발', 'tab-business'),
-        ('09_환경_보건_안전_보안.csv', '환경/안전', 'tab-safety'),
+        ('00_서문.csv', '서문', 'tab-preface', True),  # True = 서문 특별 처리
+        ('01_경영관리.csv', '경영관리', 'tab-management', False),
+        ('02_예산.csv', '예산', 'tab-budget', False),
+        ('03_구매.csv', '구매', 'tab-purchase', False),
+        ('04_재무.csv', '재무', 'tab-finance', False),
+        ('05_자산관리.csv', '자산관리', 'tab-asset', False),
+        ('06_인사_총무.csv', '인사/총무', 'tab-hr', False),
+        ('07_법제_법무.csv', '법제/법무', 'tab-legal', False),
+        ('08_사업개발_생산_홍보.csv', '사업개발', 'tab-business', False),
+        ('09_환경_보건_안전_보안.csv', '환경/안전', 'tab-safety', False),
     ]
 
     sections = []
     total_items = 0
     ceo_items = 0
 
-    for filename, display_name, tab_id in file_order:
+    for file_info in file_order:
+        filename, display_name, tab_id, is_preface = file_info
         file_path = KNOWLEDGE_BASE_DIR / filename
         if file_path.exists():
-            data = parse_csv_file(file_path)
+            # 서문은 특별 파싱 함수 사용
+            if is_preface:
+                data = parse_preface_csv(file_path)
+            else:
+                data = parse_csv_file(file_path)
             if data:
                 # 레벨 정보 추가
                 for rule in data['rules']:

@@ -3,164 +3,172 @@
       <h2>위드인천에너지 조직도</h2>
       <p style="color: #6b7280; margin-bottom: 30px;">2025년 12월 기준</p>
 
-      <div class="org-chart-new">
-        <!-- 레벨 1: CEO -->
-        <div class="org-level org-level-1">
-          <div class="org-card org-card-ceo">
-            <div class="org-card-title">대표이사</div>
-            <div class="org-card-name">전태현</div>
-            <div class="org-card-contact">내선: 392</div>
+      <!-- Level 1: CEO -->
+      <div class="org-level-1">
+        <div class="org-ceo-box">
+          <div>대표이사</div>
+          <div>전태현</div>
+        </div>
+      </div>
+
+      <!-- Level 2-4: 4개 컬럼 구조 -->
+      <div class="org-level-2-grid">
+
+        <!-- 1열: 경영기획본부 -->
+        <div class="org-division">
+          <!-- 레벨 1 공백 -->
+          <div class="org-level-slot-1"></div>
+
+          <!-- 레벨 2: 경영기획본부 헤더 -->
+          <div class="org-l2-header">
+            <div>경영기획본부</div>
+            <div>오원택 본부장</div>
+          </div>
+
+          <!-- 레벨 3 & 4: 사업개발실 + 경영기획팀 -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 12px;">
+            <!-- 왼쪽: 사업개발실 (Level 3 헤더 + Level 4 멤버) -->
+            <div class="org-team-box-dev">
+              <div class="org-team-box-header">
+                <div class="org-team-box-title">사업개발실</div>
+                <div class="org-team-box-leader">오상철 실장</div>
+              </div>
+              <div class="org-team-box-members">
+                <div class="org-team-member">정수영</div>
+                <div class="org-team-member">홍승희</div>
+                <div class="org-team-member">김소연</div>
+                <div class="org-team-member">김태완</div>
+                <div class="org-team-member">이주영</div>
+                <div class="org-team-member">김성재</div>
+              </div>
+            </div>
+
+            <!-- 오른쪽: 레벨 3 공백 + 경영기획팀 (Level 4) -->
+            <div>
+              <div class="org-level-slot-3"></div>
+              <div class="org-team-box-mgmt" style="margin-top: 12px;">
+                <div class="org-team-box-header">
+                  <div class="org-team-box-title">경영기획팀</div>
+                  <div class="org-team-box-leader">손민규 팀장</div>
+                </div>
+                <div class="org-team-box-members">
+                  <div class="org-team-member">김동민</div>
+                  <div class="org-team-member">김창근</div>
+                  <div class="org-team-member">이성규</div>
+                  <div class="org-team-member">어정호</div>
+                  <div class="org-team-member">이한솔</div>
+                  <div class="org-team-member">이지민</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 레벨 2: 경영기획본부(왼쪽) - CSO(오른쪽) -->
-        <div class="org-level org-level-2">
-          <!-- 경영기획본부 -->
-          <div class="org-card org-card-director">
-            <div class="org-card-title">경영기획본부</div>
-            <div class="org-card-name">본부장: 오원택</div>
+        <!-- 2열: 기술운영실 -->
+        <div class="org-division">
+          <!-- 레벨 1 공백 -->
+          <div class="org-level-slot-1"></div>
+
+          <!-- 레벨 2 공백 -->
+          <div class="org-level-slot-2"></div>
+
+          <!-- 레벨 3: 기술운영실 헤더 -->
+          <div class="org-l3-header">
+            <div>기술운영실</div>
+            <div>유경조 실장</div>
           </div>
 
-          <!-- CSO -->
-          <div class="org-card org-card-cso">
-            <div class="org-card-title">CSO</div>
-            <div class="org-card-name">유경조</div>
+          <!-- 레벨 4: 운영팀 + 정비기술팀 -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 12px;">
+            <!-- 왼쪽: 운영팀 -->
+            <div class="org-team-box-team">
+              <div class="org-team-box-header">
+                <div class="org-team-box-title">운영팀</div>
+                <div class="org-team-box-leader">유경조 팀장</div>
+              </div>
+              <div class="org-team-box-members">
+                <div class="org-team-member" style="font-weight: 600; background: #e0f2fe;">운영관리과</div>
+                <div class="org-team-member">신정섭, 강혜영</div>
+                <div class="org-team-member" style="font-weight: 600; background: #e0f2fe; margin-top: 8px;">1그룹</div>
+                <div class="org-team-member">김진명, 강병희, 배환, 안효진</div>
+                <div class="org-team-member" style="font-weight: 600; background: #e0f2fe; margin-top: 8px;">2그룹</div>
+                <div class="org-team-member">김원식, 권희경, 안은수, 이정철</div>
+                <div class="org-team-member" style="font-weight: 600; background: #e0f2fe; margin-top: 8px;">3그룹</div>
+                <div class="org-team-member">박민호, 김원섭, 조성준, 라호진</div>
+                <div class="org-team-member" style="font-weight: 600; background: #e0f2fe; margin-top: 8px;">4그룹</div>
+                <div class="org-team-member">박건호, 김원태, 임균석, 송민주</div>
+              </div>
+            </div>
+
+            <!-- 오른쪽: 정비기술팀 -->
+            <div class="org-team-box-team">
+              <div class="org-team-box-header">
+                <div class="org-team-box-title">정비기술팀</div>
+                <div class="org-team-box-leader">권상우 팀장</div>
+              </div>
+              <div class="org-team-box-members">
+                <div class="org-team-member">김호연</div>
+                <div class="org-team-member">박정일</div>
+                <div class="org-team-member">김동욱</div>
+                <div class="org-team-member">강희국</div>
+                <div class="org-team-member">박정훈</div>
+                <div class="org-team-member">이윤직</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 레벨 3: 사업개발실, 기술운영실, PD -->
-        <div class="org-level org-level-3">
-          <!-- 사업개발실 -->
-          <div class="org-card org-card-dept">
-            <div class="org-card-title">사업개발실</div>
-            <div class="org-card-name">실장: 오상철</div>
+        <!-- 3열: PD -->
+        <div class="org-division">
+          <!-- 레벨 1 공백 -->
+          <div class="org-level-slot-1"></div>
+
+          <!-- 레벨 2 공백 -->
+          <div class="org-level-slot-2"></div>
+
+          <!-- 레벨 3: PD 헤더 -->
+          <div class="org-l3-header">
+            <div>PD</div>
+            <div>강주하 실장</div>
           </div>
 
-          <!-- 기술운영실 -->
-          <div class="org-card org-card-dept">
-            <div class="org-card-title">기술운영실</div>
-          </div>
-
-          <!-- PD -->
-          <div class="org-card org-card-pd">
-            <div class="org-card-title">PD</div>
-            <div class="org-card-name">강주하</div>
+          <!-- 레벨 4: 프로젝트추진팀 -->
+          <div class="org-team-box-team" style="margin-top: 12px;">
+            <div class="org-team-box-header">
+              <div class="org-team-box-title">프로젝트추진팀</div>
+              <div class="org-team-box-leader">강주하 실장</div>
+            </div>
+            <div class="org-team-box-members">
+              <div class="org-team-member">장문엽</div>
+              <div class="org-team-member">유준영</div>
+            </div>
           </div>
         </div>
 
-        <!-- 레벨 4: 팀 레벨 -->
-        <div class="org-level org-level-4">
-          <!-- 경영기획팀 -->
-          <div class="org-team-box">
-            <div class="org-team-card org-team-management">
-              <div class="org-team-card-header">경영기획팀</div>
-              <div class="org-team-card-lead">팀장: 손민규</div>
-              <div class="org-team-card-members">
-                <div class="team-member">김동민</div>
-                <div class="team-member">김창근</div>
-                <div class="team-member">이성규</div>
-                <div class="team-member">어정호</div>
-                <div class="team-member">이한솔</div>
-                <div class="team-member">이지민</div>
-              </div>
-            </div>
+        <!-- 4열: CSO -->
+        <div class="org-division">
+          <!-- 레벨 1 공백 -->
+          <div class="org-level-slot-1"></div>
+
+          <!-- 레벨 2: CSO 헤더 -->
+          <div class="org-l2-header">
+            <div>CSO</div>
+            <div>유경조 실장</div>
           </div>
 
-          <!-- 사업개발팀 -->
-          <div class="org-team-box">
-            <div class="org-team-card org-team-management">
-              <div class="org-team-card-header">사업개발팀</div>
-              <div class="org-team-card-members">
-                <div class="team-member">정수영</div>
-                <div class="team-member">홍승희</div>
-                <div class="team-member">김소연</div>
-                <div class="team-member">김태완</div>
-                <div class="team-member">이주영</div>
-              </div>
-            </div>
-          </div>
+          <!-- 레벨 3 공백 -->
+          <div class="org-level-slot-3" style="margin-top: 12px;"></div>
 
-          <!-- 운영팀 -->
-          <div class="org-team-box">
-            <div class="org-team-card org-team-wide org-team-technical">
-              <div class="org-team-card-header">운영팀</div>
-              <div class="org-team-card-lead">팀장: 권상우</div>
-              <div class="org-operation-groups-custom">
-                <div class="operation-group op-full-width">
-                  <div class="op-group-name">운영관리과</div>
-                  <div class="team-member">신정섭</div>
-                  <div class="team-member">강혜영</div>
-                </div>
-                <div class="operation-group">
-                  <div class="op-group-name">1그룹</div>
-                  <div class="team-member">그룹장: 강명희</div>
-                  <div class="team-member">김진명</div>
-                  <div class="team-member">배환</div>
-                  <div class="team-member">안은수</div>
-                  <div class="team-member">안효진</div>
-                </div>
-                <div class="operation-group">
-                  <div class="op-group-name">2그룹</div>
-                  <div class="team-member">강병희</div>
-                  <div class="team-member">권희경</div>
-                  <div class="team-member">김원섭</div>
-                  <div class="team-member">이정철</div>
-                </div>
-                <div class="operation-group">
-                  <div class="op-group-name">3그룹</div>
-                  <div class="team-member">그룹장: 김현석</div>
-                  <div class="team-member">박민호</div>
-                  <div class="team-member">조성준</div>
-                  <div class="team-member">라호진</div>
-                </div>
-                <div class="operation-group">
-                  <div class="op-group-name">4그룹</div>
-                  <div class="team-member">김원태</div>
-                  <div class="team-member">박건호</div>
-                  <div class="team-member">그룹장: 김원식</div>
-                  <div class="team-member">임균석</div>
-                  <div class="team-member">송민주</div>
-                </div>
-              </div>
+          <!-- 레벨 4: 안전환경팀 -->
+          <div class="org-team-box-team" style="margin-top: 12px;">
+            <div class="org-team-box-header">
+              <div class="org-team-box-title">안전환경팀</div>
+              <div class="org-team-box-leader">유진호 팀장</div>
             </div>
-          </div>
-
-          <!-- 정비기술팀 -->
-          <div class="org-team-box">
-            <div class="org-team-card org-team-technical">
-              <div class="org-team-card-header">정비기술팀</div>
-              <div class="org-team-card-lead">팀장: 김호연</div>
-              <div class="org-team-card-members">
-                <div class="team-member">박정일</div>
-                <div class="team-member">김동욱</div>
-                <div class="team-member">강희국</div>
-                <div class="team-member">박정훈</div>
-                <div class="team-member">이윤직</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 프로젝트추진팀 -->
-          <div class="org-team-box">
-            <div class="org-team-card org-team-project">
-              <div class="org-team-card-header">프로젝트추진팀</div>
-              <div class="org-team-card-members">
-                <div class="team-member">장문엽</div>
-                <div class="team-member">유준영</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 안전환경팀 -->
-          <div class="org-team-box">
-            <div class="org-team-card org-team-safety">
-              <div class="org-team-card-header">안전환경팀</div>
-              <div class="org-team-card-lead">팀장: 우진호</div>
-              <div class="org-team-card-members">
-                <div class="team-member">김락근</div>
-                <div class="team-member">강다혜</div>
-                <div class="team-member">남길우</div>
-              </div>
+            <div class="org-team-box-members">
+              <div class="org-team-member">김락근</div>
+              <div class="org-team-member">강다혜</div>
+              <div class="org-team-member">남길우</div>
             </div>
           </div>
         </div>
