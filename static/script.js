@@ -304,6 +304,9 @@ function applySearch() {
     tables = activeTab.querySelectorAll('.approval-table tbody');
   }
 
+  // 공백 제거한 검색어
+  const searchTermNoSpace = searchTerm.replace(/\s/g, '');
+
   tables.forEach(table => {
     const rows = table.querySelectorAll('tr');
 
@@ -313,21 +316,28 @@ function applySearch() {
         return;
       }
 
+      // 일반 항목 또는 제목 셀 찾기
       const itemCell = row.querySelector('.item-name');
+      const titleCell = row.querySelector('.article-title-text, .sub-section-title-text');
       const approverCell = row.querySelector('.approver-list');
       const notesCell = row.querySelector('.notes');
 
-      if (!itemCell) {
+      // 항목명 또는 제목 가져오기
+      const targetCell = itemCell || titleCell;
+      if (!targetCell) {
         return;
       }
 
-      const itemText = itemCell.textContent.toLowerCase();
+      const itemText = targetCell.textContent.toLowerCase();
       const approverText = approverCell ? approverCell.textContent.toLowerCase() : '';
       const notesText = notesCell ? notesCell.textContent.toLowerCase() : '';
       const fullText = itemText + ' ' + approverText + ' ' + notesText;
 
-      // 검색어 매칭
-      const matchesSearch = fullText.includes(searchTerm);
+      // 공백 제거한 텍스트
+      const fullTextNoSpace = fullText.replace(/\s/g, '');
+
+      // 검색어 매칭 (일반 검색 또는 공백 제거 검색)
+      const matchesSearch = fullText.includes(searchTerm) || fullTextNoSpace.includes(searchTermNoSpace);
 
       if (matchesSearch) {
         matchCount++;
@@ -344,10 +354,11 @@ function applySearch() {
 
         searchResults.push({
           row: row,
-          item: itemCell.textContent.trim(),
+          item: targetCell.textContent.trim(),
           approvers: approverCell ? approverCell.textContent.trim() : '-',
           chapter: chapter || '?',
-          section: section
+          section: section,
+          isTitle: !itemCell  // 제목인지 표시
         });
       }
     });
@@ -472,8 +483,12 @@ function scrollToResult(index) {
             console.log('Looking for item:', itemText, 'in', rows.length, 'rows');
 
             for (let row of rows) {
+              // 일반 항목 또는 제목 셀 찾기
               const itemCell = row.querySelector('.item-name');
-              if (itemCell && itemCell.textContent.trim() === itemText) {
+              const titleCell = row.querySelector('.article-title-text, .sub-section-title-text');
+              const targetCell = itemCell || titleCell;
+
+              if (targetCell && targetCell.textContent.trim() === itemText) {
                 row.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 // 모든 td에 하이라이트 적용 (밝은 파란색)
                 const cells = row.querySelectorAll('td');

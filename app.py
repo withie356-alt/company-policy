@@ -194,8 +194,9 @@ def parse_csv_file(file_path):
                 if item_match:
                     item_number += f"({item_match.group(1)})"
 
-        # 섹션 타이틀 판별: 근거조항이 "X조"로 끝나고 "항"이 없는 경우
-        is_section_title = bool(basis and re.search(r'\d+조$', basis) and '항' not in basis)
+        # 섹션 타이틀 판별: 근거조항이 "X조"로 끝나고 "항"이 없고, 전결권자가 없는 경우
+        # 전결권자가 있으면 실제 전결 항목이므로 절 제목이 아님
+        is_section_title = bool(basis and re.search(r'\d+조$', basis) and '항' not in basis and not approvers)
 
         # 표시용 항목명 생성
         display_item = f"{item_number} {item}" if item_number else item
