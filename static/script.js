@@ -140,6 +140,7 @@ function initializeScrollToTop() {
 
 // 장 아코디언 초기화
 function initializeChapterAccordion() {
+  // 기존 chapter-section 처리 (개별 탭용)
   const chapterSections = document.querySelectorAll('.chapter-section');
 
   chapterSections.forEach(section => {
@@ -166,6 +167,55 @@ function initializeChapterAccordion() {
       }
     });
   });
+
+  // 카드 형식 처리 (전체 탭용)
+  const chapterCards = document.querySelectorAll('.chapter-card');
+
+  chapterCards.forEach(card => {
+    card.addEventListener('click', function() {
+      const chapterNum = this.getAttribute('data-chapter');
+      const title = this.getAttribute('data-title');
+
+      // 모든 카드에서 active 클래스 제거
+      chapterCards.forEach(c => c.classList.remove('active'));
+
+      // 현재 카드에 active 클래스 추가
+      this.classList.add('active');
+
+      // 콘텐츠 데이터 가져오기
+      const contentData = document.getElementById('content-data-' + chapterNum);
+      const expandedContent = document.getElementById('expanded-content');
+      const expandedTitle = document.getElementById('expanded-title');
+      const expandedBody = document.getElementById('expanded-body');
+
+      if (contentData && expandedContent) {
+        // 제목 설정
+        expandedTitle.textContent = title;
+
+        // 콘텐츠 복사
+        expandedBody.innerHTML = contentData.innerHTML;
+
+        // 펼쳐진 영역 표시
+        expandedContent.style.display = 'block';
+
+        // 스크롤 이동
+        expandedContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+
+// 펼쳐진 콘텐츠 닫기
+function closeExpandedContent() {
+  const expandedContent = document.getElementById('expanded-content');
+  const chapterCards = document.querySelectorAll('.chapter-card');
+
+  if (expandedContent) {
+    expandedContent.style.display = 'none';
+  }
+
+  // 모든 카드에서 active 클래스 제거
+  chapterCards.forEach(c => c.classList.remove('active'));
 }
 
 // 특정 장 열기
@@ -246,7 +296,13 @@ function applySearch() {
     return;
   }
 
-  const tables = activeTab.querySelectorAll('.approval-table tbody');
+  // 전체 탭일 경우 숨겨진 content-data에서 검색
+  let tables;
+  if (activeTab.id === 'tab-all') {
+    tables = activeTab.querySelectorAll('.content-data .approval-table tbody');
+  } else {
+    tables = activeTab.querySelectorAll('.approval-table tbody');
+  }
 
   tables.forEach(table => {
     const rows = table.querySelectorAll('tr');
@@ -276,15 +332,21 @@ function applySearch() {
       if (matchesSearch) {
         matchCount++;
 
-        // 검색 결과 저장 (하단 항목은 모두 보이게 유지)
-        const chapter = row.getAttribute('data-chapter') || '?';
-        const section = row.getAttribute('data-section') || '알 수 없음';
+        // 검색 결과 저장
+        let chapter = null;
+        let section = row.getAttribute('data-section') || '알 수 없음';
+
+        // content-data에서 chapter 정보 가져오기 (항상)
+        const contentData = row.closest('.content-data');
+        if (contentData && contentData.id) {
+          chapter = contentData.id.replace('content-data-', '');
+        }
 
         searchResults.push({
           row: row,
           item: itemCell.textContent.trim(),
           approvers: approverCell ? approverCell.textContent.trim() : '-',
-          chapter: chapter,
+          chapter: chapter || '?',
           section: section
         });
       }
@@ -341,34 +403,102 @@ function showSearchResults(count, searchTerm) {
 
     // 결과 리스트 생성
     listDiv.innerHTML = searchResults.map((result, index) => `
-      <div class="result-item" onclick="scrollToResult(${index})">
+      <div class="result-item" data-index="${index}">
         <div class="result-item-title">${escapeHtml(result.item)}</div>
         <div class="result-item-meta">
           제${result.chapter}장 ${result.section} • 결재권자: ${escapeHtml(result.approvers)}
         </div>
       </div>
     `).join('');
+
+    // 클릭 이벤트 바인딩
+    listDiv.querySelectorAll('.result-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const idx = parseInt(this.getAttribute('data-index'));
+        scrollToResult(idx);
+      });
+    });
   }
 }
 
 // 검색 결과로 스크롤 이동
 function scrollToResult(index) {
+  console.log('scrollToResult called with index:', index);
+
   if (index >= 0 && index < searchResults.length) {
     const result = searchResults[index];
+    const chapterNum = result.chapter;
 
-    // 해당 장 열기
-    openChapter(result.row);
+    console.log('Result:', result);
+    console.log('Chapter:', chapterNum);
 
-    // 스크롤 이동
-    setTimeout(() => {
-      result.row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // 전체 탭의 카드 형식인지 확인
+    const activeTab = document.querySelector('.tab-content.active');
+    const isAllTab = activeTab && activeTab.id === 'tab-all';
 
-      // 잠깐 하이라이트 효과
-      result.row.style.background = '#fef08a';
+    console.log('Is All Tab:', isAllTab);
+
+    if (isAllTab) {
+      // 카드 형식: 해당 chapter 카드 클릭하여 펼치기
+      const card = document.querySelector('.chapter-card[data-chapter="' + chapterNum + '"]');
+      console.log('Found card:', card);
+
+      if (card) {
+        // 모든 카드에서 active 제거
+        document.querySelectorAll('.chapter-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+
+        // 콘텐츠 데이터 가져와서 표시
+        const contentData = document.getElementById('content-data-' + chapterNum);
+        const expandedContent = document.getElementById('expanded-content');
+        const expandedTitle = document.getElementById('expanded-title');
+        const expandedBody = document.getElementById('expanded-body');
+
+        console.log('Content data:', contentData);
+
+        if (contentData && expandedContent) {
+          expandedTitle.textContent = card.getAttribute('data-title');
+          expandedBody.innerHTML = contentData.innerHTML;
+          expandedContent.style.display = 'block';
+
+          // 펼쳐진 영역으로 스크롤
+          expandedContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          // 해당 항목 찾아서 스크롤 및 하이라이트
+          setTimeout(() => {
+            const itemText = result.item;
+            const rows = expandedBody.querySelectorAll('tr');
+
+            console.log('Looking for item:', itemText, 'in', rows.length, 'rows');
+
+            for (let row of rows) {
+              const itemCell = row.querySelector('.item-name');
+              if (itemCell && itemCell.textContent.trim() === itemText) {
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // 모든 td에 하이라이트 적용 (밝은 파란색)
+                const cells = row.querySelectorAll('td');
+                cells.forEach(cell => cell.style.background = '#93c5fd');
+                setTimeout(() => {
+                  cells.forEach(cell => cell.style.background = '');
+                }, 2500);
+                break;
+              }
+            }
+          }, 300);
+        }
+      }
+    } else {
+      // 기존 방식: 개별 장 탭
+      openChapter(result.row);
+
       setTimeout(() => {
-        result.row.style.background = '';
-      }, 2000);
-    }, 100);
+        result.row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        result.row.style.background = '#fef08a';
+        setTimeout(() => {
+          result.row.style.background = '';
+        }, 2000);
+      }, 100);
+    }
   }
 }
 

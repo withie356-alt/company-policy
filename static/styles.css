@@ -2298,23 +2298,34 @@ mark {
 }
 
 .org-ceo-box {
-  background: #7c3aed;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
   color: white;
-  padding: 20px 40px;
-  border-radius: 8px;
+  padding: 25px 60px;
+  border-radius: 12px;
   text-align: center;
-  min-width: 200px;
+  min-width: 300px;
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4), 0 4px 10px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
 }
 
 .org-ceo-box > div:first-child {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 800;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
 }
 
 .org-ceo-box > div:last-child {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  margin-top: 8px;
+  margin-top: 10px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
 }
 
 /* Level 2-4: 4개 컬럼 구조 */
@@ -2516,5 +2527,209 @@ mark {
 @media (max-width: 1200px) {
   .org-level-2-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== 카드 그리드 스타일 ==================== */
+
+/* 카드 그리드 컨테이너 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  padding: 20px 0;
+}
+
+/* 개별 카드 */
+.chapter-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.25s ease;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  gap: 16px;
+}
+
+.chapter-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  border-color: #3b82f6;
+  background: #f8faff;
+}
+
+.chapter-card.active {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+/* 카드 숫자 */
+.card-number {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0369a1;
+  flex-shrink: 0;
+}
+
+.chapter-card:hover .card-number {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+}
+
+.chapter-card.active .card-number {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+}
+
+/* 카드 정보 */
+.card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 카드 제목 */
+.card-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 2px;
+}
+
+/* 카드 부제목 */
+.card-subtitle {
+  flex: 1;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* 카드 화살표 */
+.card-arrow {
+  font-size: 1.5rem;
+  color: #d1d5db;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.chapter-card:hover .card-arrow {
+  color: #3b82f6;
+  transform: translateX(4px);
+}
+
+/* 펼쳐진 콘텐츠 영역 */
+.expanded-content-area {
+  margin-top: 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 펼쳐진 콘텐츠 헤더 */
+.expanded-header {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.expanded-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+/* 닫기 버튼 */
+.close-expanded-btn {
+  background: transparent;
+  color: #d1d5db;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 300;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-expanded-btn:hover {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+/* 펼쳐진 콘텐츠 본문 */
+#expanded-body {
+  padding: 24px;
+}
+
+/* 숨겨진 콘텐츠 데이터 */
+.content-data {
+  display: none;
+}
+
+/* 반응형: 태블릿 */
+@media (max-width: 1200px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .chapter-card {
+    padding: 12px 16px;
+  }
+
+  .card-number {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .card-subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+/* 반응형: 모바일 */
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }

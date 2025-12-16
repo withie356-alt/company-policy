@@ -52,16 +52,30 @@
 
     <!-- 탭 컨텐츠 영역 -->
 
-    <!-- 전체 탭 - 모든 규정 표시 -->
+    <!-- 전체 탭 - 모든 규정 표시 (카드 그리드 형식) -->
     <div id="tab-all" class="tab-content">
+      <div class="card-grid">
       {% for section in sections %}
-      <div id="chapter-all-{{ loop.index }}" class="chapter-section" style="margin-bottom: 20px; padding: 15px; background: #ffffff; border-radius: 12px; border-left: 5px solid #2563eb; box-shadow: 0 2px 8px rgba(0,0,0,0.08); cursor: pointer;">
-        <h3 class="chapter-header" style="color: #1e40af; margin-bottom: 15px; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; justify-content: space-between; pointer-events: none;">
-          <span>{% if section.display_name == '서문' %}서문{% else %}제{{ loop.index - 1 }}장 {{ section.display_name }}{% endif %}</span>
-          <span class="toggle-icon">▼</span>
-        </h3>
+      <div class="chapter-card" data-chapter="{{ loop.index }}" data-title="{% if section.display_name == '서문' %}서문{% else %}제{{ loop.index - 1 }}장 {{ section.display_name }}{% endif %}">
+        <div class="card-number">{% if section.display_name == '서문' %}0{% else %}{{ loop.index - 1 }}{% endif %}</div>
+        <div class="card-subtitle">{{ section.display_name }}</div>
+        <span class="card-arrow">›</span>
+      </div>
+      {% endfor %}
+      </div>
 
-        <div class="chapter-content">
+      <!-- 펼쳐진 콘텐츠 영역 -->
+      <div id="expanded-content" class="expanded-content-area" style="display: none;">
+        <div class="expanded-header">
+          <h3 id="expanded-title"></h3>
+          <button class="close-expanded-btn" onclick="closeExpandedContent()">✕</button>
+        </div>
+        <div id="expanded-body"></div>
+      </div>
+
+      <!-- 숨겨진 콘텐츠 데이터 -->
+      {% for section in sections %}
+      <div id="content-data-{{ loop.index }}" class="content-data" style="display: none;">
         <table class="approval-table">
           <tbody>
             {% for rule in section.data.rules %}
@@ -130,7 +144,6 @@
             {% endfor %}
           </tbody>
         </table>
-        </div>
       </div>
       {% endfor %}
     </div>
