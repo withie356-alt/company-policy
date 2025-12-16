@@ -2300,19 +2300,21 @@ mark {
 .org-ceo-box {
   background: #7c3aed;
   color: white;
-  padding: 20px;
+  padding: 20px 40px;
   border-radius: 8px;
   text-align: center;
+  min-width: 200px;
 }
 
 .org-ceo-box > div:first-child {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 800;
 }
 
 .org-ceo-box > div:last-child {
-  font-size: 1rem;
-  margin-top: 5px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 8px;
 }
 
 /* Level 2-4: 4개 컬럼 구조 */
