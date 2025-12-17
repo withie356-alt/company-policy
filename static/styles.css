@@ -386,7 +386,6 @@ header .container {
 
 .approval-table td.approver-list {
   width: 60%;
-  background: #fafbfc;
 }
 
 .approval-table td.approver-list > * {
@@ -416,15 +415,7 @@ header .container {
 }
 
 .approval-table tbody tr:hover {
-  background: #f8f9fa;
-}
-
-.approval-table tbody tr:nth-child(even) {
-  background: #fafbfc;
-}
-
-.approval-table tbody tr:nth-child(even):hover {
-  background: #f8f9fa;
+  background: #f8fafc;
 }
 
 .approval-table tbody tr:last-child td {
@@ -433,15 +424,20 @@ header .container {
 
 /* 절 제목 행 (제X절) */
 .sub-section-title-row {
-  background: #eff6ff;
+  background: white !important;
   border-top: none;
   height: auto !important;
   position: relative;
   border-left: 4px solid #3b82f6;
 }
 
-.sub-section-title-row:hover {
-  background: #dbeafe;
+.sub-section-title-row td {
+  background: white !important;
+}
+
+.sub-section-title-row:hover,
+.sub-section-title-row:hover td {
+  background: #f8fafc !important;
 }
 
 .sub-section-title-cell {
@@ -463,13 +459,18 @@ header .container {
 
 /* 조 제목 행 (X조) */
 .article-title-row {
-  background: #f9fafb;
+  background: white !important;
   border-top: 1px solid #e5e7eb;
   height: auto !important;
 }
 
-.article-title-row:hover {
-  background: #f3f4f6;
+.article-title-row td {
+  background: white !important;
+}
+
+.article-title-row:hover,
+.article-title-row:hover td {
+  background: #f8fafc !important;
 }
 
 .article-title-cell {
@@ -518,13 +519,13 @@ header .container {
   max-width: 100%;
   margin-top: 0;
   padding: 10px 12px;
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  border-left: 4px solid #f59e0b;
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  border-left: 4px solid #0284c7;
   border-radius: 6px;
   font-size: 0.85rem;
-  color: #92400e;
+  color: #0c4a6e;
   line-height: 1.6;
-  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.15);
+  box-shadow: 0 2px 4px rgba(2, 132, 199, 0.15);
   white-space: pre-line;
   font-weight: 500;
   box-sizing: border-box;
@@ -547,7 +548,6 @@ header .container {
 /* 계층별 스타일 */
 .level-1 {
   font-weight: 600;
-  background: #fafafa;
 }
 
 .level-2 {
@@ -634,16 +634,16 @@ header .container {
   max-width: 100%;
   margin: 12px 0 0 0;
   padding: 12px 16px;
-  background: #fffbeb;
+  background: #e0f2fe;
   border: none;
-  border-left: 3px solid #f59e0b;
+  border-left: 3px solid #0284c7;
   border-radius: 6px;
   font-size: 0.85rem;
-  color: #92400e;
+  color: #0c4a6e;
   line-height: 1.6;
   font-weight: 500;
   display: inline-block;
-  box-shadow: 0 1px 2px rgba(245, 158, 11, 0.08);
+  box-shadow: 0 1px 2px rgba(2, 132, 199, 0.08);
   box-sizing: border-box;
   white-space: pre-line;
 }
@@ -654,14 +654,14 @@ header .container {
   max-width: 100% !important;
   margin-top: 12px;
   padding: 12px 16px;
-  background: #fef3c7;
-  border-left: 3px solid #f59e0b;
+  background: #e0f2fe;
+  border-left: 3px solid #0284c7;
   border-radius: 6px;
   font-size: 0.88rem;
-  color: #92400e;
+  color: #0c4a6e;
   line-height: 1.6;
   display: block !important;
-  box-shadow: 0 1px 2px rgba(245, 158, 11, 0.08);
+  box-shadow: 0 1px 2px rgba(2, 132, 199, 0.08);
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -670,7 +670,7 @@ header .container {
   float: left;
   width: 20px;
   height: 20px;
-  color: #f59e0b;
+  color: #0284c7;
   margin-right: 8px;
   margin-top: 2px;
 }
