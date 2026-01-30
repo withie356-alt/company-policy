@@ -3,11 +3,14 @@
 knowledge_base 폴더의 CSV 파일들을 동적으로 읽어서 표시
 """
 
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, make_response
 import os
 import re
 import csv
+import jwt
 from pathlib import Path
+from datetime import datetime, timedelta
+from functools import wraps
 from dotenv import load_dotenv
 import requests
 import time
@@ -16,6 +19,46 @@ import time
 load_dotenv()
 
 app = Flask(__name__)
+
+# NaverWorks OAuth 설정
+NWORKS_CLIENT_ID = os.getenv('NWORKS_CLIENT_ID')
+NWORKS_CLIENT_SECRET = os.getenv('NWORKS_CLIENT_SECRET')
+NWORKS_REDIRECT_URI = os.getenv('NWORKS_REDIRECT_URI')
+SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key-change-me')
+
+
+# JWT 토큰 생성
+def create_token(user_info):
+    payload = {
+        'user': user_info,
+        'exp': datetime.utcnow() + timedelta(hours=8)
+    }
+    return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+
+# JWT 토큰 검증
+def verify_token(token):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        return payload['user']
+    except jwt.ExpiredSignatureError:
+        return None
+    except jwt.InvalidTokenError:
+        return None
+
+
+# 로그인 필수 데코레이터
+def login_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.cookies.get('auth_token')
+        if not token:
+            return redirect('/login')
+        user = verify_token(token)
+        if not user:
+            return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated
 
 # knowledge_base 폴더 경로
 KNOWLEDGE_BASE_DIR = Path(__file__).parent / 'knowledge_base'
@@ -292,7 +335,73 @@ def determine_level(item_text):
         return 2  # 기본값
 
 
+@app.route('/login')
+def login():
+    """NaverWorks OAuth 로그인"""
+    auth_url = (
+        "https://auth.worksmobile.com/oauth2/v2.0/authorize"
+        f"?client_id={NWORKS_CLIENT_ID}"
+        f"&redirect_uri={NWORKS_REDIRECT_URI}"
+        "&response_type=code"
+        "&scope=user.read"
+    )
+    return redirect(auth_url)
+
+
+@app.route('/callback')
+def callback():
+    """OAuth 콜백 - 인증 코드로 토큰 교환"""
+    code = request.args.get('code')
+    if not code:
+        return '인증 코드가 없습니다.', 400
+
+    # 인증 코드로 Access Token 요청
+    token_response = requests.post(
+        "https://auth.worksmobile.com/oauth2/v2.0/token",
+        data={
+            'grant_type': 'authorization_code',
+            'client_id': NWORKS_CLIENT_ID,
+            'client_secret': NWORKS_CLIENT_SECRET,
+            'code': code,
+            'redirect_uri': NWORKS_REDIRECT_URI
+        }
+    )
+
+    token_data = token_response.json()
+    access_token = token_data.get('access_token')
+
+    if not access_token:
+        return '로그인 실패: Access Token을 받을 수 없습니다.', 401
+
+    # 사용자 정보 조회
+    user_response = requests.get(
+        "https://www.worksapis.com/v1.0/users/me",
+        headers={'Authorization': f'Bearer {access_token}'}
+    )
+    user_info = user_response.json()
+
+    # JWT 토큰 생성 및 쿠키 설정
+    user_data = {
+        'name': user_info.get('userName', {}).get('lastName', '') +
+                user_info.get('userName', {}).get('firstName', ''),
+        'email': user_info.get('email', '')
+    }
+    token = create_token(user_data)
+    response = make_response(redirect('/'))
+    response.set_cookie('auth_token', token, httponly=True, secure=True, samesite='Lax')
+    return response
+
+
+@app.route('/logout')
+def logout():
+    """로그아웃"""
+    response = make_response(redirect('/login'))
+    response.delete_cookie('auth_token')
+    return response
+
+
 @app.route('/')
+@login_required
 def index():
     """메인 페이지"""
     # knowledge_base 폴더의 모든 파일 읽기
