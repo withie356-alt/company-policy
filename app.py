@@ -8,6 +8,7 @@ import os
 import re
 import csv
 import jwt
+import secrets
 from pathlib import Path
 from datetime import datetime, timedelta
 from functools import wraps
@@ -338,12 +339,14 @@ def determine_level(item_text):
 @app.route('/login')
 def login():
     """NaverWorks OAuth 로그인"""
+    state = secrets.token_urlsafe(16)
     auth_url = (
         "https://auth.worksmobile.com/oauth2/v2.0/authorize"
         f"?client_id={NWORKS_CLIENT_ID}"
         f"&redirect_uri={NWORKS_REDIRECT_URI}"
         "&response_type=code"
         "&scope=user.read"
+        f"&state={state}"
     )
     return redirect(auth_url)
 
