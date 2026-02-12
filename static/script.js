@@ -728,6 +728,20 @@ closeChatbot.addEventListener('click', () => {
   chatbotButton.style.display = 'flex';
 });
 
+// 마크다운 → HTML 변환
+function renderMarkdown(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^### (.+)$/gm, '<h4>$1</h4>')
+    .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/<\/ul>\s*<ul>/g, '')
+    .replace(/^---$/gm, '<hr>')
+    .replace(/\n/g, '<br>');
+}
+
 // 메시지 추가 함수
 function addMessage(text, isUser = false) {
   const messageDiv = document.createElement('div');
@@ -736,9 +750,11 @@ function addMessage(text, isUser = false) {
   const now = new Date();
   const timeString = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
 
+  const displayText = isUser ? text : renderMarkdown(text);
+
   messageDiv.innerHTML = `
     <div class="message-content">
-      <div class="message-text">${text}</div>
+      <div class="message-text">${displayText}</div>
       <div class="message-time">${timeString}</div>
     </div>
   `;
