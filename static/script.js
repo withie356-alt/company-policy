@@ -710,6 +710,7 @@ let conversationId = ''; // 대화 세션 ID
 
 // DOM 요소
 const chatbotButton = document.getElementById('chatbotButton');
+const chatbotWrapper = document.querySelector('.chatbot-button-wrapper');
 const chatbotWindow = document.getElementById('chatbotWindow');
 const closeChatbot = document.getElementById('closeChatbot');
 const chatMessages = document.getElementById('chatMessages');
@@ -719,13 +720,17 @@ const sendMessage = document.getElementById('sendMessage');
 // 챗봇 창 열기/닫기
 chatbotButton.addEventListener('click', () => {
   chatbotWindow.style.display = 'flex';
-  chatbotButton.style.display = 'none';
+  chatbotWrapper.style.display = 'none';
   chatInput.focus();
 });
 
 closeChatbot.addEventListener('click', () => {
   chatbotWindow.style.display = 'none';
-  chatbotButton.style.display = 'flex';
+  chatbotWrapper.style.display = 'flex';
+  // 다시 열 때 툴팁/펄스는 이미 봤으므로 제거
+  const tooltip = document.getElementById('chatbotTooltip');
+  if (tooltip) tooltip.remove();
+  chatbotButton.style.animation = 'none';
 });
 
 // 마크다운 → HTML 변환

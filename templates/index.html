@@ -501,14 +501,21 @@
   </div>
 
   <!-- AI 챗봇 플로팅 버튼 -->
-  <button id="chatbotButton" class="chatbot-button" title="AI 챗봇으로 전결규정 물어보기">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      <circle cx="9" cy="10" r="1" fill="currentColor"/>
-      <circle cx="15" cy="10" r="1" fill="currentColor"/>
-      <path d="M9 14c0 1.5 1.34 2 3 2s3-.5 3-2"/>
-    </svg>
-  </button>
+  <div class="chatbot-button-wrapper">
+    <div id="chatbotTooltip" class="chatbot-tooltip">
+      전결규정 궁금한 점을 물어보세요!
+      <div class="chatbot-tooltip-arrow"></div>
+    </div>
+    <button id="chatbotButton" class="chatbot-button" title="AI 챗봇으로 전결규정 물어보기">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        <circle cx="9" cy="10" r="1" fill="currentColor"/>
+        <circle cx="15" cy="10" r="1" fill="currentColor"/>
+        <path d="M9 14c0 1.5 1.34 2 3 2s3-.5 3-2"/>
+      </svg>
+      <span class="chatbot-badge">AI</span>
+    </button>
+  </div>
 
   <!-- AI 챗봇 창 -->
   <div id="chatbotWindow" class="chatbot-window" style="display: none;">
