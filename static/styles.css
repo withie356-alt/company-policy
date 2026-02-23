@@ -2064,10 +2064,10 @@ mark {
 /* 챗봇 창 */
 .chatbot-window {
   position: fixed;
-  bottom: 100px;
+  bottom: 20px;
   right: 30px;
   width: 540px;
-  height: 760px;
+  height: calc(100vh - 40px);
   background: white;
   border-radius: 16px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
